@@ -1,0 +1,1109 @@
+/*@custom-variant dark (&:is(.dark *));*/
+
+/*:root {*/
+/*  --font-size: 16px;*/
+/*  */
+/*  !* Typography Scale - Professional Design System *!*/
+/*  --text-xs: 0.75rem;      !* 12px *!*/
+/*  --text-sm: 0.875rem;     !* 14px *!*/
+/*  --text-base: 1rem;       !* 16px *!*/
+/*  --text-lg: 1.125rem;     !* 18px *!*/
+/*  --text-xl: 1.25rem;      !* 20px *!*/
+/*  --text-2xl: 1.5rem;      !* 24px *!*/
+/*  --text-3xl: 1.875rem;    !* 30px *!*/
+/*  --text-4xl: 2.25rem;     !* 36px *!*/
+/*  --text-5xl: 3rem;        !* 48px *!*/
+/*  --text-6xl: 3.75rem;     !* 60px *!*/
+/*  --text-7xl: 4.5rem;      !* 72px *!*/
+/*  --text-8xl: 6rem;        !* 96px *!*/
+/*  --text-9xl: 8rem;        !* 128px *!*/
+
+/*  !* Line Heights - Optimized for readability *!*/
+/*  --leading-tight: 1.25;*/
+/*  --leading-snug: 1.375;*/
+/*  --leading-normal: 1.5;*/
+/*  --leading-relaxed: 1.625;*/
+/*  --leading-loose: 2;*/
+
+/*  !* Letter Spacing - Refined spacing *!*/
+/*  --tracking-tighter: -0.05em;*/
+/*  --tracking-tight: -0.025em;*/
+/*  --tracking-normal: 0em;*/
+/*  --tracking-wide: 0.025em;*/
+/*  --tracking-wider: 0.05em;*/
+/*  --tracking-widest: 0.1em;*/
+
+/*  !* Font Weights - Complete scale *!*/
+/*  --font-weight-thin: 100;*/
+/*  --font-weight-extralight: 200;*/
+/*  --font-weight-light: 300;*/
+/*  --font-weight-normal: 400;*/
+/*  --font-weight-medium: 500;*/
+/*  --font-weight-semibold: 600;*/
+/*  --font-weight-bold: 700;*/
+/*  --font-weight-extrabold: 800;*/
+/*  --font-weight-black: 900;*/
+/*  */
+/*  !* Open Source Economy Premium Dark Brand System - CONSOLIDATED *!*/
+/*  !* Brand colors defined first as source of truth - WARM PALETTE *!*/
+/*  --brand-primary: #a0522d;           !* Sienna - Warm primary brand color *!*/
+/*  --brand-primary-light: #cd853f;     !* Sandy Brown *!*/
+/*  --brand-primary-dark: #8b4513;      !* Saddle Brown *!*/
+/*  --brand-secondary: #0f172a;         !* Deep Dark - Secondary brand color *!*/
+/*  --brand-secondary-light: #1e293b;   !* Medium Dark *!*/
+/*  --brand-secondary-dark: #020617;    !* Ultra Deep *!*/
+/*  --brand-accent: #ff7f50;            !* Coral Orange - Primary accent color *!*/
+/*  --brand-accent-light: #ffa07a;      !* Light Salmon *!*/
+/*  --brand-accent-dark: #ff6347;       !* Tomato *!*/
+/*  --brand-highlight: #daa520;         !* Goldenrod - Secondary accents *!*/
+/*  --brand-highlight-light: #f0e68c;   !* Khaki *!*/
+/*  --brand-highlight-dark: #b8860b;    !* Dark Goldenrod *!*/
+/*  --brand-success: #10b981;           !* Emerald Green *!*/
+/*  --brand-success-light: #34d399;     !* Light Success *!*/
+/*  --brand-success-dark: #059669;      !* Deep Success *!*/
+/*  --brand-warning: #fbbf24;           !* Amber *!*/
+/*  --brand-warning-light: #fde047;     !* Light Amber *!*/
+/*  --brand-warning-dark: #f59e0b;      !* Rich Amber *!*/
+/*  --brand-error: #ef4444;             !* Red *!*/
+/*  --brand-error-light: #f87171;       !* Light Error *!*/
+/*  --brand-error-dark: #dc2626;        !* Dark Error *!*/
+/*  */
+/*  !* Premium Dark Blue Card System - Rich navy tones *!*/
+/*  --brand-card-blue: #1a2942;         !* Rich dark blue for cards *!*/
+/*  --brand-card-blue-light: #213654;   !* Lighter card blue *!*/
+/*  --brand-card-blue-dark: #0f1829;    !* Deeper card blue *!*/
+/*  */
+/*  --brand-neutral-50: #020617;        !* Ultra deep *!*/
+/*  --brand-neutral-100: #0f172a;       !* Deep dark *!*/
+/*  --brand-neutral-200: #1e293b;       !* Card backgrounds *!*/
+/*  --brand-neutral-300: #334155;       !* Borders *!*/
+/*  --brand-neutral-400: #475569;       !* Subtle elements *!*/
+/*  --brand-neutral-500: #64748b;       !* Placeholder text *!*/
+/*  --brand-neutral-600: #94a3b8;       !* Secondary text *!*/
+/*  --brand-neutral-700: #cbd5e1;       !* Body text *!*/
+/*  --brand-neutral-800: #e2e8f0;       !* Headings *!*/
+/*  --brand-neutral-900: #f1f5f9;       !* Primary text *!*/
+/*  --brand-neutral-950: #f8fafc;       !* Maximum contrast *!*/
+
+/*  !* System Colors - Essential system colors only *!*/
+/*  --background: var(--brand-secondary);               !* Deep dark background *!*/
+/*  --foreground: var(--brand-neutral-900);             !* Primary text *!*/
+/*  --card: var(--brand-card-blue);                     !* Rich dark blue cards *!*/
+/*  --card-foreground: var(--brand-neutral-900);        !* Card text *!*/
+/*  --popover: var(--brand-card-blue);                  !* Rich dark blue popovers *!*/
+/*  --popover-foreground: var(--brand-neutral-900);     !* Popover text *!*/
+/*  --destructive: var(--brand-error);                  !* Error states *!*/
+/*  --destructive-foreground: #ffffff;                  !* White on red *!*/
+/*  --border: var(--brand-neutral-300);                 !* Standard borders *!*/
+/*  --input: var(--brand-card-blue);                    !* Rich blue input backgrounds *!*/
+/*  --input-background: var(--brand-card-blue);         !* Rich blue input backgrounds *!*/
+/*  --switch-background: var(--brand-neutral-300);      !* Switch backgrounds *!*/
+/*  --ring: var(--brand-accent);                        !* Focus rings *!*/
+/*  */
+/*  !* Chart Colors - Consistent purple scale *!*/
+/*  --chart-1: var(--brand-accent);                     !* Primary chart color *!*/
+/*  --chart-2: var(--brand-accent-dark);                !* Secondary chart color *!*/
+/*  --chart-3: #7c3aed;                                 !* Tertiary purple *!*/
+/*  --chart-4: #6d28d9;                                 !* Deep purple *!*/
+/*  --chart-5: #5b21b6;                                 !* Deepest purple *!*/
+/*  */
+/*  !* Layout *!*/
+/*  --radius: 0.625rem;*/
+/*  --font-weight-medium: 500;*/
+/*  --font-weight-normal: 400;*/
+/*  */
+/*  !* Sidebar - Mapped to brand colors *!*/
+/*  --sidebar: var(--brand-secondary);                  !* Deep dark *!*/
+/*  --sidebar-foreground: var(--brand-neutral-800);     !* Light text *!*/
+/*  --sidebar-primary: var(--brand-accent);             !* Purple accent *!*/
+/*  --sidebar-primary-foreground: var(--brand-secondary); !* Dark on purple *!*/
+/*  --sidebar-accent: var(--brand-neutral-200);         !* Card background *!*/
+/*  --sidebar-accent-foreground: var(--brand-neutral-800); !* Light text *!*/
+/*  --sidebar-border: var(--brand-neutral-300);         !* Standard border *!*/
+/*  --sidebar-ring: var(--brand-accent);                !* Purple focus *!*/
+
+/*  */
+/*  !* Logo specific colors *!*/
+/*  --logo-icon-primary: var(--brand-primary);*/
+/*  --logo-icon-secondary: var(--brand-accent);*/
+/*  --logo-text-primary: var(--foreground);*/
+/*  --logo-text-secondary: var(--muted-foreground);*/
+/*  */
+/*  !* Modern Form Element Styling System - Dark Mode *!*/
+/*  --form-border-radius: 0.75rem;        !* More modern, softer corners *!*/
+/*  --form-border-radius-sm: 0.5rem;      !* Small elements *!*/
+/*  --form-border-radius-lg: 1rem;        !* Large elements *!*/
+/*  --form-height: 2.75rem;               !* More spacious default *!*/
+/*  --form-height-sm: 2.25rem;            !* Comfortable small *!*/
+/*  --form-height-lg: 3.25rem;            !* Generous large *!*/
+/*  --form-padding-x: 1rem;               !* More breathing room *!*/
+/*  --form-padding-y: 0.75rem;            !* Better vertical balance *!*/
+/*  --form-padding-x-sm: 0.75rem;         !* Proportional small *!*/
+/*  --form-padding-y-sm: 0.5rem;          !* Balanced small *!*/
+/*  --form-padding-x-lg: 1.25rem;         !* Spacious large *!*/
+/*  --form-padding-y-lg: 1rem;            !* Comfortable large *!*/
+/*  */
+/*  !* Modern Form Border Colors - Dark Mode *!*/
+/*  --form-border: #334155;               !* Subtle dark border *!*/
+/*  --form-border-hover: #475569;         !* Gentle hover indication *!*/
+/*  --form-border-focus: var(--brand-accent);*/
+/*  --form-border-error: var(--brand-error);*/
+/*  --form-border-success: var(--brand-success);*/
+/*  --form-border-disabled: #1e293b;*/
+/*  */
+/*  !* Modern Form Background Colors - Dark Mode Depth *!*/
+/*  --form-background: #1a2942;           !* Rich dark blue background *!*/
+/*  --form-background-hover: #213654;     !* Lighter hover state *!*/
+/*  --form-background-focus: #0f1829;     !* Focused depth *!*/
+/*  --form-background-disabled: #1e293b;*/
+/*  --form-background-readonly: #334155;*/
+/*  */
+/*  !* Modern Form Text Colors - Dark Mode *!*/
+/*  --form-text: var(--foreground);*/
+/*  --form-text-placeholder: #64748b;     !* Refined placeholder *!*/
+/*  --form-text-disabled: #64748b;*/
+/*  --form-text-error: var(--brand-error);*/
+/*  --form-text-success: var(--brand-success);*/
+/*  --form-text-label: #94a3b8;           !* Refined label color *!*/
+/*  --form-text-label-focus: var(--brand-accent);*/
+/*  */
+/*  !* Modern Dark Mode Elevations *!*/
+/*  --form-elevation-rest: 0 1px 3px 0 rgb(0 0 0 / 0.4), 0 1px 2px -1px rgb(0 0 0 / 0.4);*/
+/*  --form-elevation-hover: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);*/
+/*  --form-elevation-focus: 0 10px 15px -3px rgb(0 0 0 / 0.6), 0 4px 6px -4px rgb(0 0 0 / 0.6);*/
+/*  --form-elevation-error: 0 4px 6px -1px rgb(239 68 68 / 0.25), 0 2px 4px -2px rgb(239 68 68 / 0.25);*/
+/*  --form-elevation-success: 0 4px 6px -1px rgb(16 185 129 / 0.25), 0 2px 4px -2px rgb(16 185 129 / 0.25);*/
+/*  */
+/*  !* Modern Dark Mode Focus System *!*/
+/*  --form-ring-width: 0;                 !* No traditional rings *!*/
+/*  --form-ring-modern-width: 2px;        !* Modern subtle border ring *!*/
+/*  --form-ring-color: var(--brand-accent);*/
+/*  --form-ring-opacity: 0.15;            !* More subtle *!*/
+/*  */
+/*  !* Modern Dark Mode Gradients *!*/
+/*  --form-accent-gradient: linear-gradient(135deg, var(--brand-accent) 0%, var(--brand-warning) 100%);*/
+/*  --form-accent-gradient-subtle: linear-gradient(135deg, rgb(167 139 250 / 0.08) 0%, rgb(251 191 36 / 0.08) 100%);*/
+/*  --form-backdrop-blur: blur(8px);*/
+/*  */
+/*  !* Modern Transitions - Smoother & More Refined *!*/
+/*  --form-transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);*/
+/*  --form-transition-fast: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);*/
+/*  --form-transition-slow: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);*/
+/*}*/
+
+
+
+/*@theme inline {*/
+/*  !* Typography Scale *!*/
+/*  --font-size-xs: var(--text-xs);*/
+/*  --font-size-sm: var(--text-sm);*/
+/*  --font-size-base: var(--text-base);*/
+/*  --font-size-lg: var(--text-lg);*/
+/*  --font-size-xl: var(--text-xl);*/
+/*  --font-size-2xl: var(--text-2xl);*/
+/*  --font-size-3xl: var(--text-3xl);*/
+/*  --font-size-4xl: var(--text-4xl);*/
+/*  --font-size-5xl: var(--text-5xl);*/
+/*  --font-size-6xl: var(--text-6xl);*/
+/*  --font-size-7xl: var(--text-7xl);*/
+/*  --font-size-8xl: var(--text-8xl);*/
+/*  --font-size-9xl: var(--text-9xl);*/
+
+/*  !* Line Heights *!*/
+/*  --line-height-tight: var(--leading-tight);*/
+/*  --line-height-snug: var(--leading-snug);*/
+/*  --line-height-normal: var(--leading-normal);*/
+/*  --line-height-relaxed: var(--leading-relaxed);*/
+/*  --line-height-loose: var(--leading-loose);*/
+
+/*  !* Letter Spacing *!*/
+/*  --letter-spacing-tighter: var(--tracking-tighter);*/
+/*  --letter-spacing-tight: var(--tracking-tight);*/
+/*  --letter-spacing-normal: var(--tracking-normal);*/
+/*  --letter-spacing-wide: var(--tracking-wide);*/
+/*  --letter-spacing-wider: var(--tracking-wider);*/
+/*  --letter-spacing-widest: var(--tracking-widest);*/
+/*  */
+/*  --color-background: var(--background);*/
+/*  --color-foreground: var(--foreground);*/
+/*  --color-card: var(--card);*/
+/*  --color-card-foreground: var(--card-foreground);*/
+/*  --color-popover: var(--popover);*/
+/*  --color-popover-foreground: var(--popover-foreground);*/
+/*  --color-muted-foreground: var(--brand-neutral-600);*/
+/*  --color-destructive: var(--destructive);*/
+/*  --color-destructive-foreground: var(--destructive-foreground);*/
+/*  --color-border: var(--border);*/
+/*  --color-input: var(--input);*/
+/*  --color-input-background: var(--input-background);*/
+/*  --color-switch-background: var(--switch-background);*/
+/*  --color-ring: var(--ring);*/
+/*  --color-chart-1: var(--chart-1);*/
+/*  --color-chart-2: var(--chart-2);*/
+/*  --color-chart-3: var(--chart-3);*/
+/*  --color-chart-4: var(--chart-4);*/
+/*  --color-chart-5: var(--chart-5);*/
+/*  --radius-sm: calc(var(--radius) - 4px);*/
+/*  --radius-md: calc(var(--radius) - 2px);*/
+/*  --radius-lg: var(--radius);*/
+/*  --radius-xl: calc(var(--radius) + 4px);*/
+/*  --color-sidebar: var(--sidebar);*/
+/*  --color-sidebar-foreground: var(--sidebar-foreground);*/
+/*  --color-sidebar-primary: var(--sidebar-primary);*/
+/*  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);*/
+/*  --color-sidebar-accent: var(--sidebar-accent);*/
+/*  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);*/
+/*  --color-sidebar-border: var(--sidebar-border);*/
+/*  --color-sidebar-ring: var(--sidebar-ring);*/
+/*  */
+/*  !* Brand Color Classes *!*/
+/*  --color-brand-primary: var(--brand-primary);*/
+/*  --color-brand-primary-light: var(--brand-primary-light);*/
+/*  --color-brand-primary-dark: var(--brand-primary-dark);*/
+/*  --color-brand-secondary: var(--brand-secondary);*/
+/*  --color-brand-secondary-light: var(--brand-secondary-light);*/
+/*  --color-brand-secondary-dark: var(--brand-secondary-dark);*/
+/*  --color-brand-accent: var(--brand-accent);*/
+/*  --color-brand-accent-light: var(--brand-accent-light);*/
+/*  --color-brand-accent-dark: var(--brand-accent-dark);*/
+/*  --color-brand-highlight: var(--brand-highlight);*/
+/*  --color-brand-highlight-light: var(--brand-highlight-light);*/
+/*  --color-brand-highlight-dark: var(--brand-highlight-dark);*/
+/*  --color-brand-success: var(--brand-success);*/
+/*  --color-brand-success-light: var(--brand-success-light);*/
+/*  --color-brand-success-dark: var(--brand-success-dark);*/
+/*  --color-brand-warning: var(--brand-warning);*/
+/*  --color-brand-warning-light: var(--brand-warning-light);*/
+/*  --color-brand-warning-dark: var(--brand-warning-dark);*/
+/*  --color-brand-error: var(--brand-error);*/
+/*  --color-brand-error-light: var(--brand-error-light);*/
+/*  --color-brand-error-dark: var(--brand-error-dark);*/
+/*  */
+/*  !* Premium Card Blue Colors *!*/
+/*  --color-brand-card-blue: var(--brand-card-blue);*/
+/*  --color-brand-card-blue-light: var(--brand-card-blue-light);*/
+/*  --color-brand-card-blue-dark: var(--brand-card-blue-dark);*/
+/*  */
+/*  --color-brand-neutral-50: var(--brand-neutral-50);*/
+/*  --color-brand-neutral-100: var(--brand-neutral-100);*/
+/*  --color-brand-neutral-200: var(--brand-neutral-200);*/
+/*  --color-brand-neutral-300: var(--brand-neutral-300);*/
+/*  --color-brand-neutral-400: var(--brand-neutral-400);*/
+/*  --color-brand-neutral-500: var(--brand-neutral-500);*/
+/*  --color-brand-neutral-600: var(--brand-neutral-600);*/
+/*  --color-brand-neutral-700: var(--brand-neutral-700);*/
+/*  --color-brand-neutral-800: var(--brand-neutral-800);*/
+/*  --color-brand-neutral-900: var(--brand-neutral-900);*/
+/*  --color-brand-neutral-950: var(--brand-neutral-950);*/
+/*  */
+/*  !* Logo Colors *!*/
+/*  --color-logo-icon-primary: var(--logo-icon-primary);*/
+/*  --color-logo-icon-secondary: var(--logo-icon-secondary);*/
+/*  --color-logo-text-primary: var(--logo-text-primary);*/
+/*  --color-logo-text-secondary: var(--logo-text-secondary);*/
+/*  */
+/*  !* Modern Form Element Colors *!*/
+/*  --color-form-border: var(--form-border);*/
+/*  --color-form-border-hover: var(--form-border-hover);*/
+/*  --color-form-border-focus: var(--form-border-focus);*/
+/*  --color-form-border-error: var(--form-border-error);*/
+/*  --color-form-border-success: var(--form-border-success);*/
+/*  --color-form-border-disabled: var(--form-border-disabled);*/
+/*  --color-form-background: var(--form-background);*/
+/*  --color-form-background-hover: var(--form-background-hover);*/
+/*  --color-form-background-focus: var(--form-background-focus);*/
+/*  --color-form-background-disabled: var(--form-background-disabled);*/
+/*  --color-form-background-readonly: var(--form-background-readonly);*/
+/*  --color-form-text: var(--form-text);*/
+/*  --color-form-text-placeholder: var(--form-text-placeholder);*/
+/*  --color-form-text-disabled: var(--form-text-disabled);*/
+/*  --color-form-text-error: var(--form-text-error);*/
+/*  --color-form-text-success: var(--form-text-success);*/
+/*  --color-form-text-label: var(--form-text-label);*/
+/*  --color-form-text-label-focus: var(--form-text-label-focus);*/
+/*  --color-form-ring: var(--form-ring-color);*/
+/*  */
+/*  !* Modern Form Elevations *!*/
+/*  --shadow-form-rest: var(--form-elevation-rest);*/
+/*  --shadow-form-hover: var(--form-elevation-hover);*/
+/*  --shadow-form-focus: var(--form-elevation-focus);*/
+/*  --shadow-form-error: var(--form-elevation-error);*/
+/*  --shadow-form-success: var(--form-elevation-success);*/
+/*  */
+/*  !* Modern Form Sizing *!*/
+/*  --size-form-height: var(--form-height);*/
+/*  --size-form-height-sm: var(--form-height-sm);*/
+/*  --size-form-height-lg: var(--form-height-lg);*/
+/*  --space-form-padding-x: var(--form-padding-x);*/
+/*  --space-form-padding-y: var(--form-padding-y);*/
+/*  --space-form-padding-x-sm: var(--form-padding-x-sm);*/
+/*  --space-form-padding-y-sm: var(--form-padding-y-sm);*/
+/*  --space-form-padding-x-lg: var(--form-padding-x-lg);*/
+/*  --space-form-padding-y-lg: var(--form-padding-y-lg);*/
+/*  --radius-form: var(--form-border-radius);*/
+/*  --radius-form-sm: var(--form-border-radius-sm);*/
+/*  --radius-form-lg: var(--form-border-radius-lg);*/
+/*}*/
+
+/*@layer base {*/
+/*  * {*/
+/*    @apply border-border outline-ring/50;*/
+/*  }*/
+
+/*  body {*/
+/*    @apply bg-background text-foreground;*/
+/*  }*/
+/*}*/
+
+/*!***/
+/* * Professional Typography System*/
+/* * Comprehensive base typography that doesn't override Tailwind classes*/
+/* *!*/
+/*@layer base {*/
+/*  !* Display Headings - Large, impactful text *!*/
+/*  .display-1,*/
+/*  .display-large {*/
+/*    font-size: var(--text-6xl);*/
+/*    font-weight: var(--font-weight-bold);*/
+/*    line-height: var(--leading-tight);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  .display-2,*/
+/*  .display-medium {*/
+/*    font-size: var(--text-5xl);*/
+/*    font-weight: var(--font-weight-bold);*/
+/*    line-height: var(--leading-tight);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  .display-3,*/
+/*  .display-small {*/
+/*    font-size: var(--text-4xl);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-snug);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  !* Heading Hierarchy - Semantic and consistent *!*/
+/*  h1 {*/
+/*    font-size: var(--text-3xl);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-snug);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  h2 {*/
+/*    font-size: var(--text-2xl);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-snug);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  h3 {*/
+/*    font-size: var(--text-xl);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  h4 {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  h5 {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  h6 {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-wide);*/
+/*    text-transform: uppercase;*/
+/*  }*/
+
+/*  !* Body Text - Optimized for readability *!*/
+/*  p {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .lead {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .body-large {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .body-small {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .caption {*/
+/*    font-size: var(--text-xs);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-wide);*/
+/*    color: var(--muted-foreground);*/
+/*  }*/
+
+/*  .overline {*/
+/*    font-size: var(--text-xs);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-widest);*/
+/*    text-transform: uppercase;*/
+/*    color: var(--muted-foreground);*/
+/*  }*/
+
+/*  !* Interactive Elements *!*/
+/*  label {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  button {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  input, textarea, select {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  !* Links *!*/
+/*  a {*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    color: var(--primary);*/
+/*    text-decoration: underline;*/
+/*    text-decoration-color: transparent;*/
+/*    transition: text-decoration-color 0.2s ease;*/
+/*  }*/
+
+/*  a:hover {*/
+/*    text-decoration-color: var(--primary);*/
+/*  }*/
+
+/*  !* Lists *!*/
+/*  ul, ol {*/
+/*    margin-bottom: 1rem;*/
+/*    padding-left: 1.5rem;*/
+/*  }*/
+
+/*  li {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*    margin-bottom: 0.25rem;*/
+/*  }*/
+
+/*  !* Code and Preformatted Text *!*/
+/*  code {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    background-color: var(--muted);*/
+/*    padding: 0.125rem 0.25rem;*/
+/*    border-radius: 0.25rem;*/
+/*  }*/
+
+/*  pre {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    background-color: var(--muted);*/
+/*    padding: 1rem;*/
+/*    border-radius: 0.5rem;*/
+/*    overflow-x: auto;*/
+/*    margin-bottom: 1rem;*/
+/*  }*/
+
+/*  !* Blockquotes *!*/
+/*  blockquote {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    font-style: italic;*/
+/*    border-left: 4px solid var(--primary);*/
+/*    padding-left: 1rem;*/
+/*    margin: 1.5rem 0;*/
+/*    color: var(--muted-foreground);*/
+/*  }*/
+
+/*  !* Tables *!*/
+/*  th {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-wide);*/
+/*    text-align: left;*/
+/*  }*/
+
+/*  td {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+/*}*/
+
+/*html {*/
+/*  font-size: var(--font-size);*/
+/*}*/
+
+/*!***/
+/* * Typography Utility Classes*/
+/* * Consistent text styling patterns for common use cases*/
+/* *!*/
+/*@layer utilities {*/
+/*  !* Display Text Utilities *!*/
+/*  .text-display-large {*/
+/*    font-size: var(--text-6xl);*/
+/*    font-weight: var(--font-weight-bold);*/
+/*    line-height: var(--leading-tight);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  .text-display-medium {*/
+/*    font-size: var(--text-5xl);*/
+/*    font-weight: var(--font-weight-bold);*/
+/*    line-height: var(--leading-tight);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  .text-display-small {*/
+/*    font-size: var(--text-4xl);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-snug);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  !* Headline Utilities *!*/
+/*  .text-headline-large {*/
+/*    font-size: var(--text-3xl);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-snug);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  .text-headline-medium {*/
+/*    font-size: var(--text-2xl);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-snug);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*  }*/
+
+/*  .text-headline-small {*/
+/*    font-size: var(--text-xl);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  !* Title Utilities *!*/
+/*  .text-title-large {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .text-title-medium {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .text-title-small {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  !* Body Text Utilities *!*/
+/*  .text-body-large {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .text-body-medium {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .text-body-small {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  !* Label Utilities *!*/
+/*  .text-label-large {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .text-label-medium {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*  }*/
+
+/*  .text-label-small {*/
+/*    font-size: var(--text-xs);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-wide);*/
+/*  }*/
+
+/*  !* Special Purpose Utilities *!*/
+/*  .text-lead {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*    color: var(--muted-foreground);*/
+/*  }*/
+
+/*  .text-caption {*/
+/*    font-size: var(--text-xs);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-wide);*/
+/*    color: var(--muted-foreground);*/
+/*  }*/
+
+/*  .text-overline {*/
+/*    font-size: var(--text-xs);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-widest);*/
+/*    text-transform: uppercase;*/
+/*    color: var(--muted-foreground);*/
+/*  }*/
+
+/*  .text-code {*/
+/*    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    background-color: var(--muted);*/
+/*    padding: 0.125rem 0.25rem;*/
+/*    border-radius: 0.25rem;*/
+/*  }*/
+
+/*  !* Semantic Text Colors *!*/
+/*  .text-primary-emphasis {*/
+/*    color: var(--brand-primary);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*  }*/
+
+/*  .text-success-emphasis {*/
+/*    color: var(--brand-success);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*  }*/
+
+/*  .text-highlight-emphasis {*/
+/*    color: var(--brand-highlight);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*  }*/
+
+/*  .text-warning-emphasis {*/
+/*    color: var(--brand-warning);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*  }*/
+
+/*  .text-error-emphasis {*/
+/*    color: var(--brand-error);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*  }*/
+
+/*  !* Responsive Typography Utilities *!*/
+/*  @media (max-width: 640px) {*/
+/*    .text-display-large {*/
+/*      font-size: var(--text-4xl);*/
+/*    }*/
+/*    */
+/*    .text-display-medium {*/
+/*      font-size: var(--text-3xl);*/
+/*    }*/
+/*    */
+/*    .text-headline-large {*/
+/*      font-size: var(--text-2xl);*/
+/*    }*/
+/*    */
+/*    .text-headline-medium {*/
+/*      font-size: var(--text-xl);*/
+/*    }*/
+/*  }*/
+
+/*  @media (max-width: 480px) {*/
+/*    .text-display-large {*/
+/*      font-size: var(--text-3xl);*/
+/*    }*/
+/*    */
+/*    .text-display-medium {*/
+/*      font-size: var(--text-2xl);*/
+/*    }*/
+/*    */
+/*    .text-headline-large {*/
+/*      font-size: var(--text-xl);*/
+/*    }*/
+/*  }*/
+
+/*  !* Text Balance and Wrapping *!*/
+/*  .text-balance {*/
+/*    text-wrap: balance;*/
+/*  }*/
+
+/*  .text-pretty {*/
+/*    text-wrap: pretty;*/
+/*  }*/
+
+/*  !* Reading Width Constraints *!*/
+/*  .text-readable {*/
+/*    max-width: 65ch;*/
+/*  }*/
+
+/*  .text-readable-wide {*/
+/*    max-width: 75ch;*/
+/*  }*/
+
+/*  .text-readable-narrow {*/
+/*    max-width: 45ch;*/
+/*  }*/
+
+/*  !* Blog-Specific Typography Classes *!*/
+/*  !* These apply proper visual hierarchy for blog content *!*/
+/*  */
+/*  .blog-heading-2 {*/
+/*    font-size: var(--text-2xl);      !* 24px *!*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-snug);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*    color: var(--brand-neutral-950);   !* Brightest - Major sections *!*/
+/*    margin-top: 3rem;*/
+/*    margin-bottom: 1.5rem;*/
+/*    scroll-margin-top: 6rem;*/
+/*  }*/
+
+/*  .blog-heading-3 {*/
+/*    font-size: var(--text-xl);       !* 20px *!*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-tight);*/
+/*    color: var(--brand-neutral-900);   !* Bright - Subsections *!*/
+/*    margin-top: 2.5rem;*/
+/*    margin-bottom: 1.25rem;*/
+/*    scroll-margin-top: 6rem;*/
+/*  }*/
+
+/*  .blog-heading-4 {*/
+/*    font-size: var(--text-lg);       !* 18px *!*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*    color: var(--brand-neutral-800);   !* Medium bright - Sub-subsections *!*/
+/*    margin-top: 2rem;*/
+/*    margin-bottom: 1rem;*/
+/*    scroll-margin-top: 6rem;*/
+/*  }*/
+
+/*  .blog-heading-5 {*/
+/*    font-size: var(--text-base);     !* 16px *!*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*    color: var(--brand-neutral-700);   !* Lighter - Minor headings *!*/
+/*    margin-top: 1.75rem;*/
+/*    margin-bottom: 0.75rem;*/
+/*    scroll-margin-top: 6rem;*/
+/*  }*/
+
+/*  .blog-heading-6 {*/
+/*    font-size: var(--text-sm);       !* 14px *!*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    line-height: var(--leading-normal);*/
+/*    letter-spacing: var(--tracking-wider);*/
+/*    text-transform: uppercase;*/
+/*    color: var(--brand-neutral-600);   !* Muted - Labels *!*/
+/*    margin-top: 1.5rem;*/
+/*    margin-bottom: 0.5rem;*/
+/*    scroll-margin-top: 6rem;*/
+/*  }*/
+
+/*  !* Blog subtitle style *!*/
+/*  .blog-subtitle {*/
+/*    font-size: var(--text-xl);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*    color: var(--brand-neutral-600);*/
+/*    font-style: italic;*/
+/*    border-left: 3px solid var(--brand-accent);*/
+/*    padding-left: 1.5rem;*/
+/*    margin: 2rem 0;*/
+/*  }*/
+
+/*  !* Blog paragraph style *!*/
+/*  .blog-paragraph {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*    color: var(--brand-neutral-700);*/
+/*    margin-bottom: 1.5rem;*/
+/*  }*/
+
+/*  !* Blog list style *!*/
+/*  .blog-list {*/
+/*    margin-bottom: 1.5rem;*/
+/*    padding-left: 0;*/
+/*    list-style: none;*/
+/*  }*/
+
+/*  .blog-list-item {*/
+/*    font-size: var(--text-base);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    letter-spacing: var(--tracking-normal);*/
+/*    color: var(--brand-neutral-700);*/
+/*    margin-bottom: 0.5rem;*/
+/*    padding-left: 1.75rem;*/
+/*    position: relative;*/
+/*  }*/
+
+/*  .blog-list-item::before {*/
+/*    content: "•";*/
+/*    position: absolute;*/
+/*    left: 0;*/
+/*    color: var(--brand-accent);*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*  }*/
+
+/*  !* Blog quote style *!*/
+/*  .blog-quote {*/
+/*    border-left: 4px solid var(--brand-accent);*/
+/*    padding-left: 1.5rem;*/
+/*    padding-top: 1rem;*/
+/*    padding-bottom: 1rem;*/
+/*    margin: 2rem 0;*/
+/*    background-color: rgba(139, 92, 246, 0.05);*/
+/*    border-radius: 0 0.75rem 0.75rem 0;*/
+/*  }*/
+
+/*  .blog-quote-text {*/
+/*    font-size: var(--text-lg);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    color: var(--brand-neutral-800);*/
+/*    font-style: italic;*/
+/*    margin-bottom: 0.75rem;*/
+/*  }*/
+
+/*  .blog-quote-author {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    color: var(--brand-neutral-700);*/
+/*    font-style: normal;*/
+/*  }*/
+
+/*  .blog-quote-role {*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    color: var(--brand-neutral-500);*/
+/*    font-style: normal;*/
+/*  }*/
+
+/*  !* Blog code block style *!*/
+/*  .blog-code-block {*/
+/*    background-color: var(--brand-neutral-100);*/
+/*    border-radius: 0.75rem;*/
+/*    padding: 1.5rem;*/
+/*    overflow-x: auto;*/
+/*    margin-bottom: 1.5rem;*/
+/*    border: 1px solid rgba(51, 65, 85, 0.2);*/
+/*  }*/
+
+/*  .blog-code-text {*/
+/*    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    color: var(--brand-neutral-800);*/
+/*  }*/
+
+/*  !* Blog image/video figure style *!*/
+/*  .blog-figure {*/
+/*    margin: 2rem 0;*/
+/*  }*/
+
+/*  .blog-caption {*/
+/*    text-align: center;*/
+/*    font-size: var(--text-sm);*/
+/*    font-weight: var(--font-weight-normal);*/
+/*    color: var(--brand-neutral-500);*/
+/*    margin-top: 0.75rem;*/
+/*    font-style: italic;*/
+/*  }*/
+
+/*  !* Blog link style *!*/
+/*  .blog-link {*/
+/*    color: var(--brand-accent);*/
+/*    text-decoration: underline;*/
+/*    text-decoration-color: transparent;*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    transition: all 0.2s ease;*/
+/*  }*/
+
+/*  .blog-link:hover {*/
+/*    color: var(--brand-accent-dark);*/
+/*    text-decoration-color: var(--brand-accent-dark);*/
+/*  }*/
+
+/*  !* Blog table styles *!*/
+/*  .blog-table-wrapper {*/
+/*    overflow-x: auto;*/
+/*    margin: 2rem 0;*/
+/*    border-radius: 0.75rem;*/
+/*    border: 1px solid var(--brand-neutral-300);*/
+/*  }*/
+
+/*  .blog-table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    font-size: var(--text-sm);*/
+/*  }*/
+
+/*  .blog-table thead {*/
+/*    background-color: var(--brand-card-blue);*/
+/*  }*/
+
+/*  .blog-table th {*/
+/*    padding: 1rem;*/
+/*    text-align: left;*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    color: var(--brand-neutral-900);*/
+/*    border-bottom: 2px solid var(--brand-neutral-300);*/
+/*    font-size: var(--text-sm);*/
+/*    letter-spacing: var(--tracking-wide);*/
+/*  }*/
+
+/*  .blog-table td {*/
+/*    padding: 0.875rem 1rem;*/
+/*    color: var(--brand-neutral-700);*/
+/*    border-bottom: 1px solid var(--brand-neutral-300);*/
+/*    font-size: var(--text-sm);*/
+/*    line-height: var(--leading-relaxed);*/
+/*  }*/
+
+/*  .blog-table tbody tr:last-child td {*/
+/*    border-bottom: none;*/
+/*  }*/
+
+/*  .blog-table tbody tr:hover {*/
+/*    background-color: rgba(139, 92, 246, 0.05);*/
+/*  }*/
+
+/*  !* Blog comparison table styles *!*/
+/*  .blog-comparison-table-wrapper {*/
+/*    overflow-x: auto;*/
+/*    margin: 2rem 0;*/
+/*    border-radius: 0.75rem;*/
+/*    border: 1px solid var(--brand-neutral-300);*/
+/*  }*/
+
+/*  .blog-comparison-table {*/
+/*    width: 100%;*/
+/*    border-collapse: collapse;*/
+/*    font-size: var(--text-sm);*/
+/*  }*/
+
+/*  .blog-comparison-table thead {*/
+/*    background-color: var(--brand-card-blue);*/
+/*  }*/
+
+/*  .blog-comparison-table th {*/
+/*    padding: 1rem;*/
+/*    text-align: left;*/
+/*    font-weight: var(--font-weight-semibold);*/
+/*    color: var(--brand-neutral-900);*/
+/*    border-bottom: 2px solid var(--brand-neutral-300);*/
+/*    font-size: var(--text-sm);*/
+/*    letter-spacing: var(--tracking-wide);*/
+/*  }*/
+
+/*  .blog-comparison-table th:first-child {*/
+/*    width: 35%;*/
+/*  }*/
+
+/*  .blog-comparison-table td {*/
+/*    padding: 0.875rem 1rem;*/
+/*    color: var(--brand-neutral-700);*/
+/*    border-bottom: 1px solid var(--brand-neutral-300);*/
+/*    font-size: var(--text-sm);*/
+/*    line-height: var(--leading-relaxed);*/
+/*    vertical-align: top;*/
+/*  }*/
+
+/*  .blog-comparison-table tbody tr:last-child td {*/
+/*    border-bottom: none;*/
+/*  }*/
+
+/*  .blog-comparison-table .comparison-feature {*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    color: var(--brand-neutral-800);*/
+/*  }*/
+
+/*  .blog-comparison-table .comparison-old {*/
+/*    background-color: rgba(239, 68, 68, 0.05);*/
+/*    border-left: 3px solid var(--brand-error);*/
+/*  }*/
+
+/*  .blog-comparison-table .comparison-new {*/
+/*    background-color: rgba(16, 185, 129, 0.05);*/
+/*    border-left: 3px solid var(--brand-success);*/
+/*  }*/
+
+/*  .blog-comparison-table .comparison-highlight {*/
+/*    font-weight: var(--font-weight-medium);*/
+/*    color: var(--brand-accent);*/
+/*  }*/
+/*}*/
+
+/*!* Unified Form Element Styling System - Available as helper classes only *!*/
