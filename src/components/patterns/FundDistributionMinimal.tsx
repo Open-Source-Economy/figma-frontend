@@ -64,8 +64,12 @@ export function FundDistributionMinimal({ className = '', onViewDetails }: FundD
             Where Your Investment Goes
           </h2>
           
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Complete transparency on fund allocation. 85% goes directly to open source maintainers and projects.
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-3">
+            Complete transparency on fund allocation. Every percentage is negotiated and agreed upon with maintainers for each project.
+          </p>
+          
+          <p className="text-sm text-brand-accent/80 max-w-2xl mx-auto italic">
+            Example distribution shown below—actual percentages are customized to your project's needs
           </p>
         </div>
 
@@ -93,8 +97,13 @@ export function FundDistributionMinimal({ className = '', onViewDetails }: FundD
                       {allocation.icon}
                     </div>
                     
-                    <div className={`text-3xl font-bold text-${allocation.color}`}>
-                      {allocation.percentage}%
+                    <div className="text-right">
+                      <div className={`text-3xl font-bold text-${allocation.color}`}>
+                        ~{allocation.percentage}%
+                      </div>
+                      {index === 1 && (
+                        <span className="text-xs text-muted-foreground italic">negotiable</span>
+                      )}
                     </div>
                   </div>
                   
@@ -104,7 +113,14 @@ export function FundDistributionMinimal({ className = '', onViewDetails }: FundD
                   
                   <p className="text-sm text-muted-foreground mb-4 flex-grow">
                     {index === 0 && "Direct compensation and priority support from expert maintainers"}
-                    {index === 1 && "Platform development, security, and customer support operations"}
+                    {index === 1 && (
+                      <>
+                        Platform development, security, and customer support operations
+                        <span className="block mt-2 text-xs text-brand-accent/70 italic">
+                          * Negotiable non-profit fee, agreed with each project
+                        </span>
+                      </>
+                    )}
                     {index === 2 && "Core improvements, bug fixes, and feature development"}
                     {index === 3 && "Supporting critical dependencies and ecosystem health"}
                   </p>
@@ -141,11 +157,15 @@ export function FundDistributionMinimal({ className = '', onViewDetails }: FundD
             </div>
             
             <h3 className="text-xl font-semibold text-foreground mb-2">
-              85% Direct Impact to Open Source
+              Collaborative Fund Distribution
             </h3>
             
-            <p className="text-muted-foreground mb-6 max-w-lg mx-auto">
-              Every dollar is tracked and reported. See our live dashboard for real-time fund distribution and project impact.
+            <p className="text-muted-foreground mb-4 max-w-2xl mx-auto">
+              Every project's fund distribution is negotiated transparently with maintainers. Our non-profit fee is flexible and agreed upon to ensure fairness for all stakeholders.
+            </p>
+            
+            <p className="text-sm text-brand-success mb-6 max-w-lg mx-auto">
+              Typically 80-90% goes directly to maintainers and their projects—percentages customized per engagement
             </p>
             
             <div className="flex flex-col sm:flex-row gap-3 justify-center">

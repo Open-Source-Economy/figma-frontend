@@ -8,19 +8,19 @@ interface BlogQuoteProps {
 
 export function BlogQuote({ content, author, role }: BlogQuoteProps) {
   return (
-    <blockquote className="blog-quote">
-      <p className="blog-quote-text">
+    <blockquote className="border-l-4 border-brand-accent pl-6 py-4 my-8 bg-brand-accent/5 rounded-r-xl">
+      <p className="text-brand-neutral-800 italic mb-3">
         {content}
       </p>
       {(author || role) && (
         <footer>
           {author && (
-            <cite className="blog-quote-author">
+            <cite className="text-brand-neutral-700 not-italic">
               — {author}
             </cite>
           )}
           {role && (
-            <span className="blog-quote-role">
+            <span className="text-brand-neutral-500">
               {author ? ', ' : '— '}{role}
             </span>
           )}

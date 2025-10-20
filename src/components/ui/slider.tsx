@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as SliderPrimitive from "@radix-ui/react-slider@1.2.3";
-import { type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority@0.7.1";
 
 import { cn } from "./utils";
 import { 

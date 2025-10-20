@@ -8,14 +8,14 @@ interface BlogImageProps {
 
 export function BlogImage({ src, alt, caption }: BlogImageProps) {
   return (
-    <figure className="blog-figure">
+    <figure className="my-8">
       <img 
         src={src} 
         alt={alt || ''} 
         className="w-full rounded-xl"
       />
       {(caption || alt) && (
-        <figcaption className="blog-caption">
+        <figcaption className="text-center text-brand-neutral-500 mt-3 italic">
           {caption || alt}
         </figcaption>
       )}

@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group@1.2.3";
 import { CircleIcon } from "lucide-react@0.487.0";
-import { type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority@0.7.1";
 
 import { cn } from "./utils";
 import { radioVariants, radioIndicatorVariants, type FormVariant, type FormSize } from "./form-variants";

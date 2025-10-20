@@ -26,7 +26,7 @@ export function BlogParagraph({ content }: BlogParagraphProps) {
           <a 
             key={index} 
             href={href}
-            className="blog-link"
+            className="text-brand-accent underline decoration-transparent hover:text-brand-accent-dark hover:decoration-brand-accent-dark transition-all duration-200"
             target={target}
             rel={rel}
           >
@@ -59,7 +59,7 @@ export function BlogParagraph({ content }: BlogParagraphProps) {
   };
 
   return (
-    <p className="blog-paragraph">
+    <p className="text-brand-neutral-700 mb-6">
       {renderParagraphWithFormattedText(content)}
     </p>
   );

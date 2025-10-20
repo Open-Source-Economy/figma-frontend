@@ -3,7 +3,7 @@
 import * as React from "react";
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox@1.1.4";
 import { CheckIcon } from "lucide-react@0.487.0";
-import { type VariantProps } from "class-variance-authority";
+import { type VariantProps } from "class-variance-authority@0.7.1";
 
 import { cn } from "./utils";
 import { checkboxVariants, type FormVariant, type FormSize } from "./form-variants";

@@ -29,7 +29,7 @@ export function BlogVideo({ videoId, caption }: BlogVideoProps) {
   const embedId = getYouTubeEmbedId(videoId);
   
   return (
-    <figure className="blog-figure">
+    <figure className="my-8">
       <div className="relative w-full rounded-xl overflow-hidden bg-brand-neutral-200" style={{ paddingBottom: '56.25%' }}>
         <iframe
           className="absolute top-0 left-0 w-full h-full"
@@ -40,7 +40,7 @@ export function BlogVideo({ videoId, caption }: BlogVideoProps) {
         />
       </div>
       {caption && (
-        <figcaption className="blog-caption">
+        <figcaption className="text-center text-brand-neutral-500 mt-3 italic">
           {caption}
         </figcaption>
       )}

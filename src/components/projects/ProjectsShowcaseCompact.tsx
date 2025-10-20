@@ -258,18 +258,18 @@ export function ProjectsShowcaseCompact({
                 {/* Expert Maintainers */}
                 <div className="mb-2 flex-grow">
                   <Collapsible open={openMaintainers[project.id]} onOpenChange={() => toggleMaintainers(project.id)}>
-                    <div className="flex items-center gap-2 mb-3 p-2 -mx-2 rounded-lg hover:bg-brand-accent/5 transition-colors cursor-pointer">
-                      <span className="font-medium text-foreground hover:text-brand-accent transition-colors">3 Expert maintainers <span className="text-muted-foreground">onboarded</span></span>
-                      <CollapsibleTrigger asChild>
-                        <button className="ml-auto p-1 hover:bg-brand-accent/10 rounded transition-colors">
+                    <CollapsibleTrigger asChild>
+                      <div className="flex items-center gap-2 mb-3 p-2 -mx-2 rounded-lg hover:bg-brand-accent/5 transition-colors cursor-pointer group">
+                        <span className="font-medium text-foreground group-hover:text-brand-accent transition-colors">3 Expert maintainers <span className="text-muted-foreground">onboarded</span></span>
+                        <div className="ml-auto p-1 hover:bg-brand-accent/10 rounded transition-colors">
                           {openMaintainers[project.id] ? (
                             <ChevronUp className="w-4 h-4 text-brand-accent" />
                           ) : (
                             <ChevronDown className="w-4 h-4 text-brand-accent" />
                           )}
-                        </button>
-                      </CollapsibleTrigger>
-                    </div>
+                        </div>
+                      </div>
+                    </CollapsibleTrigger>
                     <CollapsibleContent>
                       <div className={`${(() => {
                         const maintainerCount = Math.min(3, parseInt(project.maintainers) || 1);

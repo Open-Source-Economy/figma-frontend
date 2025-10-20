@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import * as SwitchPrimitive from "@radix-ui/react-switch";
-import { type VariantProps } from "class-variance-authority";
+import * as SwitchPrimitive from "@radix-ui/react-switch@1.1.3";
+import { type VariantProps } from "class-variance-authority@0.7.1";
 
 import { cn } from "./utils";
 import { switchVariants, switchThumbVariants, type FormVariant, type FormSize } from "./form-variants";

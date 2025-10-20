@@ -99,11 +99,11 @@ export function ProjectCategorySection({
       </div>
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8 items-start">
         {displayedProjects.map((project) => (
           <Card 
             key={project.id} 
-            className="group hover:shadow-lg transition-all duration-300 border-border hover:border-brand-primary/20 h-full cursor-pointer"
+            className="group hover:shadow-lg transition-all duration-300 border-border hover:border-brand-primary/20 cursor-pointer"
             onClick={() => onViewProject?.(project.id)}
           >
             <CardContent className="p-5 h-full flex flex-col">
@@ -137,17 +137,17 @@ export function ProjectCategorySection({
               </p>
 
               {/* GitHub Stats */}
-              <div className="flex items-center gap-4 pb-3 mb-3 border-b border-border text-xs">
+              <div className="flex items-center gap-4 pb-3 mb-3 border-b border-border/50 text-xs opacity-60">
                 <div className="flex items-center gap-1.5">
-                  <Star className="w-3.5 h-3.5 text-brand-warning" />
-                  <span className="text-foreground">{project.stars}</span>
+                  <Star className="w-3 h-3 text-brand-warning/70" />
+                  <span className="text-muted-foreground">{project.stars}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <GitFork className="w-3.5 h-3.5 text-brand-accent" />
-                  <span className="text-foreground">{project.forks}</span>
+                  <GitFork className="w-3 h-3 text-brand-accent/70" />
+                  <span className="text-muted-foreground">{project.forks}</span>
                 </div>
                 <div className="ml-auto">
-                  <Badge variant="outline" className="text-xs py-0">
+                  <Badge variant="outline" className="text-xs py-0 opacity-80 border-border/50">
                     {project.language}
                   </Badge>
                 </div>
@@ -156,23 +156,20 @@ export function ProjectCategorySection({
               {/* Expert Maintainers */}
               <div className="mt-auto">
                 <Collapsible open={openMaintainers[project.id]} onOpenChange={() => toggleMaintainers(project.id)}>
-                  <div 
-                    className="flex items-center gap-2 py-1 cursor-pointer group/maintainers"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <span className="text-sm text-muted-foreground group-hover/maintainers:text-brand-accent transition-colors">
-                      3 Expert maintainers
-                    </span>
-                    <CollapsibleTrigger asChild>
-                      <button className="ml-auto p-1 hover:bg-brand-accent/10 rounded transition-colors">
+                  <CollapsibleTrigger asChild>
+                    <div className="flex items-center gap-2 py-1 px-2 -mx-2 rounded-lg cursor-pointer group/maintainers hover:bg-brand-accent/5 transition-colors">
+                      <span className="text-sm text-muted-foreground group-hover/maintainers:text-brand-accent transition-colors">
+                        3 Expert maintainers
+                      </span>
+                      <div className="ml-auto p-1 hover:bg-brand-accent/10 rounded transition-colors">
                         {openMaintainers[project.id] ? (
                           <ChevronUp className="w-3.5 h-3.5 text-brand-accent" />
                         ) : (
                           <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
                         )}
-                      </button>
-                    </CollapsibleTrigger>
-                  </div>
+                      </div>
+                    </div>
+                  </CollapsibleTrigger>
                   <CollapsibleContent onClick={(e) => e.stopPropagation()}>
                     <div className="space-y-2 mt-2">
                       {Array.from({ length: Math.min(3, project.maintainers || 1) }, (_, index) => {
@@ -199,6 +196,17 @@ export function ProjectCategorySection({
                           </div>
                         );
                       })}
+                      
+                      {/* View All Maintainers Link */}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onViewProject?.(project.id);
+                        }}
+                        className="flex items-center gap-1 text-xs text-brand-accent hover:text-brand-accent-dark transition-colors mt-1 py-1"
+                      >
+                        <span>+ 2 more maintainers</span>
+                      </button>
                     </div>
                   </CollapsibleContent>
                 </Collapsible>

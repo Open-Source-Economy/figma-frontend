@@ -1,4 +1,4 @@
-import { cva } from "class-variance-authority";
+import { cva } from "class-variance-authority@0.7.1";
 
 /**
  * Shared Form Component Variants

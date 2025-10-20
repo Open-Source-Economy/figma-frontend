@@ -1,3 +1,4 @@
+import './styles/globals.css';
 import React from 'react';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
@@ -12,6 +13,7 @@ import { TestimonialsSection } from './components/patterns/TestimonialsSection';
 import { UniqueSellingPoints } from './components/patterns/UniqueSellingPoints';
 import { MultiCTASection } from './components/patterns/MultiCTASection';
 import { BlogTeaser } from './components/patterns/BlogTeaser';
+import { TransformCTASection } from './components/patterns/TransformCTASection';
 import { HowItWorksAlternating } from './components/patterns/HowItWorksAlternating';
 import { SupportersSection } from './components/patterns/SupportersSection';
 import { AdminPage } from './components/pages/AdminPage';
@@ -32,7 +34,7 @@ import { MissionPage } from './components/pages/MissionPage';
 import { RequestProjectPage } from './components/pages/RequestProjectPage';
 import { getProjectBySlug } from './data/projectDetailData';
 import { sampleMaintainerProfile } from './data/maintainerProfileData';
-import { Shield, Clock } from 'lucide-react';
+import { Shield, Clock, Heart } from 'lucide-react';
 
 export default function App() {
   const [currentPage, setCurrentPage] = React.useState('home');
@@ -40,6 +42,11 @@ export default function App() {
   const [currentProjectSlug, setCurrentProjectSlug] = React.useState<string>('');
   const [currentMaintainerId, setCurrentMaintainerId] = React.useState<string>('');
   const [donationProjectName, setDonationProjectName] = React.useState<string>('');
+
+  // Scroll to top on page navigation
+  React.useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPage, currentBlogSlug, currentProjectSlug]);
 
   // Enterprise-focused hero configuration
   const HERO_CONFIG = {
@@ -52,9 +59,12 @@ export default function App() {
     ],
     trustIndicators: [
       { icon: Shield, text: 'SOC 2 Compliant' },
-      { icon: Clock, text: '24/7 Support' }
+      { icon: Clock, text: '24/7 Support' },
+      { icon: Heart, text: '501(c)(3) Non-Profit' }
     ],
-    layout: "enterprise" as const
+    layout: "split" as const,
+    imageSrc: "https://images.unsplash.com/photo-1559223607-b0f2c487d937?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkZXZlbG9wZXJzJTIwdGFsa2luZyUyMGRpc2N1c3Npb258ZW58MXx8fHwxNzYwNzc1NDgxfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+    imageAlt: "Two developers in discussion about open source projects"
   };
 
 
@@ -117,71 +127,80 @@ export default function App() {
         }}
       />
       
-      {/* Maintainer Testimonials Carousel - Dark Gradient Background */}
-      <section className="bg-gradient-to-br from-brand-secondary via-brand-secondary-dark to-brand-neutral-100 transition-all duration-1000 ease-in-out">
+      {/* Maintainer Testimonials - Social Proof Opening with Warm Glow */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-brand-secondary via-brand-secondary-dark to-brand-neutral-100">
+        <div className="absolute top-0 right-1/4 w-96 h-96 bg-brand-accent/10 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-0 left-1/3 w-80 h-80 bg-brand-highlight/10 rounded-full blur-3xl opacity-30" />
         <MaintainerTestimonials />
       </section>
       
-      {/* Hero Section - Primary Dark Background */}
-      <section className="bg-gradient-to-r from-brand-secondary to-brand-neutral-200 transition-all duration-1000 ease-in-out">
+      {/* Hero Section - Primary CTA with Premium Navy Foundation */}
+      <section className="relative overflow-hidden bg-gradient-to-b from-brand-neutral-100 via-brand-secondary to-brand-secondary-dark">
+        <div className="absolute top-1/4 left-0 w-96 h-96 bg-brand-accent/15 rounded-full blur-3xl opacity-50" />
+        <div className="absolute bottom-1/4 right-0 w-96 h-96 bg-brand-highlight/15 rounded-full blur-3xl opacity-50" />
         <HeroSection {...HERO_CONFIG} />
       </section>
 
-      {/* What is Open Source Economy Section - Subtle Accent Background */}
-      <WhatIsOpenSourceEconomy className="bg-gradient-to-bl from-brand-neutral-200 via-brand-secondary to-brand-accent/5" />
+      {/* What is Open Source Economy - Educational Foundation */}
+      <WhatIsOpenSourceEconomy className="bg-gradient-to-br from-brand-secondary-dark via-brand-neutral-100 to-brand-card-blue" />
 
-      {/* Smooth Background Transition */}
-      <div className="h-32 bg-gradient-to-b from-brand-accent/5 via-brand-secondary to-brand-neutral-100 transition-all duration-1000 ease-in-out" />
-
-      {/* How It Works Section - Simple Process Overview */}
+      {/* How It Works Simple - Process Overview with Navy Base */}
       <HowItWorksSimple 
-        className="bg-gradient-to-br from-brand-secondary via-brand-neutral-100 to-brand-card-blue"
+        className="bg-gradient-to-b from-brand-card-blue via-brand-secondary to-brand-neutral-200"
         headerVisibility="normal"
       />
 
-      {/* Win-Win-Win Partnership Section - Value Proposition */}
+      {/* Win-Win-Win Partnership - Value Proposition */}
       <WinWinWinPartnership 
         onStartBuilding={() => setCurrentPage('role-selection')}
-        className="bg-gradient-to-r from-brand-neutral-100 via-brand-secondary to-brand-neutral-200"
+        className="bg-gradient-to-br from-brand-neutral-200 via-brand-secondary to-brand-card-blue-dark"
       />
 
+      {/* Fund Distribution - Transparency with Semantic Green Accents */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-brand-card-blue-dark via-brand-secondary to-brand-neutral-100">
+        <div className="absolute top-0 left-1/4 w-80 h-80 bg-brand-success/15 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-0 right-1/4 w-64 h-64 bg-brand-success/10 rounded-full blur-2xl opacity-30" />
+        <FundDistributionMinimal 
+          onViewDetails={() => setCurrentPage('fund-redistribution')}
+        />
+      </div>
 
-
-      {/* Fund Distribution Section - Transparency & Trust */}
-      <FundDistributionMinimal 
-        onViewDetails={() => setCurrentPage('fund-redistribution')}
-        className="bg-gradient-to-b from-brand-success/5 via-brand-secondary to-brand-accent/5"
-      />
-
-      {/* Featured Projects Section - Rich Dark Background */}
+      {/* Featured Projects - Portfolio Showcase with Deep Navy */}
       <ProjectsShowcaseCompact
         onNavigateToProjects={() => setCurrentPage('projects')}
         onViewProject={(slug) => {
           setCurrentProjectSlug(slug);
           setCurrentPage('project-detail');
         }}
-        className="bg-gradient-to-b from-brand-secondary-dark via-brand-neutral-100 to-brand-primary/10"
+        className="bg-gradient-to-br from-brand-neutral-100 via-brand-secondary-dark to-brand-card-blue"
       />
 
       {/* Testimonials Section - Success Stories */}
       <TestimonialsSection 
         onReadMoreStories={() => {
-          // In a real app, this would navigate to a testimonials page
           console.log('Viewing all testimonials');
         }}
-        className="bg-gradient-to-br from-brand-neutral-100 via-brand-secondary to-brand-success/5"
+        className="bg-gradient-to-b from-brand-card-blue via-brand-secondary to-brand-neutral-200"
       />
 
-      {/* Supporters & Clients Section - Trust & Credibility */}
-      <SupportersSection className="bg-gradient-to-b from-brand-secondary via-brand-neutral-200 to-brand-secondary-dark" />
+      {/* Supporters Section - Trust & Mission with Green Accents */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-brand-neutral-200 via-brand-secondary to-brand-secondary-dark">
+        <div className="absolute top-1/3 right-0 w-96 h-96 bg-brand-success/12 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-1/3 left-0 w-80 h-80 bg-brand-success/8 rounded-full blur-2xl opacity-30" />
+        <SupportersSection />
+      </div>
 
-      {/* Unique Selling Points Section - Premium Highlight Background */}
-      <UniqueSellingPoints className="bg-gradient-to-r from-brand-accent/3 via-brand-secondary to-brand-highlight/5" />
+      {/* Unique Selling Points - Differentiation with Warm Accents */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-brand-secondary-dark via-brand-neutral-100 to-brand-card-blue">
+        <div className="absolute top-0 left-1/3 w-72 h-72 bg-brand-accent/8 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-0 right-1/3 w-72 h-72 bg-brand-highlight/8 rounded-full blur-3xl opacity-40" />
+        <UniqueSellingPoints />
+      </div>
 
-      {/* How It Works Alternating Section - Step by Step Process */}
-      <HowItWorksAlternating className="bg-gradient-to-b from-brand-secondary via-brand-neutral-200 to-brand-secondary-dark" />
+      {/* How It Works Alternating - Detailed Process */}
+      <HowItWorksAlternating className="bg-gradient-to-br from-brand-card-blue via-brand-secondary to-brand-neutral-200" />
 
-      {/* Blog/Content Teaser Section - Thought Leadership */}
+      {/* Blog Teaser - Thought Leadership with Navy Depth */}
       <BlogTeaser 
         onReadMore={(slug) => {
           setCurrentBlogSlug(slug);
@@ -190,28 +209,39 @@ export default function App() {
         onViewAllPosts={() => {
           setCurrentPage('blog');
         }}
+        className="bg-gradient-to-b from-brand-neutral-200 via-brand-secondary to-brand-secondary-dark"
       />
 
-      {/* Multi-CTA Section - Conversion Paths */}
-      <MultiCTASection 
-        onBookMeeting={() => setCurrentPage('role-selection')}
-        onSubscribeNewsletter={() => {
-          // In a real app, this would open a newsletter signup modal
-          console.log('Newsletter subscription requested');
-        }}
-        onSupportPlatform={() => {
-          // In a real app, this would navigate to donation page
-          console.log('Platform support requested');
-        }}
-        onJoinCommunity={() => {
-          // In a real app, this would open Discord invite
-          console.log('Community join requested');
-        }}
-        className="bg-gradient-to-b from-brand-highlight/5 via-brand-secondary-dark to-brand-primary/10"
-      />
+      {/* Transform CTA - Primary Conversion with Warm Brand Glow */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-brand-secondary-dark via-brand-neutral-100 to-brand-card-blue">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-brand-accent/20 rounded-full blur-3xl opacity-50" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-brand-highlight/20 rounded-full blur-3xl opacity-50" />
+        <TransformCTASection 
+          onGetStarted={() => setCurrentPage('role-selection')}
+          onScheduleDemo={() => setCurrentPage('contact')}
+        />
+      </div>
 
-      {/* Footer - Deep Background */}
-      <section className="bg-gradient-to-t from-brand-neutral-50 to-brand-secondary-dark transition-all duration-1000 ease-in-out">
+      {/* Multi-CTA Section - Final Conversion Opportunities */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-brand-card-blue via-brand-secondary to-brand-secondary-dark">
+        <div className="absolute top-1/4 right-1/4 w-80 h-80 bg-brand-accent/10 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-brand-highlight/10 rounded-full blur-3xl opacity-40" />
+        <MultiCTASection 
+          onBookMeeting={() => setCurrentPage('role-selection')}
+          onSubscribeNewsletter={() => {
+            console.log('Newsletter subscription requested');
+          }}
+          onSupportPlatform={() => {
+            console.log('Platform support requested');
+          }}
+          onJoinCommunity={() => {
+            console.log('Community join requested');
+          }}
+        />
+      </div>
+
+      {/* Footer - Deep Foundation Closing */}
+      <section className="bg-gradient-to-t from-brand-neutral-50 via-brand-secondary-dark to-brand-secondary">
         <Footer onNavItemClick={handleNavigation} />
       </section>
     </div>

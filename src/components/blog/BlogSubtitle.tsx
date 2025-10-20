@@ -6,7 +6,7 @@ interface BlogSubtitleProps {
 
 export function BlogSubtitle({ content }: BlogSubtitleProps) {
   return (
-    <p className="blog-subtitle">
+    <p className="text-brand-neutral-600 italic border-l-3 border-brand-accent pl-6 my-8">
       {content}
     </p>
   );
