@@ -1,6 +1,7 @@
 import React from 'react';
 import { Label } from '../ui/label';
 import { cn } from '../ui/utils';
+import { AlertCircle, CheckCircle2 } from 'lucide-react';
 
 interface FormFieldProps {
   label: string;
@@ -10,6 +11,8 @@ interface FormFieldProps {
   required?: boolean;
   className?: string;
   children: React.ReactNode;
+  showErrorIcon?: boolean;
+  showSuccessIcon?: boolean;
 }
 
 export function FormField({ 
@@ -19,7 +22,9 @@ export function FormField({
   success, 
   required = false, 
   className,
-  children 
+  children,
+  showErrorIcon = true,
+  showSuccessIcon = true
 }: FormFieldProps) {
   const hasError = !!error;
   const hasSuccess = !!success;
@@ -28,20 +33,25 @@ export function FormField({
     <div className={cn("space-y-2", className)}>
       <Label className={cn(
         hasError && "text-brand-error",
-        hasSuccess && "text-brand-success",
-        required && "after:content-['*'] after:ml-1 after:text-brand-error"
+        hasSuccess && "text-brand-success"
       )}>
-        {label}
+        {label} {required && <span className="text-brand-error">*</span>}
       </Label>
       {children}
       {description && !error && !success && (
-        <p className="text-xs text-muted-foreground">{description}</p>
+        <p className="caption text-brand-neutral-600">{description}</p>
       )}
       {error && (
-        <p className="text-sm text-brand-error">{error}</p>
+        <p className="text-brand-error caption mt-2 flex items-center gap-1.5">
+          {showErrorIcon && <AlertCircle className="w-3.5 h-3.5" />}
+          {error}
+        </p>
       )}
       {success && (
-        <p className="text-sm text-brand-success">{success}</p>
+        <p className="text-brand-success caption mt-2 flex items-center gap-1.5">
+          {showSuccessIcon && <CheckCircle2 className="w-3.5 h-3.5" />}
+          {success}
+        </p>
       )}
     </div>
   );

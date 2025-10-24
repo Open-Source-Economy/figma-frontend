@@ -6,6 +6,7 @@ import { HeroSection } from './components/patterns/HeroSection';
 import { MaintainerTestimonials } from './components/patterns/MaintainerTestimonials';
 import { WhatIsOpenSourceEconomy } from './components/patterns/WhatIsOpenSourceEconomy';
 import { HowItWorksSimple } from './components/patterns/HowItWorksSimple';
+import { HowItWorksMinimal } from './components/patterns/HowItWorksMinimal';
 import { WinWinWinPartnership } from './components/patterns/WinWinWinPartnership';
 import { FundDistributionMinimal } from './components/patterns/FundDistributionMinimal';
 import { ProjectsShowcaseCompact } from './components/projects/ProjectsShowcaseCompact';
@@ -32,6 +33,9 @@ import { MaintainerRegistrationPage } from './components/pages/MaintainerRegistr
 import { DonationPage } from './components/pages/DonationPage';
 import { MissionPage } from './components/pages/MissionPage';
 import { RequestProjectPage } from './components/pages/RequestProjectPage';
+import { NotFoundPage } from './components/pages/NotFoundPage';
+import { HowItWorksPage } from './components/pages/HowItWorksPage';
+import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { getProjectBySlug } from './data/projectDetailData';
 import { sampleMaintainerProfile } from './data/maintainerProfileData';
 import { Shield, Clock, Heart } from 'lucide-react';
@@ -42,6 +46,7 @@ export default function App() {
   const [currentProjectSlug, setCurrentProjectSlug] = React.useState<string>('');
   const [currentMaintainerId, setCurrentMaintainerId] = React.useState<string>('');
   const [donationProjectName, setDonationProjectName] = React.useState<string>('');
+  const [contactDemoState, setContactDemoState] = React.useState<'idle' | 'submitting' | 'success' | 'error' | undefined>(undefined);
 
   // Scroll to top on page navigation
   React.useEffect(() => {
@@ -80,6 +85,16 @@ export default function App() {
       setCurrentPage('blog');
     } else if (href === 'contact') {
       setCurrentPage('contact');
+      setContactDemoState(undefined);
+    } else if (href === 'contact-success') {
+      setCurrentPage('contact');
+      setContactDemoState('success');
+    } else if (href === 'contact-error') {
+      setCurrentPage('contact');
+      setContactDemoState('error');
+    } else if (href === 'contact-submitting') {
+      setCurrentPage('contact');
+      setContactDemoState('submitting');
     } else if (href === 'faq') {
       setCurrentPage('faq');
     } else if (href === 'mission') {
@@ -92,12 +107,18 @@ export default function App() {
       setCurrentPage('donation');
     } else if (href === 'request-project') {
       setCurrentPage('request-project');
+    } else if (href === 'how-it-works') {
+      setCurrentPage('how-it-works');
+    } else if (href === 'privacy-policy') {
+      setCurrentPage('privacy-policy');
     } else if (href === 'get-started') {
       setCurrentPage('role-selection');
     } else if (href === 'fund-redistribution') {
       setCurrentPage('fund-redistribution');
     } else if (href === 'heading-levels') {
       setCurrentPage('heading-levels');
+    } else if (href === 'home' || href === '/') {
+      setCurrentPage('home');
     } else if (href.startsWith('#')) {
       // Handle anchor links for smooth scrolling
       const element = document.querySelector(href);
@@ -105,7 +126,8 @@ export default function App() {
         element.scrollIntoView({ behavior: 'smooth' });
       }
     } else {
-      setCurrentPage('home');
+      // Unknown route - show 404
+      setCurrentPage('not-found');
     }
   };
 
@@ -144,10 +166,11 @@ export default function App() {
       {/* What is Open Source Economy - Educational Foundation */}
       <WhatIsOpenSourceEconomy className="bg-gradient-to-br from-brand-secondary-dark via-brand-neutral-100 to-brand-card-blue" />
 
-      {/* How It Works Simple - Process Overview with Navy Base */}
-      <HowItWorksSimple 
+      {/* How It Works - Minimal Version for Home Page */}
+      <HowItWorksMinimal 
         className="bg-gradient-to-b from-brand-card-blue via-brand-secondary to-brand-neutral-200"
-        headerVisibility="normal"
+        onScheduleDemo={() => setCurrentPage('contact')}
+        onLearnMore={() => setCurrentPage('how-it-works')}
       />
 
       {/* Win-Win-Win Partnership - Value Proposition */}
@@ -331,6 +354,7 @@ export default function App() {
       <ContactPage 
         onNavigateHome={() => setCurrentPage('home')}
         onNavItemClick={handleNavigation}
+        demoState={contactDemoState}
       />
     );
   }
@@ -401,9 +425,13 @@ export default function App() {
   if (currentPage === 'project-detail') {
     const project = getProjectBySlug(currentProjectSlug);
     if (!project) {
-      // Fallback to projects page if project not found
-      setCurrentPage('projects');
-      return null;
+      // Show 404 if project not found
+      return (
+        <NotFoundPage 
+          onNavigateHome={() => setCurrentPage('home')}
+          onNavItemClick={handleNavigation}
+        />
+      );
     }
     
     return (
@@ -416,6 +444,34 @@ export default function App() {
           setDonationProjectName(project.name);
           setCurrentPage('donation');
         }}
+      />
+    );
+  }
+
+  if (currentPage === 'how-it-works') {
+    return (
+      <HowItWorksPage 
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+        onScheduleDemo={() => setCurrentPage('contact')}
+      />
+    );
+  }
+
+  if (currentPage === 'privacy-policy') {
+    return (
+      <PrivacyPolicyPage 
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
+  if (currentPage === 'not-found') {
+    return (
+      <NotFoundPage 
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
       />
     );
   }

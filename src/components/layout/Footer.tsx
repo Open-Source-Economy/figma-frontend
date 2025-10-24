@@ -61,7 +61,7 @@ const defaultSections: FooterSection[] = [
   {
     title: 'Legal',
     links: [
-      { title: 'Privacy Policy', href: '#privacy' },
+      { title: 'Privacy Policy', href: 'privacy-policy' },
       { title: 'Terms of Service', href: '#terms' },
       { title: 'Cookie Policy', href: '#cookies' }
     ]
@@ -146,7 +146,7 @@ export function Footer({
                 <a
                   key={social.label}
                   href={social.href}
-                  className="text-muted-foreground hover:text-foreground transition-colors duration-200"
+                  className="text-muted-foreground hover:text-brand-primary transition-colors duration-200 cursor-pointer"
                   aria-label={social.label}
                 >
                   {social.icon}
@@ -165,7 +165,7 @@ export function Footer({
                     <li key={link.title} className="text-left list-none">
                       <button
                         onClick={() => onNavItemClick ? onNavItemClick(link.href) : window.location.href = link.href}
-                        className="text-muted-foreground hover:text-foreground transition-colors duration-200 text-left"
+                        className="text-muted-foreground hover:text-brand-primary transition-colors duration-200 text-left cursor-pointer"
                       >
                         {link.title}
                       </button>
@@ -202,6 +202,16 @@ export function Footer({
                     </label>
                   </div>
                 </div>
+              )}
+
+              {/* Loading State */}
+              {isSubmitting && (
+                <Alert className="mb-4 border-brand-accent bg-brand-accent/10">
+                  <Loader2 className="h-4 w-4 text-brand-accent animate-spin" />
+                  <AlertDescription className="text-brand-accent">
+                    Processing your subscription...
+                  </AlertDescription>
+                </Alert>
               )}
 
               {/* Success State */}
@@ -277,11 +287,21 @@ export function Footer({
         )}
 
         {/* Bottom Bar */}
-        <div className="border-t border-border mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
-          <p className="text-muted-foreground text-sm">
-            © 2024 Open Source Economy. All rights reserved.
+        <div className="border-t border-border mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
+          <p className="text-muted-foreground text-sm flex items-center">
+            © Open Source Economy - Non profit organisation -{' '}
+            <a 
+              href="https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-440.058.692"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-brand-primary transition-colors cursor-pointer"
+            >
+              CHE-440.058.692
+            </a>
+            {' '}
+            Switzerland
           </p>
-          <p className="text-muted-foreground text-sm flex items-center gap-1 mt-2 sm:mt-0">
+          <p className="text-muted-foreground text-sm flex items-center gap-1">
             Made with <Heart size={14} className="text-brand-highlight" /> by the community
           </p>
         </div>

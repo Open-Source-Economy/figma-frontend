@@ -18,6 +18,7 @@ interface HeaderProps {
 }
 
 const defaultNavItems: NavItem[] = [
+  { title: 'How It Works', href: 'how-it-works' },
   { title: 'Mission', href: 'mission' },
   { title: 'Services', href: 'services' },
   { title: 'Projects', href: 'projects' },
@@ -77,7 +78,7 @@ export function Header({
                 <button
                   key={item.title}
                   onClick={() => onNavItemClick ? onNavItemClick(item.href) : window.location.href = item.href}
-                  className={`text-muted-foreground hover:text-foreground transition-colors duration-200 ${
+                  className={`text-muted-foreground hover:text-brand-primary transition-colors duration-200 cursor-pointer ${
                     item.title === 'Admin' ? 'text-brand-primary hover:text-brand-primary-dark font-medium' : ''
                   }`}
                 >
