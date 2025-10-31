@@ -3,6 +3,7 @@ import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
 import { FormField } from './FormField';
 import { cn } from '../ui/utils';
+import { LucideIcon } from 'lucide-react';
 
 interface BaseValidatedFieldProps {
   label: string;
@@ -13,11 +14,16 @@ interface BaseValidatedFieldProps {
   required?: boolean;
   placeholder?: string;
   description?: string;
+  hint?: string;
   className?: string;
 }
 
 interface ValidatedInputProps extends BaseValidatedFieldProps {
   type?: 'text' | 'email' | 'url' | 'tel' | 'number';
+  leftIcon?: LucideIcon;
+  rightIcon?: LucideIcon;
+  disabled?: boolean;
+  autoComplete?: string;
 }
 
 interface ValidatedTextareaProps extends BaseValidatedFieldProps {
@@ -33,15 +39,20 @@ export function ValidatedInput({
   required = false,
   placeholder,
   description,
+  hint,
   type = 'text',
-  className
+  className,
+  leftIcon,
+  rightIcon,
+  disabled,
+  autoComplete,
 }: ValidatedInputProps) {
   return (
     <FormField
       label={label}
       error={error}
       required={required}
-      description={description}
+      hint={hint || description}
       className={className}
     >
       <Input
@@ -51,8 +62,11 @@ export function ValidatedInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={error ? 'border-brand-error focus:border-brand-error' : ''}
-        data-error={!!error}
+        variant={error ? 'error' : 'default'}
+        leftIcon={leftIcon}
+        rightIcon={rightIcon}
+        disabled={disabled}
+        autoComplete={autoComplete}
       />
     </FormField>
   );

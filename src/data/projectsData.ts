@@ -32,6 +32,7 @@ export interface ProjectData {
   tags: string[];
   featured?: boolean;
   trending?: boolean;
+  isOrganization?: boolean;
 }
 
 export const projectsDatabase: ProjectData[] = [
@@ -54,7 +55,8 @@ export const projectsDatabase: ProjectData[] = [
     license: 'MIT',
     tags: ['ui', 'components', 'javascript'],
     featured: true,
-    trending: true
+    trending: true,
+    isOrganization: true
   },
   {
     id: 'vue',
@@ -92,7 +94,8 @@ export const projectsDatabase: ProjectData[] = [
     website: 'https://angular.io',
     license: 'MIT',
     tags: ['framework', 'typescript', 'enterprise'],
-    featured: false
+    featured: false,
+    isOrganization: true
   },
   {
     id: 'svelte',
@@ -133,7 +136,8 @@ export const projectsDatabase: ProjectData[] = [
     license: 'Apache-2.0',
     tags: ['containers', 'orchestration', 'devops'],
     featured: true,
-    trending: true
+    trending: true,
+    isOrganization: true
   },
   {
     id: 'docker',
@@ -152,7 +156,8 @@ export const projectsDatabase: ProjectData[] = [
     website: 'https://docker.com',
     license: 'Apache-2.0',
     tags: ['containers', 'virtualization', 'deployment'],
-    featured: true
+    featured: true,
+    isOrganization: true
   },
   {
     id: 'terraform',
@@ -171,7 +176,8 @@ export const projectsDatabase: ProjectData[] = [
     website: 'https://terraform.io',
     license: 'MPL-2.0',
     tags: ['iac', 'cloud', 'automation'],
-    featured: false
+    featured: false,
+    isOrganization: true
   },
   {
     id: 'ansible',
@@ -230,7 +236,8 @@ export const projectsDatabase: ProjectData[] = [
     website: 'https://tensorflow.org',
     license: 'Apache-2.0',
     tags: ['machine-learning', 'ai', 'python'],
-    featured: true
+    featured: true,
+    isOrganization: true
   },
   {
     id: 'pytorch',
@@ -250,7 +257,8 @@ export const projectsDatabase: ProjectData[] = [
     license: 'BSD-3-Clause',
     tags: ['deep-learning', 'neural-networks', 'gpu'],
     featured: true,
-    trending: true
+    trending: true,
+    isOrganization: true
   },
   {
     id: 'scikit-learn',
@@ -484,10 +492,32 @@ export const projectsDatabase: ProjectData[] = [
     license: 'MIT',
     tags: ['oauth', 'authentication', 'proxy'],
     featured: false
+  },
+  {
+    id: 'vault',
+    name: 'HashiCorp Vault',
+    description: '',
+    category: 'Security',
+    maintainers: 650,
+    stars: '31k',
+    forks: '4.2k',
+    language: 'Go',
+    languages: ['Go'],
+    status: 'featured',
+    icon: Shield,
+    lastUpdated: '1 hour ago',
+    githubUrl: 'https://github.com/hashicorp/vault',
+    website: 'https://vaultproject.io',
+    license: 'MPL-2.0',
+    tags: ['secrets', 'security', 'vault'],
+    featured: true,
+    isOrganization: true
   }
 ];
 
 export const categories = Array.from(new Set(projectsDatabase.map(p => p.category))).sort();
+
+export const languages = Array.from(new Set(projectsDatabase.map(p => p.language))).sort();
 
 export function getProjectsByCategory(): Record<string, ProjectData[]> {
   return projectsDatabase.reduce((acc, project) => {

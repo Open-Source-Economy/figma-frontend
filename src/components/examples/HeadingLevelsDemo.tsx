@@ -1,12 +1,26 @@
 import React from 'react';
+import { Header } from '../layout/Header';
+import { Footer } from '../layout/Footer';
+
+export interface HeadingLevelsDemoProps {
+  /** Callback to navigate to home page */
+  onNavigateHome: () => void;
+  /** Callback for navigation item clicks */
+  onNavItemClick: (href: string) => void;
+}
 
 /**
  * HeadingLevelsDemo - Demonstrates all heading levels (h1-h6) 
  * according to the design system typography
  */
-export function HeadingLevelsDemo() {
+export function HeadingLevelsDemo({ onNavigateHome, onNavItemClick }: HeadingLevelsDemoProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-brand-secondary via-brand-neutral-100 to-brand-secondary-dark py-16">
+    <div className="min-h-screen bg-gradient-to-b from-brand-secondary via-brand-neutral-100 to-brand-secondary-dark">
+      {/* Header */}
+      <Header onNavItemClick={onNavItemClick} />
+      
+      {/* Main Content */}
+      <div className="py-16">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="max-w-4xl mx-auto">
           {/* Page Header */}
@@ -207,6 +221,10 @@ export function HeadingLevelsDemo() {
           </div>
         </div>
       </div>
+      </div>
+      
+      {/* Footer */}
+      <Footer onNavItemClick={onNavItemClick} />
     </div>
   );
 }

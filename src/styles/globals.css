@@ -146,19 +146,19 @@
   --form-padding-y-lg: 1rem;            /* Comfortable large */
   
   /* Modern Form Border Colors - Dark Mode */
-  --form-border: #334155;               /* Subtle dark border */
-  --form-border-hover: #475569;         /* Gentle hover indication */
+  --form-border: #475569;               /* More visible border */
+  --form-border-hover: #64748b;         /* Brighter hover indication */
   --form-border-focus: var(--brand-accent);
   --form-border-error: var(--brand-error);
   --form-border-success: var(--brand-success);
-  --form-border-disabled: #1e293b;
+  --form-border-disabled: #334155;
   
-  /* Modern Form Background Colors - Dark Mode Depth */
-  --form-background: #1a2942;           /* Rich dark blue background */
-  --form-background-hover: #213654;     /* Lighter hover state */
-  --form-background-focus: #0f1829;     /* Focused depth */
-  --form-background-disabled: #1e293b;
-  --form-background-readonly: #334155;
+  /* Modern Form Background Colors - Streamlined without cards */
+  --form-background: #1a2942;           /* Rich navy for inputs */
+  --form-background-hover: #213654;     /* Slightly lighter on hover */
+  --form-background-focus: #1a2942;     /* Maintain contrast when focused */
+  --form-background-disabled: #0f172a;
+  --form-background-readonly: #1e293b;
   
   /* Modern Form Text Colors - Dark Mode */
   --form-text: var(--foreground);
@@ -354,6 +354,53 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Custom Scrollbar Styles */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--brand-neutral-300);
+    border-radius: 3px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-neutral-400);
+  }
+
+  /* Firefox scrollbar */
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: var(--brand-neutral-300) transparent;
+  }
+
+  /* Collapsible Animations */
+  @keyframes expand {
+    from {
+      height: 0;
+      opacity: 0;
+    }
+    to {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+  }
+
+  @keyframes collapse {
+    from {
+      height: var(--radix-collapsible-content-height);
+      opacity: 1;
+    }
+    to {
+      height: 0;
+      opacity: 0;
+    }
   }
 }
 

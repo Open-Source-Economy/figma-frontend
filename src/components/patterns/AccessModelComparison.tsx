@@ -109,46 +109,6 @@ export const AccessModelComparison: React.FC = () => {
           ))}
         </div>
 
-        {/* Use Cases Footer */}
-        <div className="grid md:grid-cols-2 gap-6 mt-8">
-          {/* Reserved Time Use Case */}
-          <div className="bg-gradient-to-br from-brand-accent/5 to-transparent border border-brand-accent/20 rounded-xl p-6">
-            <p className="text-brand-neutral-600 text-sm mb-3">Ideal for:</p>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2 text-brand-neutral-800 text-sm">
-                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-accent mt-1.5" />
-                <span>Mission-critical dependencies</span>
-              </li>
-              <li className="flex items-start gap-2 text-brand-neutral-800 text-sm">
-                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-accent mt-1.5" />
-                <span>Long-term roadmap alignment</span>
-              </li>
-              <li className="flex items-start gap-2 text-brand-neutral-800 text-sm">
-                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-accent mt-1.5" />
-                <span>Core infrastructure support</span>
-              </li>
-            </ul>
-          </div>
-
-          {/* On-Demand Use Case */}
-          <div className="bg-gradient-to-br from-brand-highlight/5 to-transparent border border-brand-highlight/20 rounded-xl p-6">
-            <p className="text-brand-neutral-600 text-sm mb-3">Ideal for:</p>
-            <ul className="space-y-2">
-              <li className="flex items-start gap-2 text-brand-neutral-800 text-sm">
-                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-highlight mt-1.5" />
-                <span>Diverse project portfolios</span>
-              </li>
-              <li className="flex items-start gap-2 text-brand-neutral-800 text-sm">
-                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-highlight mt-1.5" />
-                <span>Incident response & audits</span>
-              </li>
-              <li className="flex items-start gap-2 text-brand-neutral-800 text-sm">
-                <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-brand-highlight mt-1.5" />
-                <span>Exploratory & ad-hoc work</span>
-              </li>
-            </ul>
-          </div>
-        </div>
       </div>
     </div>
   );

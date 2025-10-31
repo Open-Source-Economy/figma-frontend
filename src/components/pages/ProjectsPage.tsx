@@ -3,13 +3,16 @@ import { Header } from '../layout/Header';
 import { Footer } from '../layout/Footer';
 import { PlatformStats } from '../projects/PlatformStats';
 import { CategoryFilter } from '../projects/CategoryFilter';
+import { LanguageFilter } from '../projects/LanguageFilter';
 import { ProjectSearchBar } from '../projects/ProjectSearchBar';
 import { ProjectCategorySection } from '../projects/ProjectCategorySection';
+import { RequestProjectSection } from '../projects/RequestProjectSection';
 import { Button } from '../ui/button';
 import { Plus, MessageCircle } from 'lucide-react';
 import { 
   projectsDatabase, 
   categories, 
+  languages,
   getProjectsByCategory, 
   searchProjects, 
   getProjectStats 
@@ -24,6 +27,7 @@ interface ProjectsPageProps {
 export function ProjectsPage({ onNavigateHome, onNavItemClick, onViewProject }: ProjectsPageProps) {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [selectedCategory, setSelectedCategory] = React.useState<string | null>(null);
+  const [selectedLanguage, setSelectedLanguage] = React.useState<string | null>(null);
 
   const handleNavigation = (href: string) => {
     if (onNavItemClick) {
@@ -34,7 +38,7 @@ export function ProjectsPage({ onNavigateHome, onNavItemClick, onViewProject }: 
   // Get platform stats
   const stats = React.useMemo(() => getProjectStats(), []);
 
-  // Filter projects based on search and category
+  // Filter projects based on search, category, and language
   const filteredProjects = React.useMemo(() => {
     let projects = projectsDatabase;
 
@@ -48,6 +52,11 @@ export function ProjectsPage({ onNavigateHome, onNavItemClick, onViewProject }: 
       projects = projects.filter(p => p.category === selectedCategory);
     }
 
+    // Apply language filter
+    if (selectedLanguage) {
+      projects = projects.filter(p => p.language === selectedLanguage);
+    }
+
     // Group by category
     return projects.reduce((acc, project) => {
       if (!acc[project.category]) {
@@ -56,7 +65,7 @@ export function ProjectsPage({ onNavigateHome, onNavItemClick, onViewProject }: 
       acc[project.category].push(project);
       return acc;
     }, {} as Record<string, typeof projects>);
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, selectedLanguage]);
 
   const hasResults = Object.keys(filteredProjects).length > 0;
 
@@ -100,43 +109,124 @@ export function ProjectsPage({ onNavigateHome, onNavItemClick, onViewProject }: 
         </section>
 
         {/* Search and Filters */}
-        <section className="py-8 border-b border-border">
+        <section className="py-12 border-b border-border bg-gradient-to-b from-brand-card-blue/30 to-transparent">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="space-y-4">
-              {/* Search and Category Row */}
-              <div className="flex flex-col lg:flex-row gap-6 items-stretch lg:items-start">
-                <div className="w-full lg:w-80 flex-shrink-0">
-                  <ProjectSearchBar
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    placeholder="Search projects..."
-                  />
+            <div className="space-y-8">
+              {/* Search Bar with Enhanced Styling */}
+              <div className="max-w-2xl mx-auto">
+                <ProjectSearchBar
+                  value={searchQuery}
+                  onChange={setSearchQuery}
+                  placeholder="Search projects by name, description, or tags..."
+                />
+              </div>
+
+              {/* Filters Section with Better Visual Organization */}
+              <div className="bg-card/50 backdrop-blur-sm border border-border rounded-xl p-6 bg-[rgba(26,41,66,0)]">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <div className="w-1 h-5 bg-brand-accent rounded-full"></div>
+                    <span className="text-sm text-muted-foreground">Refine your search</span>
+                  </div>
+                  {(selectedCategory || selectedLanguage) && (
+                    <button
+                      onClick={() => {
+                        setSelectedCategory(null);
+                        setSelectedLanguage(null);
+                      }}
+                      className="text-xs text-brand-accent hover:text-brand-accent-light transition-colors flex items-center gap-1.5 px-3 py-1.5 rounded-lg hover:bg-brand-accent/10"
+                    >
+                      <span>Clear all</span>
+                      <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-brand-accent/20 text-xs">
+                        {(selectedCategory ? 1 : 0) + (selectedLanguage ? 1 : 0)}
+                      </span>
+                    </button>
+                  )}
                 </div>
-                <div className="hidden lg:block w-px h-8 bg-border flex-shrink-0 mt-1"></div>
-                <div className="flex-1">
-                  <CategoryFilter
-                    categories={categories}
-                    selectedCategory={selectedCategory}
-                    onSelectCategory={setSelectedCategory}
-                  />
+                
+                {/* Combined Filters Grid */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <label className="text-xs text-muted-foreground uppercase tracking-wider">Category</label>
+                      {selectedCategory && (
+                        <span className="text-xs text-brand-accent">({selectedCategory})</span>
+                      )}
+                    </div>
+                    <CategoryFilter
+                      categories={categories}
+                      selectedCategory={selectedCategory}
+                      onSelectCategory={setSelectedCategory}
+                    />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2">
+                      <label className="text-xs text-muted-foreground uppercase tracking-wider">Language</label>
+                      {selectedLanguage && (
+                        <span className="text-xs text-brand-accent">({selectedLanguage})</span>
+                      )}
+                    </div>
+                    <LanguageFilter
+                      languages={languages}
+                      selectedLanguage={selectedLanguage}
+                      onSelectLanguage={setSelectedLanguage}
+                    />
+                  </div>
                 </div>
               </div>
 
-              {/* Results Summary */}
-              {(searchQuery || selectedCategory) && (
-                <div className="text-sm text-muted-foreground">
+              {/* Enhanced Results Summary */}
+              {(searchQuery || selectedCategory || selectedLanguage) && (
+                <div className="flex items-center justify-center gap-3 py-3">
                   {hasResults ? (
-                    <span>
-                      {Object.values(filteredProjects).reduce((sum, projects) => sum + projects.length, 0)} {Object.values(filteredProjects).reduce((sum, projects) => sum + projects.length, 0) === 1 ? 'project' : 'projects'}
-                      {searchQuery && <span> matching &quot;{searchQuery}&quot;</span>}
-                      {selectedCategory && <span> in {selectedCategory}</span>}
-                    </span>
+                    <>
+                      <div className="flex items-center gap-2 text-sm">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-success/10 border border-brand-success/20">
+                          <span className="text-brand-success">
+                            {Object.values(filteredProjects).reduce((sum, projects) => sum + projects.length, 0)}
+                          </span>
+                        </div>
+                        <span className="text-muted-foreground">
+                          {Object.values(filteredProjects).reduce((sum, projects) => sum + projects.length, 0) === 1 ? 'project found' : 'projects found'}
+                        </span>
+                      </div>
+                      {(searchQuery || selectedCategory || selectedLanguage) && (
+                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                          <span className="text-brand-neutral-500">•</span>
+                          <div className="flex flex-wrap items-center gap-1.5">
+                            {searchQuery && (
+                              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-brand-accent/10 text-brand-accent">
+                                &quot;{searchQuery}&quot;
+                              </span>
+                            )}
+                            {selectedCategory && (
+                              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-brand-accent/10 text-brand-accent">
+                                {selectedCategory}
+                              </span>
+                            )}
+                            {selectedLanguage && (
+                              <span className="inline-flex items-center gap-1 px-2 py-1 rounded-md bg-brand-accent/10 text-brand-accent">
+                                {selectedLanguage}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </>
                   ) : (
-                    <span className="text-brand-warning">
-                      No projects found
-                      {searchQuery && <span> matching &quot;{searchQuery}&quot;</span>}
-                      {selectedCategory && <span> in {selectedCategory}</span>}
-                    </span>
+                    <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-brand-warning/10 border border-brand-warning/20">
+                      <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-brand-warning/20">
+                        <span className="text-brand-warning text-sm">0</span>
+                      </div>
+                      <div className="text-sm">
+                        <span className="text-brand-warning">No projects found</span>
+                        {(searchQuery || selectedCategory || selectedLanguage) && (
+                          <span className="text-muted-foreground ml-2">
+                            Try adjusting your filters
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   )}
                 </div>
               )}
@@ -166,6 +256,7 @@ export function ProjectsPage({ onNavigateHome, onNavItemClick, onViewProject }: 
                 <RequestProjectSection
                   searchQuery={searchQuery}
                   selectedCategory={selectedCategory}
+                  selectedLanguage={selectedLanguage}
                   onRequestProject={handleRequestProject}
                 />
               </div>

@@ -8,7 +8,9 @@ import {
   ExternalLink,
   ChevronDown,
   ChevronUp,
-  MessageCircle
+  MessageCircle,
+  Building2,
+  BadgeCheck
 } from 'lucide-react';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 
@@ -31,6 +33,7 @@ export interface ProjectData {
   tags: string[];
   featured?: boolean;
   trending?: boolean;
+  isOrganization?: boolean;
 }
 
 interface ProjectCategorySectionProps {
@@ -106,7 +109,7 @@ export function ProjectCategorySection({
             className="group hover:shadow-lg transition-all duration-300 border-border hover:border-brand-primary/20 cursor-pointer"
             onClick={() => onViewProject?.(project.id)}
           >
-            <CardContent className="p-5 h-full flex flex-col">
+            <CardContent className="p-5 flex flex-col">
               {/* Project Header */}
               <div className="flex items-start gap-3 mb-3">
                 <div className="w-10 h-10 bg-brand-accent/10 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -119,21 +122,17 @@ export function ProjectCategorySection({
                   </div>
                   <p className="text-xs text-muted-foreground">{project.category}</p>
                 </div>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    window.open(project.githubUrl, '_blank');
-                  }}
-                  className="opacity-40 hover:opacity-100 transition-opacity p-1 rounded text-muted-foreground hover:text-foreground flex-shrink-0"
-                  title="View on GitHub"
-                >
-                  <ExternalLink className="w-4 h-4" />
-                </button>
+                {project.isOrganization && (
+                  <Badge variant="outline" className="text-xs py-1 px-2 bg-brand-accent/10 border-brand-accent/30 text-brand-accent flex items-center gap-1 flex-shrink-0">
+                    <Building2 className="w-3 h-3" />
+                    <span>Org</span>
+                  </Badge>
+                )}
               </div>
 
               {/* Description */}
-              <p className="text-sm text-muted-foreground mb-4 line-clamp-2 flex-grow">
-                {project.description}
+              <p className="text-sm text-muted-foreground mb-4 line-clamp-2 min-h-[3rem] overflow-hidden">
+                {project.description || '\u00A0'}
               </p>
 
               {/* GitHub Stats */}
@@ -146,6 +145,16 @@ export function ProjectCategorySection({
                   <GitFork className="w-3 h-3 text-brand-accent/70" />
                   <span className="text-muted-foreground">{project.forks}</span>
                 </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    window.open(project.githubUrl, '_blank');
+                  }}
+                  className="flex items-center gap-1.5 text-muted-foreground hover:text-brand-accent transition-all duration-200 hover:scale-110 cursor-pointer"
+                  title="View on GitHub"
+                >
+                  <ExternalLink className="w-3 h-3" />
+                </button>
                 <div className="ml-auto">
                   <Badge variant="outline" className="text-xs py-0 opacity-80 border-border/50">
                     {project.language}
@@ -157,16 +166,24 @@ export function ProjectCategorySection({
               <div className="mt-auto">
                 <Collapsible open={openMaintainers[project.id]} onOpenChange={() => toggleMaintainers(project.id)}>
                   <CollapsibleTrigger asChild>
-                    <div className="flex items-center gap-2 py-1 px-2 -mx-2 rounded-lg cursor-pointer group/maintainers hover:bg-brand-accent/5 transition-colors">
+                    <div 
+                      className="flex items-center gap-2 py-1 px-2 -mx-2 rounded-lg cursor-pointer group/maintainers hover:bg-brand-accent/5 transition-colors"
+                      onClick={(e) => e.stopPropagation()}
+                    >
                       <span className="text-sm text-muted-foreground group-hover/maintainers:text-brand-accent transition-colors">
                         3 Expert maintainers
                       </span>
-                      <div className="ml-auto p-1 hover:bg-brand-accent/10 rounded transition-colors">
-                        {openMaintainers[project.id] ? (
-                          <ChevronUp className="w-3.5 h-3.5 text-brand-accent" />
-                        ) : (
-                          <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+                      <div className="ml-auto flex items-center gap-2">
+                        {openMaintainers[project.id] && (
+                          <span className="text-xs text-brand-accent opacity-0 group-hover/maintainers:opacity-100 transition-opacity duration-200">
+                            Show Less
+                          </span>
                         )}
+                        <div className="p-1 hover:bg-brand-accent/10 rounded transition-all duration-200">
+                          <div className={`transition-transform duration-300 ${openMaintainers[project.id] ? 'rotate-180' : 'rotate-0'}`}>
+                            <ChevronDown className={`w-3.5 h-3.5 transition-colors duration-200 ${openMaintainers[project.id] ? 'text-brand-accent' : 'text-muted-foreground'}`} />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </CollapsibleTrigger>
@@ -190,7 +207,10 @@ export function ProjectCategorySection({
                               />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <p className="text-xs text-foreground truncate">{names[index]}</p>
+                              <div className="flex items-center gap-1">
+                                <p className="text-xs text-foreground truncate">{names[index]}</p>
+                                <BadgeCheck className="w-3 h-3 text-brand-success flex-shrink-0" />
+                              </div>
                               <p className="text-xs text-muted-foreground truncate">{roles[index]}</p>
                             </div>
                           </div>

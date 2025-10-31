@@ -3,8 +3,10 @@ import { Header } from '../layout/Header';
 import { Footer } from '../layout/Footer';
 import { AccessModelComparison } from '../patterns/AccessModelComparison';
 import { ProcessStep } from '../patterns/ProcessStep';
+import { VideoExplanation } from '../patterns/VideoExplanation';
 import { FeaturePill } from '../ui/feature-pill';
 import { Button } from '../ui/button';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '../ui/accordion';
 import { 
   Handshake,
   Zap,
@@ -193,111 +195,217 @@ export const HowItWorksPage: React.FC<HowItWorksPageProps> = ({
         </div>
       </section>
 
+      {/* Video Explanation */}
+      <VideoExplanation 
+        videoId="dQw4w9WgXcQ"
+        title="See How It Works in Action"
+        description="Watch our comprehensive video walkthrough to understand exactly how Open Source Economy connects your enterprise with expert maintainers, manages contracts, and distributes funds transparently across the ecosystem."
+        className="bg-gradient-to-b from-brand-card-blue via-brand-secondary to-brand-neutral-200"
+      />
+
       {/* Understanding the Two Models - Detailed Explanation */}
-      <section className="relative py-20 bg-gradient-to-br from-brand-card-blue via-brand-secondary to-brand-neutral-200">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-12">
-            <h2 className="text-brand-neutral-950 mb-3">Two Access Models</h2>
-            <p className="text-brand-neutral-700 max-w-2xl mx-auto">
-              Choose Reserved Time for critical projects or On-Demand Access for broad support. Or combine both.
+      <section className="relative py-24 bg-gradient-to-br from-brand-card-blue via-brand-secondary to-brand-neutral-200 overflow-hidden">
+        {/* Decorative Elements */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl opacity-50" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-brand-highlight/5 rounded-full blur-3xl opacity-50" />
+        
+        <div className="container mx-auto px-4 max-w-6xl relative">
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-card-blue-light border border-brand-neutral-300/30 mb-4">
+              <Layers className="w-4 h-4 text-brand-accent" />
+              <span className="text-sm text-brand-neutral-700">Flexible Access Options</span>
+            </div>
+            <h2 className="text-brand-neutral-950 mb-4">Choose Your Access Model</h2>
+            <p className="text-brand-neutral-600 max-w-2xl mx-auto">
+              Select the model that fits your needs—or combine both for maximum flexibility and comprehensive support.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Reserved Time */}
-            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-xl p-8">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center border border-brand-accent/30">
-                  <Clock className="w-6 h-6 text-brand-accent" />
-                </div>
-                <div>
-                  <h3 className="text-brand-neutral-950 mb-1">Reserved Time</h3>
-                  <p className="text-brand-neutral-600 text-sm">Dedicated maintainer hours</p>
+            <div className="group relative bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark border border-brand-neutral-300/40 rounded-2xl p-8 hover:border-brand-accent/50 transition-all duration-300 hover:shadow-lg hover:shadow-brand-accent/10">
+              {/* Premium Indicator */}
+              <div className="absolute top-6 right-6">
+                <div className="px-3 py-1 rounded-full bg-brand-accent/15 border border-brand-accent/30">
+                  <span className="text-xs text-brand-accent">Premium</span>
                 </div>
               </div>
-              
-              <ul className="space-y-2 mb-4">
-                <li className="flex items-start gap-2 text-brand-neutral-700 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-brand-accent-light mt-0.5 flex-shrink-0" />
-                  <span>Guaranteed availability with specific maintainers</span>
-                </li>
-                <li className="flex items-start gap-2 text-brand-neutral-700 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-brand-accent-light mt-0.5 flex-shrink-0" />
-                  <span>Fixed monthly pricing for predictable budgeting</span>
-                </li>
-                <li className="flex items-start gap-2 text-brand-neutral-700 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-brand-accent-light mt-0.5 flex-shrink-0" />
-                  <span>Deep partnership for critical infrastructure</span>
-                </li>
-              </ul>
 
-              <div className="pt-4 border-t border-brand-neutral-300/30">
-                <p className="text-brand-neutral-600 text-sm">
-                  <span className="text-brand-neutral-900">Best for:</span> Mission-critical dependencies
-                </p>
+              <div className="mb-6">
+                <div className="w-14 h-14 rounded-xl bg-brand-accent/15 flex items-center justify-center border border-brand-accent/30 mb-4 group-hover:bg-brand-accent/20 transition-colors">
+                  <Clock className="w-7 h-7 text-brand-accent" />
+                </div>
+                <h3 className="text-brand-neutral-950 mb-2">Reserved Time</h3>
+                <p className="text-brand-neutral-600">Dedicated maintainer hours for mission-critical projects</p>
+              </div>
+              
+              <div className="space-y-3 mb-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-accent/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-accent" />
+                  </div>
+                  <span className="text-brand-neutral-700">Guaranteed availability with specific maintainers</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-accent/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-accent" />
+                  </div>
+                  <span className="text-brand-neutral-700">Fixed monthly pricing for predictable budgeting</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-accent/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-accent" />
+                  </div>
+                  <span className="text-brand-neutral-700">Deep partnership for critical infrastructure</span>
+                </div>
+              </div>
+
+              <div className="pt-6 border-t border-brand-neutral-300/30">
+                <div className="flex items-center gap-2">
+                  <Target className="w-4 h-4 text-brand-neutral-500" />
+                  <p className="text-brand-neutral-600">
+                    <span className="text-brand-neutral-900">Best for:</span> Mission-critical dependencies
+                  </p>
+                </div>
               </div>
             </div>
 
             {/* On-Demand Access */}
-            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-xl p-8">
-              <div className="flex items-center gap-4 mb-4">
-                <div className="w-12 h-12 rounded-lg bg-brand-highlight/10 flex items-center justify-center border border-brand-highlight/30">
-                  <Zap className="w-6 h-6 text-brand-highlight" />
+            <div className="group relative bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark border border-brand-neutral-300/40 rounded-2xl p-8 hover:border-brand-highlight/50 transition-all duration-300 hover:shadow-lg hover:shadow-brand-highlight/10">
+              {/* Flexible Indicator */}
+              <div className="absolute top-6 right-6">
+                <div className="px-3 py-1 rounded-full bg-brand-highlight/15 border border-brand-highlight/30">
+                  <span className="text-xs text-brand-highlight">Flexible</span>
                 </div>
-                <div>
-                  <h3 className="text-brand-neutral-950 mb-1">On-Demand Access</h3>
-                  <p className="text-brand-neutral-600 text-sm">Flexible credit system</p>
+              </div>
+
+              <div className="mb-6">
+                <div className="w-14 h-14 rounded-xl bg-brand-highlight/15 flex items-center justify-center border border-brand-highlight/30 mb-4 group-hover:bg-brand-highlight/20 transition-colors">
+                  <Zap className="w-7 h-7 text-brand-highlight" />
                 </div>
+                <h3 className="text-brand-neutral-950 mb-2">On-Demand Access</h3>
+                <p className="text-brand-neutral-600">Flexible credit system for broad ecosystem coverage</p>
               </div>
               
-              <ul className="space-y-2 mb-4">
-                <li className="flex items-start gap-2 text-brand-neutral-700 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-brand-highlight-light mt-0.5 flex-shrink-0" />
-                  <span>Access any maintainer across your dependency stack</span>
-                </li>
-                <li className="flex items-start gap-2 text-brand-neutral-700 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-brand-highlight-light mt-0.5 flex-shrink-0" />
-                  <span>Pay-as-you-go with prepurchased credits</span>
-                </li>
-                <li className="flex items-start gap-2 text-brand-neutral-700 text-sm">
-                  <CheckCircle2 className="w-4 h-4 text-brand-highlight-light mt-0.5 flex-shrink-0" />
-                  <span>Perfect for supporting hundreds of projects</span>
-                </li>
-              </ul>
-
-              <div className="pt-4 border-t border-brand-neutral-300/30">
-                <p className="text-brand-neutral-600 text-sm">
-                  <span className="text-brand-neutral-900">Best for:</span> Broad ecosystem support
-                </p>
+              <div className="space-y-3 mb-6">
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-highlight/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-highlight" />
+                  </div>
+                  <span className="text-brand-neutral-700">Access any maintainer across your dependency stack</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-highlight/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-highlight" />
+                  </div>
+                  <span className="text-brand-neutral-700">Pay-as-you-go with prepurchased credits</span>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-5 h-5 rounded-full bg-brand-highlight/15 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-highlight" />
+                  </div>
+                  <span className="text-brand-neutral-700">Perfect for supporting hundreds of projects</span>
+                </div>
               </div>
+
+              <div className="pt-6 border-t border-brand-neutral-300/30">
+                <div className="flex items-center gap-2">
+                  <Target className="w-4 h-4 text-brand-neutral-500" />
+                  <p className="text-brand-neutral-600">
+                    <span className="text-brand-neutral-900">Best for:</span> Broad ecosystem support
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Combination Note */}
+          <div className="mt-8 text-center">
+            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-brand-card-blue-light/50 border border-brand-neutral-300/30 backdrop-blur-sm">
+              <Sparkles className="w-4 h-4 text-brand-neutral-500" />
+              <p className="text-brand-neutral-700">
+                <span className="text-brand-neutral-900">Pro Tip:</span> Many enterprises combine both models for comprehensive coverage
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Access Models - Side-by-Side Comparison Table */}
-      <section className="relative py-24 bg-gradient-to-b from-brand-neutral-200 via-brand-secondary to-brand-card-blue">
-        <div className="container mx-auto px-4 max-w-7xl">
+      <section className="relative py-24 bg-gradient-to-b from-brand-neutral-200 via-brand-secondary to-brand-card-blue overflow-hidden">
+        {/* Decorative Background Elements */}
+        <div className="absolute top-1/4 right-0 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-brand-highlight/5 rounded-full blur-3xl opacity-40" />
+        
+        <div className="container mx-auto px-4 max-w-7xl relative">
+          {/* Section Header */}
           <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-brand-card-blue-light border border-brand-neutral-300/30 mb-6">
+              <BarChart3 className="w-4 h-4 text-brand-neutral-500" />
+              <span className="text-sm text-brand-neutral-600">Detailed Comparison</span>
+            </div>
             <h2 className="text-brand-neutral-950 mb-4">Compare Models Side-by-Side</h2>
-            <p className="text-brand-neutral-700 text-lg max-w-3xl mx-auto">
-              Detailed comparison of features, pricing, and use cases to help you choose the right model
+            <p className="text-brand-neutral-600 max-w-3xl mx-auto">
+              Transparent comparison of features, pricing, and capabilities to help you make an informed decision
             </p>
           </div>
           
+          {/* Comparison Table */}
           <AccessModelComparison />
 
-          {/* Combination Highlight */}
-          <div className="mt-12 text-center">
-            <div className="inline-flex flex-col md:flex-row items-center gap-3 px-8 py-5 rounded-2xl bg-gradient-to-r from-brand-success/10 via-brand-highlight/10 to-brand-success/10 border border-brand-success/30 backdrop-blur-sm">
-              <div className="flex items-center justify-center w-10 h-10 rounded-full bg-brand-success/20 border border-brand-success/40">
-                <CheckCircle2 className="w-5 h-5 text-brand-success-light" />
-              </div>
-              <div className="text-center md:text-left">
-                <p className="text-brand-neutral-950 mb-1">Mix & Match Both Models</p>
-                <p className="text-brand-neutral-700 text-sm">
-                  Reserve time for critical infrastructure + flexible credits for everything else
-                </p>
+          {/* Premium Combination Callout */}
+          <div className="mt-16 max-w-4xl mx-auto">
+            <div className="relative group">
+              {/* Subtle glow effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-brand-accent/10 via-brand-highlight/10 to-brand-accent/10 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              {/* Main card */}
+              <div className="relative bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark border border-brand-neutral-300/40 rounded-2xl p-8 backdrop-blur-sm">
+                <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
+                  {/* Icon */}
+                  <div className="flex-shrink-0">
+                    <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-brand-accent/15 to-brand-highlight/15 flex items-center justify-center border border-brand-neutral-300/30">
+                      <Layers className="w-7 h-7 text-brand-neutral-400" />
+                    </div>
+                  </div>
+                  
+                  {/* Content */}
+                  <div className="flex-1">
+                    <h3 className="text-brand-neutral-950 mb-2">Combine Both Models for Maximum Flexibility</h3>
+                    <p className="text-brand-neutral-600 mb-4">
+                      Many enterprises use both approaches: reserve dedicated time for mission-critical projects while maintaining flexible credits for broader ecosystem support.
+                    </p>
+                    
+                    {/* Key benefits */}
+                    <div className="flex flex-wrap gap-3">
+                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-neutral-200/50 border border-brand-neutral-300/30">
+                        <div className="w-1.5 h-1.5 rounded-full bg-brand-accent" />
+                        <span className="text-sm text-brand-neutral-700">Guaranteed availability</span>
+                      </div>
+                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-neutral-200/50 border border-brand-neutral-300/30">
+                        <div className="w-1.5 h-1.5 rounded-full bg-brand-highlight" />
+                        <span className="text-sm text-brand-neutral-700">Ecosystem flexibility</span>
+                      </div>
+                      <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-neutral-200/50 border border-brand-neutral-300/30">
+                        <div className="w-1.5 h-1.5 rounded-full bg-brand-neutral-500" />
+                        <span className="text-sm text-brand-neutral-700">Complete coverage</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CTA Button */}
+                  <div className="flex-shrink-0">
+                    <Button
+                      variant="outline"
+                      size="default"
+                      onClick={() => onScheduleDemo()}
+                      className="group/btn hover:border-brand-primary transition-colors"
+                    >
+                      <span>Discuss Options</span>
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -418,111 +526,160 @@ export const HowItWorksPage: React.FC<HowItWorksPageProps> = ({
       {/* FAQ Section - Expanded */}
       <section className="relative py-24 bg-gradient-to-b from-brand-neutral-200 via-brand-secondary to-brand-card-blue">
         <div className="container mx-auto px-4 max-w-5xl">
-          <div className="text-center mb-16">
+          <div className="text-center mb-12">
             <h2 className="text-brand-neutral-950 mb-4">Frequently Asked Questions</h2>
             <p className="text-brand-neutral-700 text-lg max-w-2xl mx-auto">
               Everything you need to know about working with Open Source Economy
             </p>
           </div>
 
-          <div className="space-y-6">
+          <Accordion type="single" collapsible className="space-y-2">
             {/* Pricing FAQ */}
-            <div className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-2xl p-8 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-3">
-                <DollarSign className="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0" />
-                <h3 className="text-brand-neutral-950">How does pricing work?</h3>
-              </div>
-              <p className="text-brand-neutral-700 leading-relaxed ml-9">
-                Pricing is customized based on your needs. Reserved Time is priced as a monthly retainer based on guaranteed hours. 
-                On-Demand Access uses a credit system where you pre-purchase credits at a fixed rate. We provide transparent breakdowns 
-                showing exactly how funds are distributed to maintainers, dependencies, and ecosystem support. Contact us for a custom quote 
-                based on your dependency stack and engagement needs.
-              </p>
-            </div>
+            <AccordionItem
+              value="pricing"
+              className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-xl overflow-hidden hover:border-brand-accent/40 transition-colors"
+            >
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <DollarSign className="w-4 h-4 text-brand-accent-light flex-shrink-0" />
+                  <h3 className="text-brand-neutral-950">How does pricing work?</h3>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-4">
+                <p className="text-brand-neutral-700 leading-relaxed ml-7">
+                  Pricing is customized based on your needs. Reserved Time is priced as a monthly retainer based on guaranteed hours. 
+                  On-Demand Access uses a credit system where you pre-purchase credits at a fixed rate. We provide transparent breakdowns 
+                  showing exactly how funds are distributed to maintainers, dependencies, and ecosystem support. Contact us for a custom quote 
+                  based on your dependency stack and engagement needs.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
 
             {/* Model Switching FAQ */}
-            <div className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-2xl p-8 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-3">
-                <Layers className="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0" />
-                <h3 className="text-brand-neutral-950">Can I switch between models or combine them?</h3>
-              </div>
-              <p className="text-brand-neutral-700 leading-relaxed ml-9">
-                Yes! You can adjust your engagement model at any renewal period, and you can combine both models simultaneously. 
-                Many enterprises start with On-Demand Access to explore, then add Reserved Time for critical dependencies once they 
-                identify their core needs. The most common approach is to reserve time for 2-3 critical projects while maintaining 
-                flexible credits for broader ecosystem support.
-              </p>
-            </div>
+            <AccordionItem
+              value="model-switching"
+              className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-xl overflow-hidden hover:border-brand-accent/40 transition-colors"
+            >
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <Layers className="w-4 h-4 text-brand-accent-light flex-shrink-0" />
+                  <h3 className="text-brand-neutral-950">Can I switch between models or combine them?</h3>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-4">
+                <p className="text-brand-neutral-700 leading-relaxed ml-7">
+                  Yes! You can adjust your engagement model at any renewal period, and you can combine both models simultaneously. 
+                  Many enterprises start with On-Demand Access to explore, then add Reserved Time for critical dependencies once they 
+                  identify their core needs. The most common approach is to reserve time for 2-3 critical projects while maintaining 
+                  flexible credits for broader ecosystem support.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
 
             {/* Maintainer Availability FAQ */}
-            <div className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-2xl p-8 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-3">
-                <Users className="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0" />
-                <h3 className="text-brand-neutral-950">What if the maintainer I need isn't registered?</h3>
-              </div>
-              <p className="text-brand-neutral-700 leading-relaxed ml-9">
-                We actively work to onboard maintainers based on enterprise demand. If a critical dependency maintainer isn't yet 
-                registered, we'll reach out to them on your behalf to discuss the opportunity. Our track record shows high success 
-                in onboarding maintainers when there's clear enterprise interest and fair compensation. We can also help identify 
-                alternative maintainers or contribute to getting projects properly maintained.
-              </p>
-            </div>
+            <AccordionItem
+              value="maintainer-availability"
+              className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-xl overflow-hidden hover:border-brand-accent/40 transition-colors"
+            >
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <Users className="w-4 h-4 text-brand-accent-light flex-shrink-0" />
+                  <h3 className="text-brand-neutral-950">What if the maintainer I need isn't registered?</h3>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-4">
+                <p className="text-brand-neutral-700 leading-relaxed ml-7">
+                  We actively work to onboard maintainers based on enterprise demand. If a critical dependency maintainer isn't yet 
+                  registered, we'll reach out to them on your behalf to discuss the opportunity. Our track record shows high success 
+                  in onboarding maintainers when there's clear enterprise interest and fair compensation. We can also help identify 
+                  alternative maintainers or contribute to getting projects properly maintained.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
 
             {/* NDA FAQ */}
-            <div className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-2xl p-8 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-3">
-                <Shield className="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0" />
-                <h3 className="text-brand-neutral-950">How does NDA protection work?</h3>
-              </div>
-              <p className="text-brand-neutral-700 leading-relaxed ml-9">
-                All work is covered under enterprise-grade NDAs. Maintainers agree to confidentiality terms before engaging 
-                with your team. All code produced remains open source (as required by the licenses), but discussions about your 
-                internal architecture, business requirements, timelines, and strategic needs are fully protected. We ensure 
-                compliance while maintaining the open source spirit.
-              </p>
-            </div>
+            <AccordionItem
+              value="nda-protection"
+              className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-xl overflow-hidden hover:border-brand-accent/40 transition-colors"
+            >
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <Shield className="w-4 h-4 text-brand-accent-light flex-shrink-0" />
+                  <h3 className="text-brand-neutral-950">How does NDA protection work?</h3>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-4">
+                <p className="text-brand-neutral-700 leading-relaxed ml-7">
+                  All work is covered under enterprise-grade NDAs. Maintainers agree to confidentiality terms before engaging 
+                  with your team. All code produced remains open source (as required by the licenses), but discussions about your 
+                  internal architecture, business requirements, timelines, and strategic needs are fully protected. We ensure 
+                  compliance while maintaining the open source spirit.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
 
             {/* Getting Started FAQ */}
-            <div className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-2xl p-8 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-3">
-                <Rocket className="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0" />
-                <h3 className="text-brand-neutral-950">How quickly can we get started?</h3>
-              </div>
-              <p className="text-brand-neutral-700 leading-relaxed ml-9">
-                Most enterprises can get started within 2-4 weeks. The timeline includes an initial discovery call to understand 
-                your needs, contract negotiation, maintainer matching, and onboarding. For urgent needs, we can expedite this process. 
-                Once the contract is signed, you can typically begin working with maintainers within days.
-              </p>
-            </div>
+            <AccordionItem
+              value="getting-started"
+              className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-xl overflow-hidden hover:border-brand-accent/40 transition-colors"
+            >
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <Rocket className="w-4 h-4 text-brand-accent-light flex-shrink-0" />
+                  <h3 className="text-brand-neutral-950">How quickly can we get started?</h3>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-4">
+                <p className="text-brand-neutral-700 leading-relaxed ml-7">
+                  Most enterprises can get started within 2-4 weeks. The timeline includes an initial discovery call to understand 
+                  your needs, contract negotiation, maintainer matching, and onboarding. For urgent needs, we can expedite this process. 
+                  Once the contract is signed, you can typically begin working with maintainers within days.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
 
             {/* Support FAQ */}
-            <div className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-2xl p-8 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-3">
-                <Clock className="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0" />
-                <h3 className="text-brand-neutral-950">What kind of support do you provide?</h3>
-              </div>
-              <p className="text-brand-neutral-700 leading-relaxed ml-9">
-                We provide dedicated account management, technical onboarding, and ongoing platform support. You'll have a single 
-                point of contact to help coordinate maintainer engagements, resolve any issues, and optimize your investment. 
-                We also provide regular reporting on fund distribution and project outcomes to demonstrate ROI and ecosystem impact.
-              </p>
-            </div>
+            <AccordionItem
+              value="support"
+              className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-xl overflow-hidden hover:border-brand-accent/40 transition-colors"
+            >
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <Clock className="w-4 h-4 text-brand-accent-light flex-shrink-0" />
+                  <h3 className="text-brand-neutral-950">What kind of support do you provide?</h3>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-4">
+                <p className="text-brand-neutral-700 leading-relaxed ml-7">
+                  We provide dedicated account management, technical onboarding, and ongoing platform support. You'll have a single 
+                  point of contact to help coordinate maintainer engagements, resolve any issues, and optimize your investment. 
+                  We also provide regular reporting on fund distribution and project outcomes to demonstrate ROI and ecosystem impact.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
 
             {/* Contract FAQ */}
-            <div className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-2xl p-8 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-3">
-                <FileText className="w-5 h-5 text-brand-accent-light mt-1 flex-shrink-0" />
-                <h3 className="text-brand-neutral-950">What are the contract terms?</h3>
-              </div>
-              <p className="text-brand-neutral-700 leading-relaxed ml-9">
-                We offer flexible contract terms typically ranging from 6-36 months. Reserved Time models usually require minimum 
-                6-month commitments to ensure maintainer availability. On-Demand Access can be month-to-month with prepaid credits. 
-                All contracts are enterprise-friendly with standard MSA terms, security addendums, and compliance certifications available.
-              </p>
-            </div>
-          </div>
+            <AccordionItem
+              value="contract-terms"
+              className="bg-gradient-to-br from-[#1a2942] to-[#213654] border border-brand-neutral-400/40 rounded-xl overflow-hidden hover:border-brand-accent/40 transition-colors"
+            >
+              <AccordionTrigger className="px-5 py-4 hover:no-underline">
+                <div className="flex items-center gap-3 text-left">
+                  <FileText className="w-4 h-4 text-brand-accent-light flex-shrink-0" />
+                  <h3 className="text-brand-neutral-950">What are the contract terms?</h3>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-5 pb-4">
+                <p className="text-brand-neutral-700 leading-relaxed ml-7">
+                  We offer flexible contract terms typically ranging from 6-36 months. Reserved Time models usually require minimum 
+                  6-month commitments to ensure maintainer availability. On-Demand Access can be month-to-month with prepaid credits. 
+                  All contracts are enterprise-friendly with standard MSA terms, security addendums, and compliance certifications available.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
-          <div className="mt-12 text-center">
+          <div className="mt-10 text-center">
             <p className="text-brand-neutral-700 mb-4">Still have questions?</p>
             <Button 
               variant="outline"

@@ -9,6 +9,9 @@ export interface MaintainerProject {
   contributionLevel: 'primary' | 'secondary' | 'occasional';
   yearsActive: number;
   description: string;
+  verified?: boolean; // Project-specific verification/attestation
+  verifiedBy?: string; // Who verified this contribution (e.g., "Project Team", "GitHub", "Manual Review")
+  verificationDate?: string; // When the verification was completed
 }
 
 export interface MaintainerService {
@@ -85,7 +88,10 @@ export const sampleMaintainerProfile: MaintainerProfile = {
       roleType: 'core',
       contributionLevel: 'primary',
       yearsActive: 3,
-      description: 'Core contributor focusing on plugin architecture and TypeScript integration'
+      description: 'Core contributor focusing on plugin architecture and TypeScript integration',
+      verified: true,
+      verifiedBy: 'Vite Core Team',
+      verificationDate: '2024-01-15'
     },
     {
       projectName: 'Vitest',
@@ -94,7 +100,10 @@ export const sampleMaintainerProfile: MaintainerProfile = {
       roleType: 'core',
       contributionLevel: 'primary',
       yearsActive: 2,
-      description: 'Lead development of testing utilities and TypeScript support'
+      description: 'Lead development of testing utilities and TypeScript support',
+      verified: true,
+      verifiedBy: 'Vitest Maintainers',
+      verificationDate: '2024-02-01'
     },
     {
       projectName: 'esbuild',
@@ -103,7 +112,10 @@ export const sampleMaintainerProfile: MaintainerProfile = {
       roleType: 'contributor',
       contributionLevel: 'secondary',
       yearsActive: 4,
-      description: 'Contributing to performance optimizations and bug fixes'
+      description: 'Contributing to performance optimizations and bug fixes',
+      verified: true,
+      verifiedBy: 'GitHub Activity',
+      verificationDate: '2024-01-20'
     },
     {
       projectName: 'TypeScript',
@@ -112,7 +124,10 @@ export const sampleMaintainerProfile: MaintainerProfile = {
       roleType: 'contributor',
       contributionLevel: 'occasional',
       yearsActive: 5,
-      description: 'Contributing documentation improvements and community support'
+      description: 'Contributing documentation improvements and community support',
+      verified: true,
+      verifiedBy: 'GitHub Activity',
+      verificationDate: '2023-12-10'
     },
     {
       projectName: 'Rollup',
@@ -121,7 +136,134 @@ export const sampleMaintainerProfile: MaintainerProfile = {
       roleType: 'advisor',
       contributionLevel: 'occasional',
       yearsActive: 3,
-      description: 'Providing guidance on plugin ecosystem and performance'
+      description: 'Providing guidance on plugin ecosystem and performance',
+      verified: false
+    },
+    {
+      projectName: 'webpack',
+      projectSlug: 'webpack',
+      role: 'Plugin Developer',
+      roleType: 'contributor',
+      contributionLevel: 'secondary',
+      yearsActive: 4,
+      description: 'Developing and maintaining TypeScript-related plugins',
+      verified: true,
+      verifiedBy: 'webpack Team',
+      verificationDate: '2024-01-05'
+    },
+    {
+      projectName: 'Babel',
+      projectSlug: 'babel',
+      role: 'Community Maintainer',
+      roleType: 'contributor',
+      contributionLevel: 'secondary',
+      yearsActive: 3,
+      description: 'Maintaining TypeScript preset and contributing to parser improvements',
+      verified: true,
+      verifiedBy: 'Babel Maintainers',
+      verificationDate: '2023-11-22'
+    },
+    {
+      projectName: 'ESLint',
+      projectSlug: 'eslint',
+      role: 'Plugin Author',
+      roleType: 'contributor',
+      contributionLevel: 'occasional',
+      yearsActive: 2,
+      description: 'Created and maintain TypeScript ESLint plugins',
+      verified: false
+    },
+    {
+      projectName: 'Prettier',
+      projectSlug: 'prettier',
+      role: 'Contributor',
+      roleType: 'contributor',
+      contributionLevel: 'occasional',
+      yearsActive: 2,
+      description: 'Contributing TypeScript formatting improvements',
+      verified: true,
+      verifiedBy: 'GitHub Activity',
+      verificationDate: '2024-03-01'
+    },
+    {
+      projectName: 'Rome',
+      projectSlug: 'rome',
+      role: 'Early Contributor',
+      roleType: 'contributor',
+      contributionLevel: 'occasional',
+      yearsActive: 1,
+      description: 'Contributing to TypeScript tooling integration',
+      verified: false
+    },
+    {
+      projectName: 'SWC',
+      projectSlug: 'swc',
+      role: 'TypeScript Plugin Lead',
+      roleType: 'core',
+      contributionLevel: 'primary',
+      yearsActive: 2,
+      description: 'Leading TypeScript transpilation features and optimizations',
+      verified: true,
+      verifiedBy: 'SWC Core Team',
+      verificationDate: '2024-02-15'
+    },
+    {
+      projectName: 'Turborepo',
+      projectSlug: 'turborepo',
+      role: 'Integration Specialist',
+      roleType: 'contributor',
+      contributionLevel: 'secondary',
+      yearsActive: 1,
+      description: 'Building TypeScript monorepo tooling integrations',
+      verified: true,
+      verifiedBy: 'GitHub Activity',
+      verificationDate: '2024-03-10'
+    },
+    {
+      projectName: 'pnpm',
+      projectSlug: 'pnpm',
+      role: 'TypeScript Maintainer',
+      roleType: 'core',
+      contributionLevel: 'primary',
+      yearsActive: 3,
+      description: 'Core maintainer focusing on TypeScript definitions and type safety',
+      verified: true,
+      verifiedBy: 'pnpm Team',
+      verificationDate: '2023-10-05'
+    },
+    {
+      projectName: 'Nx',
+      projectSlug: 'nx',
+      role: 'Plugin Developer',
+      roleType: 'contributor',
+      contributionLevel: 'occasional',
+      yearsActive: 1,
+      description: 'Contributing to TypeScript workspace tooling',
+      verified: false
+    },
+    {
+      projectName: 'ts-node',
+      projectSlug: 'ts-node',
+      role: 'Core Maintainer',
+      roleType: 'core',
+      contributionLevel: 'secondary',
+      yearsActive: 4,
+      description: 'Maintaining TypeScript execution environment and REPL',
+      verified: true,
+      verifiedBy: 'ts-node Maintainers',
+      verificationDate: '2023-09-12'
+    },
+    {
+      projectName: 'tsup',
+      projectSlug: 'tsup',
+      role: 'Co-Creator',
+      roleType: 'core',
+      contributionLevel: 'primary',
+      yearsActive: 2,
+      description: 'Co-created and actively maintain this TypeScript bundler',
+      verified: true,
+      verifiedBy: 'Project Founder',
+      verificationDate: '2024-01-01'
     }
   ],
   services: [

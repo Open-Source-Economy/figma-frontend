@@ -1,6 +1,7 @@
 import React from 'react';
 import { Header } from '../layout/Header';
 import { Footer } from '../layout/Footer';
+import { VideoExplanation } from '../patterns/VideoExplanation';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { SectionBadge } from '../ui/section-badge';
@@ -106,8 +107,16 @@ export function MaintainerRegistrationPage({
         </div>
       </section>
 
+      {/* Video Explanation */}
+      <VideoExplanation 
+        videoId="dQw4w9WgXcQ"
+        title="How Maintainer Registration Works"
+        description="Watch this quick video to understand how to join Open Source Economy, get verified, and start earning from your open source contributions. We'll walk you through the registration process, verification steps, and how to set up your maintainer profile."
+        className="bg-gradient-to-b from-brand-accent/10 via-brand-secondary to-brand-neutral-100"
+      />
+
       {/* What We Do - Mission Statement */}
-      <section className="py-16 bg-gradient-to-b from-brand-accent/10 via-brand-secondary to-brand-neutral-200 border-y border-brand-neutral-300">
+      <section className="py-16 bg-gradient-to-b from-brand-neutral-100 via-brand-secondary to-brand-neutral-200 border-y border-brand-neutral-300">
         <div className="container mx-auto px-6 max-w-6xl">
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-success/10 border border-brand-success/20 rounded-full mb-4">

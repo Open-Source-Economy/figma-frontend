@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority@0.7.1";
 import { cn } from "./utils";
 
 const inputVariants = cva(
-  "w-full bg-form-background border border-form-border rounded-lg px-4 py-3 text-brand-neutral-900 placeholder:text-form-text-placeholder focus:border-brand-accent focus:outline-none transition-colors",
+  "w-full bg-form-background border border-form-border text-brand-neutral-900 placeholder:text-form-text-placeholder focus:border-brand-accent focus:outline-none transition-colors",
   {
     variants: {
       variant: {
@@ -30,10 +30,10 @@ const inputVariants = cva(
         warning: "border-brand-warning/50 focus:border-brand-warning",
       },
       size: {
-        sm: "px-3 py-2 text-xs",
-        default: "px-4 py-3",
-        lg: "px-5 py-4 text-base",
-        xl: "px-6 py-5 text-lg",
+        sm: "h-[var(--form-height-sm)] px-[var(--space-form-padding-x-sm)] py-[var(--space-form-padding-y-sm)] text-xs rounded-[var(--form-border-radius-sm)]",
+        default: "h-[var(--form-height)] px-[var(--space-form-padding-x)] py-[var(--space-form-padding-y)] text-sm rounded-[var(--form-border-radius)]",
+        lg: "h-[var(--form-height-lg)] px-[var(--space-form-padding-x-lg)] py-[var(--space-form-padding-y-lg)] text-base rounded-[var(--form-border-radius-lg)]",
+        xl: "h-[calc(var(--form-height-lg)*1.15)] px-6 py-5 text-lg rounded-[var(--form-border-radius-lg)]",
       },
     },
     defaultVariants: {

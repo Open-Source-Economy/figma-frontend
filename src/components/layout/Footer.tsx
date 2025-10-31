@@ -3,6 +3,8 @@ import { Logo } from '../brand/Logo';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Alert, AlertDescription } from '../ui/alert';
+import { ServerErrorAlert } from '../ui/server-error-alert';
+import { LoadingButton } from '../ui/loading-state';
 import { Github, Twitter, Mail, Heart, Youtube, Linkedin, AtSign, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface FooterLink {
@@ -226,12 +228,17 @@ export function Footer({
 
               {/* Error State */}
               {submissionStatus === 'error' && (
-                <Alert className="mb-4 border-brand-error bg-brand-error/10">
-                  <AlertCircle className="h-4 w-4 text-brand-error" />
-                  <AlertDescription className="text-brand-error">
-                    {errorMessage}
-                  </AlertDescription>
-                </Alert>
+                <div className="mb-4">
+                  <ServerErrorAlert 
+                    variant="compact"
+                    message={errorMessage}
+                    showDismiss
+                    onDismiss={() => {
+                      setSubmissionStatus('idle');
+                      setErrorMessage('');
+                    }}
+                  />
+                </div>
               )}
 
               {/* Subscription Form */}
@@ -260,10 +267,7 @@ export function Footer({
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Subscribing...
-                      </>
+                      <LoadingButton message="Subscribing..." size="sm" />
                     ) : (
                       'Subscribe'
                     )}
@@ -297,8 +301,7 @@ export function Footer({
               className="hover:text-brand-primary transition-colors cursor-pointer"
             >
               CHE-440.058.692
-            </a>
-            {' '}
+            </a>{' '}
             Switzerland
           </p>
           <p className="text-muted-foreground text-sm flex items-center gap-1">

@@ -77,17 +77,17 @@ export const checkboxVariants = cva(
 
 // Radio specific variants - Uses unified form system
 export const radioVariants = cva(
-  "aspect-square shrink-0 w-4 h-4 border border-[color:var(--form-border)] bg-[color:var(--form-background)] transition-all duration-200 cursor-pointer rounded-full shadow-xs disabled:cursor-not-allowed disabled:opacity-50 hover:border-[color:var(--form-border-hover)] focus:shadow-[0_0_0_2px_rgb(167_139_250_/_0.2)]",
+  "aspect-square shrink-0 w-4 h-4 border border-[color:var(--form-border)] bg-[color:var(--form-background)] transition-all duration-200 cursor-pointer rounded-full shadow-xs disabled:cursor-not-allowed disabled:opacity-50 hover:border-[color:var(--form-border-hover)] focus:shadow-[0_0_0_2px_rgb(167_139_250_/_0.2)] data-[state=checked]:border-brand-accent data-[state=checked]:shadow-[0_0_0_2px_rgb(255_127_80_/_0.15)] data-[state=checked]:bg-brand-accent/10",
   {
     variants: {
       variant: {
         default: "",
-        outline: "border-2 border-brand-primary/20 hover:border-brand-accent/40 focus-visible:border-brand-accent focus-visible:shadow-[var(--form-shadow-focus)]",
-        filled: "border-transparent bg-gradient-to-r from-muted/80 to-brand-primary/5 hover:from-muted hover:to-brand-primary/10 focus-visible:border-brand-accent",
-        ghost: "border-transparent bg-transparent hover:bg-gradient-to-r hover:from-brand-primary/5 hover:to-brand-accent/5 focus-visible:border-brand-accent/50",
-        success: "border-brand-success hover:border-brand-success focus-visible:border-brand-success focus-visible:shadow-[0_0_0_2px_rgb(16_185_129_/_0.2)]",
-        error: "border-brand-error hover:border-brand-error focus-visible:border-brand-error focus-visible:shadow-[0_0_0_2px_rgb(239_68_68_/_0.2)]",
-        warning: "border-brand-warning/50 hover:border-brand-warning/70 focus-visible:border-brand-warning",
+        outline: "border-2 border-brand-primary/20 hover:border-brand-accent/40 focus-visible:border-brand-accent focus-visible:shadow-[var(--form-shadow-focus)] data-[state=checked]:border-brand-accent",
+        filled: "border-transparent bg-gradient-to-r from-muted/80 to-brand-primary/5 hover:from-muted hover:to-brand-primary/10 focus-visible:border-brand-accent data-[state=checked]:from-brand-accent/10 data-[state=checked]:to-brand-accent/20",
+        ghost: "border-transparent bg-transparent hover:bg-gradient-to-r hover:from-brand-primary/5 hover:to-brand-accent/5 focus-visible:border-brand-accent/50 data-[state=checked]:border-brand-accent data-[state=checked]:bg-brand-accent/10",
+        success: "border-brand-success hover:border-brand-success focus-visible:border-brand-success focus-visible:shadow-[0_0_0_2px_rgb(16_185_129_/_0.2)] data-[state=checked]:shadow-[0_0_0_2px_rgb(16_185_129_/_0.15)]",
+        error: "border-brand-error hover:border-brand-error focus-visible:border-brand-error focus-visible:shadow-[0_0_0_2px_rgb(239_68_68_/_0.2)] data-[state=checked]:shadow-[0_0_0_2px_rgb(239_68_68_/_0.15)]",
+        warning: "border-brand-warning/50 hover:border-brand-warning/70 focus-visible:border-brand-warning data-[state=checked]:border-brand-warning data-[state=checked]:shadow-[0_0_0_2px_rgb(251_191_36_/_0.15)]",
       },
       size: {
         sm: "size-3.5",

@@ -2,12 +2,15 @@ import React from 'react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { cn } from '../ui/utils';
+import { LucideIcon } from 'lucide-react';
 
 interface InputWithAddonProps extends Omit<React.ComponentProps<typeof Input>, 'prefix'> {
   prefix?: string | React.ReactNode;
   suffix?: string | React.ReactNode;
   state?: 'default' | 'error' | 'success' | 'warning';
   addonClassName?: string;
+  displayMode?: boolean;
+  icon?: LucideIcon;
 }
 
 export function InputWithAddon({ 
@@ -17,10 +20,28 @@ export function InputWithAddon({
   addonClassName,
   className,
   variant,
+  displayMode = false,
+  icon: Icon,
   ...props 
 }: InputWithAddonProps) {
   const hasPrefix = !!prefix;
   const hasSuffix = !!suffix;
+  
+  // Display mode: compact read-only display with icon
+  if (displayMode) {
+    return (
+      <div className={cn(
+        "flex items-center gap-2 p-3 bg-brand-card-blue/50 border border-brand-neutral-300/30 rounded-lg w-fit",
+        className
+      )}>
+        {Icon && <Icon className="w-4 h-4 text-brand-highlight" />}
+        <span className="text-sm text-brand-neutral-900">
+          {prefix}{props.value}
+        </span>
+        <span className="text-xs text-brand-neutral-500">{suffix}</span>
+      </div>
+    );
+  }
   
   // Determine variant based on state
   const inputVariant = state === 'error' ? 'error' : state === 'success' ? 'success' : state === 'warning' ? 'warning' : variant || 'default';

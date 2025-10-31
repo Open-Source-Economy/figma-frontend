@@ -5,6 +5,7 @@ import { Plus, MessageCircle, ArrowRight } from 'lucide-react';
 interface RequestProjectSectionProps {
   searchQuery?: string;
   selectedCategory?: string | null;
+  selectedLanguage?: string | null;
   onRequestProject?: () => void;
   className?: string;
 }
@@ -12,11 +13,13 @@ interface RequestProjectSectionProps {
 export function RequestProjectSection({
   searchQuery,
   selectedCategory,
+  selectedLanguage,
   onRequestProject,
   className = ''
 }: RequestProjectSectionProps) {
   const hasSearch = searchQuery && searchQuery.length > 0;
   const hasCategory = selectedCategory !== null;
+  const hasLanguage = selectedLanguage !== null;
 
   return (
     <div className={`bg-card border border-border rounded-xl p-8 md:p-12 text-center ${className}`}>
@@ -26,20 +29,26 @@ export function RequestProjectSection({
         </div>
         
         <h3 className="mb-4 text-foreground">
-          {hasSearch || hasCategory
+          {hasSearch || hasCategory || hasLanguage
             ? "Can't Find What You're Looking For?"
             : "Want to See More Projects?"}
         </h3>
         
         <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
-          {hasSearch || hasCategory ? (
+          {hasSearch || hasCategory || hasLanguage ? (
             <>
               We're continuously expanding our network of open source projects. 
               {hasSearch && (
                 <span> Your search for <span className="text-brand-accent">&quot;{searchQuery}&quot;</span> hasn't matched any projects yet, but we'd love to add it!</span>
               )}
-              {!hasSearch && hasCategory && (
+              {!hasSearch && hasCategory && !hasLanguage && (
                 <span> We're actively adding more projects in the <span className="text-brand-accent">{selectedCategory}</span> category.</span>
+              )}
+              {!hasSearch && !hasCategory && hasLanguage && (
+                <span> We're actively adding more <span className="text-brand-accent">{selectedLanguage}</span> projects.</span>
+              )}
+              {!hasSearch && hasCategory && hasLanguage && (
+                <span> We're actively adding more <span className="text-brand-accent">{selectedLanguage}</span> projects in the <span className="text-brand-accent">{selectedCategory}</span> category.</span>
               )}
             </>
           ) : (

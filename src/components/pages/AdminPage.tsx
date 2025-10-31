@@ -351,7 +351,8 @@ export function AdminPage({ onNavigateHome }: AdminPageProps = {}) {
         onCtaClick={onNavigateHome}
         navItems={[
           { title: 'Homepage', href: 'home' },
-          { title: 'Admin', href: 'admin' }
+          { title: 'Admin', href: 'admin' },
+          { title: 'Verification', href: 'admin-verification' }
         ]}
       />
       

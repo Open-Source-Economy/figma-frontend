@@ -6,6 +6,7 @@ import { AlertCircle, CheckCircle2 } from 'lucide-react';
 interface FormFieldProps {
   label: string;
   description?: string;
+  hint?: string; // Alias for description
   error?: string;
   success?: string;
   required?: boolean;
@@ -18,6 +19,7 @@ interface FormFieldProps {
 export function FormField({ 
   label, 
   description, 
+  hint,
   error, 
   success, 
   required = false, 
@@ -28,6 +30,7 @@ export function FormField({
 }: FormFieldProps) {
   const hasError = !!error;
   const hasSuccess = !!success;
+  const helpText = hint || description; // Use hint if provided, fallback to description
   
   return (
     <div className={cn("space-y-2", className)}>
@@ -38,8 +41,8 @@ export function FormField({
         {label} {required && <span className="text-brand-error">*</span>}
       </Label>
       {children}
-      {description && !error && !success && (
-        <p className="caption text-brand-neutral-600">{description}</p>
+      {helpText && !error && !success && (
+        <p className="caption text-brand-neutral-600">{helpText}</p>
       )}
       {error && (
         <p className="text-brand-error caption mt-2 flex items-center gap-1.5">

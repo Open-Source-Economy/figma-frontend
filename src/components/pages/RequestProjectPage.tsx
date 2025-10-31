@@ -315,34 +315,36 @@ export function RequestProjectPage({
                     </div>
 
                     <div className="space-y-4">
-                      <div>
-                        <Label htmlFor={`project-name-${project.id}`}>
-                          Project Name *
-                        </Label>
-                        <Input
-                          id={`project-name-${project.id}`}
-                          type="text"
-                          value={project.name}
-                          onChange={(e) => updateProject(project.id, 'name', e.target.value)}
-                          placeholder="e.g., React, Vue.js, TypeScript"
-                          required={index === 0}
-                        />
-                      </div>
-
-                      <div>
-                        <Label htmlFor={`project-url-${project.id}`}>
-                          GitHub URL (Optional)
-                        </Label>
-                        <div className="relative">
-                          <Github className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <div className="grid md:grid-cols-2 gap-4">
+                        <div>
+                          <Label htmlFor={`project-name-${project.id}`}>
+                            Project Name *
+                          </Label>
                           <Input
-                            id={`project-url-${project.id}`}
-                            type="url"
-                            value={project.githubUrl}
-                            onChange={(e) => updateProject(project.id, 'githubUrl', e.target.value)}
-                            placeholder="https://github.com/..."
-                            className="pl-10"
+                            id={`project-name-${project.id}`}
+                            type="text"
+                            value={project.name}
+                            onChange={(e) => updateProject(project.id, 'name', e.target.value)}
+                            placeholder="e.g., React, Vue.js, TypeScript"
+                            required={index === 0}
                           />
+                        </div>
+
+                        <div>
+                          <Label htmlFor={`project-url-${project.id}`}>
+                            GitHub URL (Optional)
+                          </Label>
+                          <div className="relative">
+                            <Github className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                            <Input
+                              id={`project-url-${project.id}`}
+                              type="url"
+                              value={project.githubUrl}
+                              onChange={(e) => updateProject(project.id, 'githubUrl', e.target.value)}
+                              placeholder="https://github.com/..."
+                              className="pl-10"
+                            />
+                          </div>
                         </div>
                       </div>
 

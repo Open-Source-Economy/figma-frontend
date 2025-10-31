@@ -18,6 +18,7 @@ import { TransformCTASection } from './components/patterns/TransformCTASection';
 import { HowItWorksAlternating } from './components/patterns/HowItWorksAlternating';
 import { SupportersSection } from './components/patterns/SupportersSection';
 import { AdminPage } from './components/pages/AdminPage';
+import { AdminVerificationPage } from './components/pages/AdminVerificationPage';
 import { RoleSelectionPage } from './components/pages/RoleSelectionPage';
 import { FundRedistributionPage } from './components/pages/FundRedistributionPage';
 import { ServicesPage } from './components/pages/ServicesPage';
@@ -25,20 +26,29 @@ import { ProjectsPage } from './components/pages/ProjectsPage';
 import { BlogListingPage } from './components/pages/BlogListingPage';
 import { BlogPostPage } from './components/pages/BlogPostPage';
 import { HeadingLevelsDemo } from './components/examples/HeadingLevelsDemo';
+import { ServerErrorExamples } from './components/examples/ServerErrorExamples';
+import { LoadingStateExamples } from './components/examples/LoadingStateExamples';
 import { ContactPage } from './components/pages/ContactPage';
 import { ProjectDetailPage } from './components/pages/ProjectDetailPage';
 import { FAQPage } from './components/pages/FAQPage';
 import { MaintainerProfilePage } from './components/pages/MaintainerProfilePage';
 import { MaintainerRegistrationPage } from './components/pages/MaintainerRegistrationPage';
+import { MaintainersDirectoryPage } from './components/pages/MaintainersDirectoryPage';
 import { DonationPage } from './components/pages/DonationPage';
 import { MissionPage } from './components/pages/MissionPage';
 import { RequestProjectPage } from './components/pages/RequestProjectPage';
 import { NotFoundPage } from './components/pages/NotFoundPage';
 import { HowItWorksPage } from './components/pages/HowItWorksPage';
 import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
+import { ProjectCommonPotPage } from './components/pages/ProjectCommonPotPage';
+import { DeveloperOnboardingWizard } from './components/onboarding/DeveloperOnboardingWizard';
+import { OnboardingSuccessPage } from './components/pages/OnboardingSuccessPage';
 import { getProjectBySlug } from './data/projectDetailData';
 import { sampleMaintainerProfile } from './data/maintainerProfileData';
+import { getMockDataByScenario } from './data/developerOnboardingData';
 import { Shield, Clock, Heart } from 'lucide-react';
+import { ExampleBanner } from './components/ui/example-banner';
+import { PageTransition } from './components/ui/page-transition';
 
 export default function App() {
   const [currentPage, setCurrentPage] = React.useState('home');
@@ -47,10 +57,44 @@ export default function App() {
   const [currentMaintainerId, setCurrentMaintainerId] = React.useState<string>('');
   const [donationProjectName, setDonationProjectName] = React.useState<string>('');
   const [contactDemoState, setContactDemoState] = React.useState<'idle' | 'submitting' | 'success' | 'error' | undefined>(undefined);
+  const [isPageTransitioning, setIsPageTransitioning] = React.useState(false);
+  
+  // Developer Onboarding Mock Data Toggle
+  // Set to true to pre-fill onboarding wizard with sample data for testing
+  // Options: 'empty', 'step1', 'step2', 'step3', 'step4', 'step5', 'active', 'passive'
+  const [onboardingMockMode, setOnboardingMockMode] = React.useState<'empty' | 'step1' | 'step2' | 'step3' | 'step4' | 'step5' | 'active' | 'passive'>('empty');
 
-  // Scroll to top on page navigation
+  // Log component examples info on mount
+  React.useEffect(() => {
+    console.log('%c🎨 Component Examples Available!', 'font-size: 16px; font-weight: bold; color: #ff7f50;');
+    console.log('%cNew reusable components are ready to use:', 'font-size: 14px; color: #94a3b8;');
+    console.log('%c  ✓ ServerErrorAlert - Error handling component', 'color: #10b981;');
+    console.log('%c  ✓ LoadingState - Loading indicators system', 'color: #10b981;');
+    console.log('%c  ✓ AdminVerificationPage - Maintainer verification dashboard', 'color: #10b981;');
+    console.log('%c\nView Examples:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
+    console.log('%c  → Click "Examples" in the navigation menu', 'color: #94a3b8;');
+    console.log('%c  → Try the Footer newsletter to see them in action', 'color: #94a3b8;');
+    console.log('%c\nAdmin Features:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
+    console.log('%c  → Navigate to Admin page, then click "Verification"', 'color: #94a3b8;');
+    console.log('%c  → Or type: setCurrentPage("admin-verification") in console', 'color: #94a3b8;');
+    console.log('%c\nDocumentation:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
+    console.log('%c  → /ADMIN_VERIFICATION_SYSTEM.md', 'color: #94a3b8;');
+    console.log('%c  → /PROJECT_VERIFICATION_SYSTEM.md', 'color: #94a3b8;');
+    console.log('%c  → /SERVER_ERROR_ALERT.md', 'color: #94a3b8;');
+    console.log('%c  → /LOADING_STATE.md', 'color: #94a3b8;');
+    console.log('%c  → /QUICK_START.md', 'color: #94a3b8;');
+  }, []);
+
+  // Scroll to top on page navigation and hide transition
   React.useEffect(() => {
     window.scrollTo(0, 0);
+    
+    // Hide transition after content is ready
+    const timer = setTimeout(() => {
+      setIsPageTransitioning(false);
+    }, 300);
+    
+    return () => clearTimeout(timer);
   }, [currentPage, currentBlogSlug, currentProjectSlug]);
 
   // Enterprise-focused hero configuration
@@ -75,8 +119,15 @@ export default function App() {
 
 
   const handleNavigation = (href: string) => {
+    // Don't show transition for anchor links
+    if (!href.startsWith('#')) {
+      setIsPageTransitioning(true);
+    }
+    
     if (href === 'admin') {
       setCurrentPage('admin');
+    } else if (href === 'admin-verification') {
+      setCurrentPage('admin-verification');
     } else if (href === 'services') {
       setCurrentPage('services');
     } else if (href === 'projects') {
@@ -103,6 +154,8 @@ export default function App() {
       setCurrentPage('maintainer-profile');
     } else if (href === 'maintainer-registration') {
       setCurrentPage('maintainer-registration');
+    } else if (href === 'maintainers-directory') {
+      setCurrentPage('maintainers-directory');
     } else if (href === 'donation') {
       setCurrentPage('donation');
     } else if (href === 'request-project') {
@@ -117,6 +170,16 @@ export default function App() {
       setCurrentPage('fund-redistribution');
     } else if (href === 'heading-levels') {
       setCurrentPage('heading-levels');
+    } else if (href === 'error-examples') {
+      setCurrentPage('error-examples');
+    } else if (href === 'loading-examples') {
+      setCurrentPage('loading-examples');
+    } else if (href === 'developer-onboarding') {
+      setCurrentPage('developer-onboarding');
+    } else if (href === 'onboarding-success') {
+      setCurrentPage('onboarding-success');
+    } else if (href === 'common-pot') {
+      setCurrentPage('common-pot');
     } else if (href === 'home' || href === '/') {
       setCurrentPage('home');
     } else if (href.startsWith('#')) {
@@ -145,9 +208,12 @@ export default function App() {
         ctaText="Get Started Today"
         onCtaClick={() => setCurrentPage('role-selection')}
         onDeveloperRegister={() => {
-          setCurrentPage('maintainer-registration');
+          setCurrentPage('developer-onboarding');
         }}
       />
+      
+      {/* Example Components Banner */}
+      <ExampleBanner onNavigateToExamples={() => setCurrentPage('loading-examples')} />
       
       {/* Maintainer Testimonials - Social Proof Opening with Warm Glow */}
       <section className="relative overflow-hidden bg-gradient-to-br from-brand-secondary via-brand-secondary-dark to-brand-neutral-100">
@@ -277,6 +343,15 @@ export default function App() {
     );
   }
 
+  if (currentPage === 'admin-verification') {
+    return (
+      <AdminVerificationPage 
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
   if (currentPage === 'role-selection') {
     return (
       <RoleSelectionPage 
@@ -346,7 +421,30 @@ export default function App() {
   }
 
   if (currentPage === 'heading-levels') {
-    return <HeadingLevelsDemo />;
+    return (
+      <HeadingLevelsDemo
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
+  if (currentPage === 'error-examples') {
+    return (
+      <ServerErrorExamples
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
+  if (currentPage === 'loading-examples') {
+    return (
+      <LoadingStateExamples
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
   }
 
   if (currentPage === 'contact') {
@@ -399,6 +497,16 @@ export default function App() {
       <MaintainerRegistrationPage
         onNavigateHome={() => setCurrentPage('home')}
         onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
+  if (currentPage === 'maintainers-directory') {
+    return (
+      <MaintainersDirectoryPage
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+        isAdmin={false} // Set to true to enable admin controls
       />
     );
   }
@@ -467,6 +575,44 @@ export default function App() {
     );
   }
 
+  if (currentPage === 'developer-onboarding') {
+    // Load mock data based on the selected scenario
+    const mockData = onboardingMockMode !== 'empty' ? getMockDataByScenario(onboardingMockMode) : undefined;
+    
+    return (
+      <DeveloperOnboardingWizard
+        onComplete={(data) => {
+          console.log('Onboarding completed:', data);
+          // In production, this would submit to backend
+          setCurrentPage('onboarding-success');
+        }}
+        onCancel={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+        initialData={mockData}
+      />
+    );
+  }
+
+  if (currentPage === 'onboarding-success') {
+    return (
+      <OnboardingSuccessPage
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
+  if (currentPage === 'common-pot') {
+    return (
+      <ProjectCommonPotPage
+        projectSlug={currentProjectSlug || 'react'}
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+        onBecomeProvider={() => setCurrentPage('developer-onboarding')}
+      />
+    );
+  }
+
   if (currentPage === 'not-found') {
     return (
       <NotFoundPage 
@@ -476,5 +622,10 @@ export default function App() {
     );
   }
 
-  return <HomePage />;
+  return (
+    <>
+      <PageTransition isLoading={isPageTransitioning} />
+      <HomePage />
+    </>
+  );
 }
