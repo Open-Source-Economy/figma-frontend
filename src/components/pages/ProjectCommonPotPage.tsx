@@ -286,6 +286,74 @@ export const ProjectCommonPotPage: React.FC<ProjectCommonPotPageProps> = ({
               <p className="text-brand-neutral-700 max-w-2xl">
                 The Common Pot is funded by service providers who earn from enterprise contracts. These funds support maintainers and contributors working on community-benefiting features that wouldn't otherwise be funded.
               </p>
+
+              {/* Project Statistics */}
+              <div className="flex flex-wrap items-center gap-4 mt-4 text-xs text-brand-neutral-600">
+                <div className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                  <span>220k stars</span>
+                </div>
+
+                <span className="text-brand-neutral-400">·</span>
+
+                <div className="flex items-center gap-1.5">
+                  <ArrowDownRight className="w-3.5 h-3.5" />
+                  <span>20M+ weekly</span>
+                </div>
+
+                <span className="text-brand-neutral-400">·</span>
+
+                <div className="flex items-center gap-1.5">
+                  <GitBranch className="w-3.5 h-3.5" />
+                  <span>v18.2.0</span>
+                </div>
+
+                <span className="text-brand-neutral-400">·</span>
+
+                <div className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>MIT</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex flex-wrap items-center gap-3 mt-6">
+                <Button
+                  onClick={() => onNavItemClick('contact')}
+                  className="bg-gradient-to-r from-brand-highlight to-brand-warning text-white hover:opacity-90"
+                  size="lg"
+                >
+                  Schedule Consultation
+                </Button>
+
+                <Button
+                  onClick={() => onNavItemClick('sponsorship')}
+                  variant="outline"
+                  size="lg"
+                  className="border-brand-neutral-300 text-brand-neutral-900 hover:bg-brand-card-blue-light"
+                >
+                  Support This Project
+                </Button>
+
+                <button
+                  onClick={() => window.open('https://github.com/facebook/react', '_blank')}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm text-brand-neutral-600 hover:text-brand-neutral-700 transition-colors cursor-pointer"
+                >
+                  <GitBranch className="w-3.5 h-3.5" />
+                  <span>View on GitHub</span>
+                  <ExternalLink className="w-3 h-3" />
+                </button>
+
+                <button
+                  onClick={() => window.open('https://react.dev', '_blank')}
+                  className="inline-flex items-center gap-2 px-4 py-2 text-brand-neutral-700 hover:text-brand-neutral-900 transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  <span>Documentation</span>
+                </button>
+              </div>
             </div>
 
             <div className="text-right">

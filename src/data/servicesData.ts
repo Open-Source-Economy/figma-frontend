@@ -24,6 +24,7 @@ export interface Service {
   name: string;
   description: string;
   icon: LucideIcon;
+  responseTime?: string;
 }
 
 export interface ServiceCategory {
@@ -46,17 +47,20 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: 'Technical Support',
         description: 'Expert responses to technical questions and troubleshooting assistance.',
-        icon: Headphones
+        icon: Headphones,
+        responseTime: '24h'
       },
       {
         name: 'Customer Support',
         description: 'General assistance and guidance for your team.',
-        icon: Users
+        icon: Users,
+        responseTime: '48h'
       },
       {
         name: 'Operational Support',
         description: 'Help with deployment, performance optimization, and reliability concerns.',
-        icon: RefreshCw
+        icon: RefreshCw,
+        responseTime: '2 business days'
       },
       {
         name: 'Long Supported Version (LSV)',
@@ -75,7 +79,8 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: 'Bug Fixing',
         description: 'Prioritized resolution of critical issues and bugs.',
-        icon: Bug
+        icon: Bug,
+        responseTime: '72h'
       },
       {
         name: 'New Features',
@@ -143,12 +148,14 @@ export const serviceCategories: ServiceCategory[] = [
       {
         name: 'Security Audits',
         description: 'In-depth security analysis and review of the project and dependencies.',
-        icon: ShieldCheck
+        icon: ShieldCheck,
+        responseTime: '5 business days'
       },
       {
         name: 'VEX Reports',
         description: 'Generate VEX (Vulnerability Exploitability eXchange) reports.',
-        icon: FileWarning
+        icon: FileWarning,
+        responseTime: '3 business days'
       },
       {
         name: 'CVE Management',

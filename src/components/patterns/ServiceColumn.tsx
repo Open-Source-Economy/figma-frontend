@@ -93,7 +93,7 @@ export function ServiceColumn({
       {/* Background gradient overlay */}
       <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradientOverlay} rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
       
-      <div className="relative p-5 md:p-6 lg:p-8 space-y-6 md:space-y-7 lg:space-y-8">
+      <div className="relative py-5 px-4 md:py-6 md:px-5 lg:py-8 lg:px-6 space-y-6 md:space-y-7 lg:space-y-8">
         <div className="text-center lg:text-left">
           <div className="relative w-20 h-20 mx-auto lg:mx-0 mb-8">
             {/* Animated glow effect */}
@@ -133,19 +133,18 @@ export function ServiceColumn({
         <div className="space-y-4">
           {services.map((service, index) => (
             <div key={service.name} className="group/item relative overflow-hidden">
-              <div className={`flex items-start gap-3 md:gap-4 p-3 md:p-4 lg:p-5 h-[100px] md:h-[104px] lg:h-[108px] rounded-xl bg-gradient-to-r from-brand-neutral-50/50 to-transparent border border-brand-neutral-200/50 ${colors.itemBorderHover} hover:bg-gradient-to-r ${colors.itemBgHover} transition-all duration-300 hover:shadow-md`}>
+              <div className={`flex items-start gap-3 p-4 md:p-5 rounded-xl bg-gradient-to-r from-brand-neutral-50/50 to-transparent border border-brand-neutral-200/50 ${colors.itemBorderHover} hover:bg-gradient-to-r ${colors.itemBgHover} transition-all duration-300 hover:shadow-md`}>
                 {/* Icon container */}
-                <div className={`w-8 h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 bg-gradient-to-br ${colors.itemIconBg} rounded-lg flex items-center justify-center text-${colorScheme === 'primary' ? 'brand-primary' : colorScheme === 'highlight' ? 'brand-highlight' : 'brand-accent'} ${colors.itemIconHover} group-hover/item:text-white transition-all duration-300 shadow-sm`}>
+                <div className={`w-7 h-7 md:w-8 md:h-8 flex-shrink-0 bg-gradient-to-br ${colors.itemIconBg} rounded-lg flex items-center justify-center text-${colorScheme === 'primary' ? 'brand-primary' : colorScheme === 'highlight' ? 'brand-highlight' : 'brand-accent'} ${colors.itemIconHover} group-hover/item:text-white transition-all duration-300 shadow-sm mt-0.5`}>
                   {service.icon}
                 </div>
                 
                 {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-1">
+                <div className="flex-1 min-w-0 pt-0.5">
+                  <div className="mb-1.5">
                     <span className={`font-medium text-foreground ${colors.itemTitleHover} transition-colors duration-200`}>{service.name}</span>
-                    <ArrowRight className={`w-4 h-4 text-brand-neutral-400 opacity-0 group-hover/item:opacity-100 ${colors.arrowHover} transform translate-x-2 group-hover/item:translate-x-0 transition-all duration-300`} />
                   </div>
-                  <p className="text-xs text-muted-foreground">{service.description}</p>
+                  <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">{service.description}</p>
                 </div>
               </div>
               

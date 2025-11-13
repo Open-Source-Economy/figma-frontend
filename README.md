@@ -1,7 +1,7 @@
 
-  # Design System and Branding
+  # Design System and Branding (Copy)
 
-  This is a code bundle for Design System and Branding. The original project is available at https://www.figma.com/design/M4EQGXslZJ0y6X6FPQ92AV/Design-System-and-Branding.
+  This is a code bundle for Design System and Branding (Copy). The original project is available at https://www.figma.com/design/s91efOPj3cxr91p5d17jZ6/Design-System-and-Branding--Copy-.
 
   ## Running the code
 

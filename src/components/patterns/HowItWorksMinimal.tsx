@@ -105,8 +105,8 @@ export const HowItWorksMinimal: React.FC<HowItWorksMinimalProps> = ({
 
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {/* Reserved Time Model */}
-            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-lg p-6 hover:border-brand-accent/40 transition-colors">
-              <div className="flex items-start gap-4 mb-4">
+            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-lg p-6 hover:border-brand-accent/40 transition-colors flex flex-col">
+              <div className="flex items-start gap-4 mb-4 flex-grow">
                 <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center">
                   <Clock className="w-6 h-6 text-brand-accent" />
                 </div>
@@ -117,27 +117,27 @@ export const HowItWorksMinimal: React.FC<HowItWorksMinimalProps> = ({
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-brand-neutral-600 text-sm">
+              <div className="flex items-center gap-2 text-brand-neutral-600 text-sm mt-auto">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-accent/10 text-brand-accent-light">
-                  Best for: Mission-critical dependencies
+                  Best for: Critical ongoing projects
                 </span>
               </div>
             </div>
 
             {/* On-Demand Access Model */}
-            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-lg p-6 hover:border-brand-highlight/40 transition-colors">
-              <div className="flex items-start gap-4 mb-4">
+            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-lg p-6 hover:border-brand-highlight/40 transition-colors flex flex-col">
+              <div className="flex items-start gap-4 mb-4 flex-grow">
                 <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-brand-highlight/10 flex items-center justify-center">
                   <Zap className="w-6 h-6 text-brand-highlight" />
                 </div>
                 <div>
                   <h4 className="text-brand-neutral-900 mb-2">On-Demand Access</h4>
                   <p className="text-brand-neutral-700 text-sm">
-                    Flexible credits to access any maintainer across your entire dependency stack
+                    Pre-purchase Service Credits that roll over — use them anytime with any maintainer who built the tools you rely on
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-2 text-brand-neutral-600 text-sm">
+              <div className="flex items-center gap-2 text-brand-neutral-600 text-sm mt-auto">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-highlight/10 text-brand-highlight-light">
                   Best for: Broad ecosystem support
                 </span>

@@ -17,7 +17,7 @@ import { RoadmapTimeline } from '../projects/RoadmapTimeline';
 import { ProjectFAQ } from '../projects/ProjectFAQ';
 import { ProjectSupporters } from '../projects/ProjectSupporters';
 import { Button } from '../ui/button';
-import { ArrowLeft, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, ShieldCheck, Clock, BadgeDollarSign, Calendar, Award } from 'lucide-react';
 import type { ProjectDetail } from '../../data/projectDetailData';
 import { ServiceCategoryCard } from '../projects/ServiceCategoryCard';
 import { serviceCategories } from '../../data/servicesData';
@@ -140,42 +140,73 @@ export function ProjectDetailPage({
             visibility="normal"
           />
           
-          <div className="space-y-6">
-            {/* Service Categories - Accordion Pattern */}
-            <div className="space-y-4">
-              {serviceCategories.map((category) => (
-                <ServiceCategoryCard
-                  key={category.type}
-                  title={category.title}
-                  description={category.description}
-                  icon={category.icon}
-                  accentColor={category.accentColor}
-                  services={category.services}
-                  isExpanded={expandedServiceCategories.has(category.type)}
-                  onToggle={() => toggleServiceCategory(category.type)}
-                />
-              ))}
+          {/* Trust Indicators */}
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-8">
+            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-brand-neutral-100/60 to-brand-neutral-100/30 rounded-lg border border-brand-neutral-300/60 shadow-sm">
+              <div className="flex items-center justify-center w-6 h-6 rounded-md bg-brand-accent/10 border border-brand-accent/20">
+                <ShieldCheck className="w-3.5 h-3.5 text-brand-accent" />
+              </div>
+              <span className="text-brand-neutral-800 text-sm">NDAs Available</span>
             </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-brand-neutral-100/60 to-brand-neutral-100/30 rounded-lg border border-brand-neutral-300/60 shadow-sm">
+              <div className="flex items-center justify-center w-6 h-6 rounded-md bg-brand-accent/10 border border-brand-accent/20">
+                <Clock className="w-3.5 h-3.5 text-brand-accent" />
+              </div>
+              <span className="text-brand-neutral-800 text-sm">SLA Guarantees Possible</span>
+            </div>
+            <div className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-brand-neutral-100/60 to-brand-neutral-100/30 rounded-lg border border-brand-neutral-300/60 shadow-sm">
+              <div className="flex items-center justify-center w-6 h-6 rounded-md bg-brand-accent/10 border border-brand-accent/20">
+                <Award className="w-3.5 h-3.5 text-brand-accent" />
+              </div>
+              <span className="text-brand-neutral-800 text-sm">Brand Recognition Benefits</span>
+            </div>
+          </div>
+          
+          {/* Service Categories - Accordion Pattern */}
+          <div className="space-y-4">
+            {serviceCategories.map((category) => (
+              <ServiceCategoryCard
+                key={category.type}
+                title={category.title}
+                description={category.description}
+                icon={category.icon}
+                accentColor={category.accentColor}
+                services={category.services}
+                isExpanded={expandedServiceCategories.has(category.type)}
+                onToggle={() => toggleServiceCategory(category.type)}
+              />
+            ))}
+          </div>
+        </section>
 
-            {/* Value Proposition & CTA */}
-            <div className="bg-brand-card-blue border border-brand-accent/20 rounded-xl p-6 text-center">
-              <p className="text-brand-neutral-700 max-w-2xl mx-auto mb-6">
-                Work directly with the maintainers who know this project inside and out. Get expert guidance, custom development, and enterprise support tailored to your organization's needs.
+        {/* Get Started CTA */}
+        <section className="relative left-1/2 right-1/2 -mx-[50vw] w-screen py-20 border-t border-border bg-gradient-to-br from-brand-card-blue via-brand-card-blue-light to-brand-accent/5">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-3xl mx-auto text-center bg-brand-card-blue-dark/50 border border-brand-accent/20 rounded-2xl p-16 shadow-lg shadow-brand-accent/10">
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-brand-accent/10 border border-brand-accent/30 mb-8">
+                <Calendar className="w-10 h-10 text-brand-accent" />
+              </div>
+              
+              <h2 className="text-brand-neutral-950 mb-6">
+                Work Directly with Expert Maintainers
+              </h2>
+              <p className="text-brand-neutral-700 mb-8 max-w-2xl mx-auto">
+                Get expert guidance, custom development, and enterprise support tailored to your organization's needs. All services include flexible terms and transparent pricing.
               </p>
               
               {/* Trust Indicators */}
-              <div className="flex flex-wrap justify-center gap-6 mb-6 pb-6 border-b border-brand-neutral-300">
-                <div className="flex items-center gap-2 text-brand-neutral-700">
-                  <CheckCircle2 className="w-5 h-5 text-brand-success" />
-                  <span className="text-sm">NDA Available</span>
+              <div className="flex flex-wrap justify-center gap-3 mb-12">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-success/10 rounded-md border border-brand-success/30">
+                  <ShieldCheck className="w-4 h-4 text-brand-success" />
+                  <span className="text-brand-neutral-700 text-sm">NDA Available</span>
                 </div>
-                <div className="flex items-center gap-2 text-brand-neutral-700">
-                  <CheckCircle2 className="w-5 h-5 text-brand-success" />
-                  <span className="text-sm">SLA Guarantees</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-accent/10 rounded-md border border-brand-accent/30">
+                  <Clock className="w-4 h-4 text-brand-accent" />
+                  <span className="text-brand-neutral-700 text-sm">SLA Guarantees</span>
                 </div>
-                <div className="flex items-center gap-2 text-brand-neutral-700">
-                  <CheckCircle2 className="w-5 h-5 text-brand-success" />
-                  <span className="text-sm">Custom Pricing</span>
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-brand-warning/10 rounded-md border border-brand-warning/30">
+                  <BadgeDollarSign className="w-4 h-4 text-brand-warning" />
+                  <span className="text-brand-neutral-700 text-sm">Custom Pricing</span>
                 </div>
               </div>
 
@@ -183,10 +214,11 @@ export function ProjectDetailPage({
               <Button 
                 size="lg"
                 onClick={scrollToConsultation}
+                className="bg-brand-accent hover:bg-brand-accent-dark text-white shadow-lg shadow-brand-accent/25 hover:shadow-xl hover:shadow-brand-accent/30 transition-all"
               >
                 Schedule a Consultation
               </Button>
-              <p className="text-brand-neutral-600 text-sm mt-3">
+              <p className="text-brand-neutral-600 text-sm mt-4">
                 Discuss your needs and get a custom quote for your organization
               </p>
             </div>
@@ -195,12 +227,6 @@ export function ProjectDetailPage({
 
         {/* Fund Distribution */}
         <section>
-          <SectionHeader
-            title="Transparent Fund Distribution"
-            description="See exactly how your investment supports the ecosystem"
-            spacing="lg"
-            visibility="normal"
-          />
           <FundDistributionVisualization
             distribution={project.fundDistribution}
             projectName={project.name}
@@ -223,21 +249,44 @@ export function ProjectDetailPage({
         </section>
 
         {/* Final CTAs */}
-        <section className="bg-gradient-to-r from-brand-accent/10 via-brand-highlight/10 to-brand-accent/10 border border-brand-accent/20 rounded-xl p-12 text-center">
-          <h3 className="text-brand-neutral-900 mb-4">
-            Ready to Get Expert Support for {project.name}?
-          </h3>
-          <p className="text-brand-neutral-600 mb-8 max-w-2xl mx-auto">
-            Join thousands of companies that trust Open Source Economy for their critical dependencies
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" onClick={scrollToConsultation}>
-              Schedule Consultation
-            </Button>
-            <Button size="lg" variant="outline" onClick={scrollToDonation}>
-              Support {project.name}
-            </Button>
-  
+        <section className="relative overflow-hidden bg-gradient-to-br from-brand-card-blue via-brand-card-blue-light to-brand-accent/5 border border-brand-accent/30 rounded-2xl p-16 shadow-xl">
+          {/* Background decoration */}
+          <div className="absolute inset-0 bg-gradient-to-tr from-brand-accent/5 via-transparent to-brand-highlight/5 pointer-events-none" />
+          
+          <div className="relative z-10 text-center">
+            {/* Icon */}
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-brand-accent/10 border border-brand-accent/30 mb-6 shadow-lg shadow-brand-accent/10">
+              <CheckCircle2 className="w-8 h-8 text-brand-accent" />
+            </div>
+            
+            {/* Heading */}
+            <h3 className="text-brand-neutral-950 mb-4">
+              Ready to Get Expert Support for {project.name}?
+            </h3>
+            
+            {/* Description */}
+            <p className="text-brand-neutral-700 mb-10 max-w-2xl mx-auto">
+              Join thousands of companies that trust Open Source Economy for their critical dependencies
+            </p>
+            
+            {/* Buttons */}
+            <div className="flex flex-wrap gap-4 justify-center">
+              <Button 
+                size="lg" 
+                onClick={scrollToConsultation}
+                className="bg-brand-accent hover:bg-brand-accent-dark text-white shadow-lg shadow-brand-accent/25 hover:shadow-xl hover:shadow-brand-accent/30 transition-all"
+              >
+                Schedule Consultation
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                onClick={scrollToDonation}
+                className="border-brand-neutral-300 hover:border-brand-accent hover:bg-brand-accent/5 text-brand-neutral-800 hover:text-brand-accent transition-all"
+              >
+                Support {project.name}
+              </Button>
+            </div>
           </div>
         </section>
 

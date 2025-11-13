@@ -27,41 +27,29 @@ export const EnterpriseServiceCard: React.FC<EnterpriseServiceCardProps> = ({
 }) => {
   const colorClasses = {
     primary: {
-      card: 'from-card via-card to-brand-primary/5 hover:border-brand-primary/30',
-      gradient: 'from-brand-primary/5',
-      orb: 'from-brand-primary/20',
       iconBg: 'from-brand-primary to-brand-primary-dark',
       title: 'text-brand-primary-dark',
       buttonVariant: 'outline' as const,
+      borderHover: 'hover:border-brand-primary/30',
     },
     success: {
-      card: 'from-card via-card to-brand-success/5 hover:border-brand-success/30',
-      gradient: 'from-brand-success/5',
-      orb: 'from-brand-success/20',
       iconBg: 'from-brand-success to-brand-success-dark',
       title: 'text-brand-success-dark',
       buttonVariant: 'success' as const,
+      borderHover: 'hover:border-brand-success/30',
     },
     accent: {
-      card: 'from-card via-card to-brand-accent/5 hover:border-brand-accent/30',
-      gradient: 'from-brand-accent/5',
-      orb: 'from-brand-accent/20',
       iconBg: 'from-brand-accent to-brand-accent-dark',
       title: 'text-brand-accent-dark',
       buttonVariant: 'outline' as const,
+      borderHover: 'hover:border-brand-accent/30',
     },
   };
 
   const colors = colorClasses[colorScheme];
 
   return (
-    <div className={`group relative bg-gradient-to-br ${colors.card} rounded-2xl border border-border/50 overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl h-full ${className}`}>
-      {/* Hover gradient overlay */}
-      <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`}></div>
-      
-      {/* Decorative orb */}
-      <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${colors.orb} to-transparent rounded-full blur-2xl opacity-60`}></div>
-      
+    <div className={`group relative bg-gradient-to-r from-brand-neutral-50/50 to-transparent rounded-xl border border-brand-neutral-200/50 ${colors.borderHover} overflow-hidden transition-all duration-300 hover:shadow-md h-full ${className}`}>
       {/* Content */}
       <div className="relative p-8 h-full flex flex-col">
         {/* Icon */}

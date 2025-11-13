@@ -107,7 +107,7 @@ export function FundDistributionMinimal({ className = '', onViewDetails }: FundD
                     </div>
                   </div>
                   
-                  <h3 className="font-semibold text-foreground mb-1">
+                  <h3 className="font-semibold text-foreground mb-1 text-[20px]">
                     {allocation.title}
                   </h3>
                   

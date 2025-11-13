@@ -6,6 +6,7 @@ interface Service {
   name: string;
   description: string;
   icon: LucideIcon;
+  responseTime?: string;
 }
 
 interface ServiceCategoryCardProps {
@@ -65,6 +66,7 @@ export function ServiceCategoryCard({
                 description={service.description}
                 icon={service.icon}
                 accentColor={accentColor}
+                responseTime={service.responseTime}
               />
             ))}
           </div>

@@ -8,7 +8,10 @@ export interface SupporterTier {
   name: string;
   icon: 'heart' | 'star' | 'award' | 'crown';
   accentColor: string;
-  supporters: string[];
+  supporters: Array<{
+    name: string;
+    domain: string; // Company domain for logo fetching (e.g., 'microsoft.com')
+  }>;
   minAmount: number;
   benefits: string[];
 }
@@ -97,7 +100,8 @@ export function ProjectSupporters({
   const allSupporters = tiers
     .flatMap(tier => 
       tier.supporters.map(supporter => ({
-        name: supporter,
+        name: supporter.name,
+        domain: supporter.domain,
         tier: tier.name,
         iconType: tier.icon,
         accentColor: tier.accentColor,
@@ -128,7 +132,7 @@ export function ProjectSupporters({
             return (
               <div
                 key={idx}
-                className={`bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark border-2 border-brand-neutral-300 rounded-2xl ${supporter.cardPadding} hover:border-brand-accent transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-brand-accent/20 relative group`}
+                className={`bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark border-2 border-brand-neutral-300 rounded-2xl ${supporter.cardPadding} hover:border-brand-accent transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-brand-accent/20 relative group w-64`}
                 style={{
                   boxShadow: '0 10px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset'
                 }}
@@ -146,9 +150,41 @@ export function ProjectSupporters({
                   />
                 </div>
                 
+                {/* Company Logo */}
+                <div className="mb-4">
+                  <img
+                    src={`https://logo.clearbit.com/${supporter.domain}`}
+                    alt={`${supporter.name} logo`}
+                    className="h-12 w-auto object-contain mx-auto group-hover:scale-105 transition-transform duration-300"
+                    onError={(e) => {
+                      // Fallback to company initials if logo fails to load
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      const fallback = target.nextElementSibling as HTMLElement;
+                      if (fallback) fallback.style.display = 'flex';
+                    }}
+                  />
+                  {/* Fallback - Company initials */}
+                  <div 
+                    className="h-12 w-12 rounded-lg bg-gradient-to-br from-brand-accent/20 to-brand-highlight/20 border border-brand-neutral-300 flex items-center justify-center mx-auto"
+                    style={{ display: 'none' }}
+                  >
+                    <span className="text-brand-neutral-900 font-semibold">
+                      {supporter.name.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase()}
+                    </span>
+                  </div>
+                </div>
+                
                 {/* Supporter Name with Gradient Underline on Hover */}
                 <div className="relative">
-                  <p className={`text-brand-neutral-900 ${supporter.textSize} whitespace-nowrap relative z-10 group-hover:text-brand-neutral-950 transition-colors`}>
+                  <p className={`text-brand-neutral-900 ${supporter.textSize} text-center relative z-10 group-hover:text-brand-neutral-950 transition-colors overflow-hidden text-ellipsis px-2`}
+                     style={{ 
+                       display: '-webkit-box',
+                       WebkitLineClamp: 2,
+                       WebkitBoxOrient: 'vertical',
+                       lineHeight: '1.2'
+                     }}
+                  >
                     {supporter.name}
                   </p>
                   <div 

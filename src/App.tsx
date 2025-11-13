@@ -19,6 +19,7 @@ import { HowItWorksAlternating } from './components/patterns/HowItWorksAlternati
 import { SupportersSection } from './components/patterns/SupportersSection';
 import { AdminPage } from './components/pages/AdminPage';
 import { AdminVerificationPage } from './components/pages/AdminVerificationPage';
+import { AdminOnboardingPage } from './components/pages/AdminOnboardingPage';
 import { RoleSelectionPage } from './components/pages/RoleSelectionPage';
 import { FundRedistributionPage } from './components/pages/FundRedistributionPage';
 import { ServicesPage } from './components/pages/ServicesPage';
@@ -43,12 +44,17 @@ import { PrivacyPolicyPage } from './components/pages/PrivacyPolicyPage';
 import { ProjectCommonPotPage } from './components/pages/ProjectCommonPotPage';
 import { DeveloperOnboardingWizard } from './components/onboarding/DeveloperOnboardingWizard';
 import { OnboardingSuccessPage } from './components/pages/OnboardingSuccessPage';
+import { SponsorshipPage } from './components/pages/SponsorshipPage';
+import { MaintainerDashboardPage } from './components/pages/MaintainerDashboardPage';
+import { AddProjectWizard } from './components/maintainers/AddProjectWizard';
+import { LoginPage } from './components/pages/LoginPage';
 import { getProjectBySlug } from './data/projectDetailData';
 import { sampleMaintainerProfile } from './data/maintainerProfileData';
 import { getMockDataByScenario } from './data/developerOnboardingData';
 import { Shield, Clock, Heart } from 'lucide-react';
 import { ExampleBanner } from './components/ui/example-banner';
 import { PageTransition } from './components/ui/page-transition';
+import { Toaster } from './components/ui/sonner';
 
 export default function App() {
   const [currentPage, setCurrentPage] = React.useState('home');
@@ -180,6 +186,17 @@ export default function App() {
       setCurrentPage('onboarding-success');
     } else if (href === 'common-pot') {
       setCurrentPage('common-pot');
+    } else if (href === 'project-detail') {
+      setCurrentProjectSlug('react'); // Default to React project as example
+      setCurrentPage('project-detail');
+    } else if (href === 'sponsorship' || href === 'sponsor') {
+      setCurrentPage('sponsorship');
+    } else if (href === 'maintainer-dashboard') {
+      setCurrentPage('maintainer-dashboard');
+    } else if (href === 'add-project') {
+      setCurrentPage('add-project');
+    } else if (href === 'login') {
+      setCurrentPage('login');
     } else if (href === 'home' || href === '/') {
       setCurrentPage('home');
     } else if (href.startsWith('#')) {
@@ -613,6 +630,115 @@ export default function App() {
     );
   }
 
+  if (currentPage === 'sponsorship') {
+    return (
+      <>
+        <Header onNavItemClick={handleNavigation} />
+        <SponsorshipPage onNavigate={handleNavigation} />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'maintainer-dashboard') {
+    return (
+      <>
+        <Header onNavItemClick={handleNavigation} />
+        <MaintainerDashboardPage 
+          onNavigateHome={() => setCurrentPage('home')}
+          onNavItemClick={handleNavigation}
+          onAddProject={() => setCurrentPage('add-project')}
+          onManageProjectServices={(projectId) => {
+            console.log('Managing services for project:', projectId);
+            // In production, would open ManageProjectServicesDialog with project data
+          }}
+        />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'add-project') {
+    return (
+      <>
+        <Header onNavItemClick={handleNavigation} />
+        <AddProjectWizard
+          onComplete={(project, services, addToCatalog) => {
+            console.log('Project added:', project);
+            console.log('Services:', services);
+            console.log('Add to catalog:', addToCatalog);
+            // In production, would save to backend
+            setCurrentPage('maintainer-dashboard');
+          }}
+          onCancel={() => setCurrentPage('maintainer-dashboard')}
+          existingServices={[
+            {
+              id: '1',
+              name: 'Bug Fixing',
+              category: 'Development',
+              rate: 150,
+              projectIds: [],
+              responseTime: '24 hours'
+            },
+            {
+              id: '2',
+              name: 'Code Review',
+              category: 'Development',
+              rate: 100,
+              projectIds: [],
+              responseTime: '48 hours'
+            },
+            {
+              id: '3',
+              name: 'Feature Development',
+              category: 'Development',
+              rate: 200,
+              projectIds: [],
+              responseTime: '1 week'
+            }
+          ]}
+        />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'login') {
+    return (
+      <LoginPage
+        onNavigateHome={() => setCurrentPage('home')}
+        onLoginSuccess={() => setCurrentPage('maintainer-dashboard')}
+      />
+    );
+  }
+
+  if (currentPage === 'admin') {
+    return (
+      <AdminPage
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
+  if (currentPage === 'admin-onboarding') {
+    return (
+      <AdminOnboardingPage
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
+  if (currentPage === 'admin-verification') {
+    return (
+      <AdminVerificationPage
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
   if (currentPage === 'not-found') {
     return (
       <NotFoundPage 
@@ -626,6 +752,7 @@ export default function App() {
     <>
       <PageTransition isLoading={isPageTransitioning} />
       <HomePage />
+      <Toaster />
     </>
   );
 }

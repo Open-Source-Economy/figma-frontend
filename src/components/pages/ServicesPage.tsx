@@ -5,6 +5,7 @@ import { Button } from '../ui/button';
 import { ServiceColumn } from '../patterns/ServiceColumn';
 import { ServicesHeroSection } from '../services/sections/ServicesHeroSection';
 import { EnterpriseAddonsSection } from '../services/sections/EnterpriseAddonsSection';
+import { SectionHeader } from '../ui/section-header';
 import { 
   ArrowRight, 
   Users, 
@@ -19,7 +20,8 @@ import {
   Globe,
   Zap,
   Clock,
-  CheckCircle
+  CheckCircle,
+  Package
 } from 'lucide-react';
 
 interface ServicesPageProps {
@@ -87,11 +89,11 @@ export function ServicesPage({ onNavigateHome, onNavItemClick }: ServicesPagePro
               title={
                 <h1 className="text-4xl lg:text-5xl tracking-tight">
                   <span className="bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
-                    What Maintainers
+                    Services Available
                   </span>
                   <br />
                   <span className="bg-gradient-to-r from-brand-primary via-brand-accent to-brand-success bg-clip-text text-transparent">
-                    Typically Offer
+                    From Expert Maintainers
                   </span>
                 </h1>
               }
@@ -156,16 +158,47 @@ export function ServicesPage({ onNavigateHome, onNavItemClick }: ServicesPagePro
               onServiceRequest={(serviceType) => handleNavigation('get-started')}
             />
 
-            {/* Call to Action */}
-            <div className="text-center">
-              <Button 
-                size="lg"
-                onClick={() => handleNavigation('get-started')}
-                rightIcon={ArrowRight}
-                icon
-              >
-                Get Started Today
-              </Button>
+            {/* Explore Projects Section */}
+            <div className="mt-16 lg:mt-20 mb-12 lg:mb-16">
+              <div className="relative bg-gradient-to-r from-brand-neutral-50/50 to-transparent rounded-xl border border-brand-neutral-200/50 p-8 md:p-10 lg:p-12 overflow-hidden">
+                {/* Decorative background elements */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-brand-primary/10 to-transparent rounded-full blur-3xl opacity-50"></div>
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-gradient-to-tr from-brand-success/10 to-transparent rounded-full blur-3xl opacity-50"></div>
+                
+                <div className="relative z-10 text-center">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-brand-primary to-brand-primary-dark rounded-2xl mb-6 shadow-lg">
+                    <Package className="w-8 h-8 text-white" />
+                  </div>
+                  
+                  <SectionHeader
+                    title="Connect Directly with Project Maintainers"
+                    description="No middlemen, no agencies—just direct access to the experts who built and maintain the projects you depend on."
+                    titleLevel="h2"
+                    align="center"
+                    maxWidth="2xl"
+                    spacing="md"
+                  />
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-2">
+                    <Button 
+                      size="lg"
+                      onClick={() => handleNavigation('get-started')}
+                      rightIcon={ArrowRight}
+                    >
+                      Get Started Today
+                    </Button>
+                    
+                    <Button 
+                      size="lg"
+                      variant="outline"
+                      onClick={() => handleNavigation('projects')}
+                      rightIcon={Package}
+                    >
+                      Browse Projects
+                    </Button>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </div>

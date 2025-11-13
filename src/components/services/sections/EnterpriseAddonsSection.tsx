@@ -77,22 +77,6 @@ export const EnterpriseAddonsSection: React.FC<EnterpriseAddonsSectionProps> = (
               ))}
             </div>
 
-            {/* Enhanced Trust Indicator - Blue to Green Journey */}
-            <div className="bg-gradient-to-r from-brand-primary/5 via-brand-accent/6 to-brand-success/5 border border-brand-accent/20 rounded-2xl p-6">
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-brand-primary via-brand-accent to-brand-success rounded-full flex items-center justify-center shadow-lg">
-                  <Shield className="w-6 h-6 text-white" />
-                </div>
-                <div className="h-px bg-gradient-to-r from-transparent via-brand-accent/30 to-transparent flex-1 max-w-32"></div>
-                <div className="h-px bg-gradient-to-r from-transparent via-brand-accent/30 to-transparent flex-1 max-w-32"></div>
-              </div>
-              <p className="text-sm text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-                <span className="text-brand-primary">Swiss 501(c)(3) non-profit</span> status ensures complete transparency and enterprise alignment. 
-                <span className="text-brand-accent"> Zero conflicts of interest</span> — we exist solely to 
-                <span className="text-brand-success"> strengthen sustainable open source ecosystems</span>.
-              </p>
-            </div>
-
           </div>
         </CardContent>
       </Card>

@@ -16,6 +16,9 @@ export interface Maintainer {
   };
   availableForConsulting: boolean;
   expertise: string[];
+  verified?: boolean;
+  mergeRights?: 'Full Access' | 'Limited' | 'Review Only' | 'Read Only';
+  highlightFact?: string;
 }
 
 export interface DonationTier {
@@ -64,7 +67,10 @@ export interface SupporterTier {
   name: string;
   icon: 'heart' | 'star' | 'award' | 'crown';
   accentColor: string;
-  supporters: string[];
+  supporters: Array<{
+    name: string;
+    domain: string; // Company domain for logo fetching (e.g., 'microsoft.com')
+  }>;
   minAmount: number;
   benefits: string[];
 }
@@ -178,7 +184,7 @@ export const projectDetailData: Record<string, ProjectDetail> = {
         name: 'Dan Abramov',
         photo: 'https://avatars.githubusercontent.com/u/810438?v=4',
         title: 'Lead React Developer',
-        bio: 'Core React team member, creator of Redux, passionate about making React development more intuitive and enjoyable.',
+        bio: '',
         yearsOnProject: 8,
         social: {
           github: 'gaearon',
@@ -186,7 +192,10 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           linkedin: 'dan-abramov'
         },
         availableForConsulting: true,
-        expertise: ['React Architecture', 'Performance Optimization', 'State Management', 'Developer Tools']
+        expertise: ['React Architecture', 'Performance Optimization', 'State Management', 'Developer Tools'],
+        verified: true,
+        mergeRights: 'Full Access',
+        highlightFact: 'Creator of Redux and React Hot Loader'
       },
       {
         name: 'Sophie Alpert',
@@ -200,7 +209,10 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           linkedin: 'sophiealpert'
         },
         availableForConsulting: true,
-        expertise: ['React Internals', 'Build Tools', 'Developer Experience', 'Open Source Management']
+        expertise: ['React Internals', 'Build Tools', 'Developer Experience', 'Open Source Management'],
+        verified: true,
+        mergeRights: 'Full Access',
+        highlightFact: 'Former React Team Manager at Meta'
       },
       {
         name: 'Sebastian Markbåge',
@@ -213,7 +225,10 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           twitter: 'sebmarkbage'
         },
         availableForConsulting: true,
-        expertise: ['Server Components', 'Concurrent Rendering', 'React Architecture', 'Performance']
+        expertise: ['Server Components', 'Concurrent Rendering', 'React Architecture', 'Performance'],
+        verified: true,
+        mergeRights: 'Full Access',
+        highlightFact: 'Architect of React Server Components'
       }
     ],
     
@@ -423,7 +438,13 @@ root.render(<App />);`,
         icon: 'heart',
         accentColor: '#cd7f32',
         minAmount: 10,
-        supporters: ['Acme Corp', 'TechStart Inc', 'DevTools Co', 'BuildFast Labs', 'CloudNative Systems'],
+        supporters: [
+          { name: 'Vercel', domain: 'vercel.com' },
+          { name: 'Netlify', domain: 'netlify.com' },
+          { name: 'Cloudflare', domain: 'cloudflare.com' },
+          { name: 'DigitalOcean', domain: 'digitalocean.com' },
+          { name: 'Render', domain: 'render.com' }
+        ],
         benefits: [
           'Sponsor badge on profile',
           'Monthly newsletter',
@@ -436,7 +457,11 @@ root.render(<App />);`,
         icon: 'star',
         accentColor: '#c0c0c0',
         minAmount: 50,
-        supporters: ['Enterprise Solutions Ltd', 'Digital Innovations', 'Startup Accelerator'],
+        supporters: [
+          { name: 'Stripe', domain: 'stripe.com' },
+          { name: 'Twilio', domain: 'twilio.com' },
+          { name: 'Auth0', domain: 'auth0.com' }
+        ],
         benefits: [
           'All Bronze benefits',
           'Priority bug reports',
@@ -450,7 +475,10 @@ root.render(<App />);`,
         icon: 'award',
         accentColor: '#ffd700',
         minAmount: 250,
-        supporters: ['Global Tech Corp', 'Innovation Partners'],
+        supporters: [
+          { name: 'Shopify', domain: 'shopify.com' },
+          { name: 'Atlassian', domain: 'atlassian.com' }
+        ],
         benefits: [
           'All Silver benefits',
           'Monthly office hours access',
@@ -465,7 +493,9 @@ root.render(<App />);`,
         icon: 'crown',
         accentColor: '#e5e4e2',
         minAmount: 1000,
-        supporters: ['Fortune 500 Inc'],
+        supporters: [
+          { name: 'Meta', domain: 'meta.com' }
+        ],
         benefits: [
           'All Gold benefits',
           'Dedicated account manager',
@@ -586,7 +616,10 @@ root.render(<App />);`,
           linkedin: 'evanyou'
         },
         availableForConsulting: true,
-        expertise: ['Vue Architecture', 'Build Tools', 'Compiler Design', 'Framework Development']
+        expertise: ['Vue Architecture', 'Build Tools', 'Compiler Design', 'Framework Development'],
+        verified: true,
+        mergeRights: 'Full Access',
+        highlightFact: 'Creator of Vue.js and Vite'
       },
       {
         name: 'Anthony Fu',
@@ -599,7 +632,10 @@ root.render(<App />);`,
           twitter: 'antfu7'
         },
         availableForConsulting: true,
-        expertise: ['Vite', 'Developer Tools', 'TypeScript', 'Build Optimization']
+        expertise: ['Vite', 'Developer Tools', 'TypeScript', 'Build Optimization'],
+        verified: true,
+        mergeRights: 'Full Access',
+        highlightFact: 'Creator of UnoCSS, VueUse, and Slidev'
       }
     ],
     
@@ -767,7 +803,12 @@ const count = ref(0)
         icon: 'heart',
         accentColor: '#cd7f32',
         minAmount: 10,
-        supporters: ['Vue Enthusiasts Co', 'Web Builders Inc', 'Modern Stack Ltd', 'Frontend Masters'],
+        supporters: [
+          { name: 'Nuxt', domain: 'nuxt.com' },
+          { name: 'Vite', domain: 'vitejs.dev' },
+          { name: 'Pinia', domain: 'pinia.vuejs.org' },
+          { name: 'Quasar', domain: 'quasar.dev' }
+        ],
         benefits: [
           'Sponsor badge',
           'Newsletter access',
@@ -780,7 +821,11 @@ const count = ref(0)
         icon: 'star',
         accentColor: '#c0c0c0',
         minAmount: 50,
-        supporters: ['E-commerce Platform Ltd', 'SaaS Startup Hub', 'Design Systems Co'],
+        supporters: [
+          { name: 'GitLab', domain: 'gitlab.com' },
+          { name: 'Adobe', domain: 'adobe.com' },
+          { name: 'Grammarly', domain: 'grammarly.com' }
+        ],
         benefits: [
           'All Bronze benefits',
           'Priority issue review',
@@ -794,7 +839,10 @@ const count = ref(0)
         icon: 'award',
         accentColor: '#ffd700',
         minAmount: 250,
-        supporters: ['Enterprise Vue Users', 'Global Commerce Inc'],
+        supporters: [
+          { name: 'Alibaba', domain: 'alibaba.com' },
+          { name: 'Nintendo', domain: 'nintendo.com' }
+        ],
         benefits: [
           'All Silver benefits',
           'Quarterly video calls',
@@ -809,7 +857,9 @@ const count = ref(0)
         icon: 'crown',
         accentColor: '#e5e4e2',
         minAmount: 1000,
-        supporters: ['International Tech Giant'],
+        supporters: [
+          { name: 'Xiaomi', domain: 'mi.com' }
+        ],
         benefits: [
           'All Gold benefits',
           'Dedicated support channel',
