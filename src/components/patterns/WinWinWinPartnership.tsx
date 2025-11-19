@@ -2,7 +2,9 @@ import React from 'react';
 import { 
   Target,
   Heart,
-  Briefcase
+  Briefcase,
+  CheckCircle2,
+  LucideIcon
 } from 'lucide-react';
 import { SectionHeader } from '../ui/section-header';
 
@@ -10,6 +12,21 @@ interface WinWinWinPartnershipProps {
   onStartBuilding?: () => void;
   className?: string;
 }
+
+// Bullet Point Component
+interface BulletPointProps {
+  text: string;
+  accentColor: string;
+}
+
+const BulletPoint: React.FC<BulletPointProps> = ({ text, accentColor }) => {
+  return (
+    <div className="flex items-start gap-3 text-left">
+      <CheckCircle2 className={`w-4 h-4 ${accentColor} flex-shrink-0 mt-0.5`} />
+      <span className="text-sm text-brand-neutral-600 leading-relaxed">{text}</span>
+    </div>
+  );
+};
 
 export function WinWinWinPartnership({ 
   onStartBuilding,
@@ -20,9 +37,15 @@ export function WinWinWinPartnership({
     {
       icon: Target,
       title: "For Your Team",
-      description: "Accelerate development with expert services, solve critical problems faster, and level up your entire team with direct mentorship from the world's best open source developers.",
-      color: "text-brand-primary", // Warm, human-centered
+      intro: "Direct access to expert maintainers",
+      benefits: [
+        "Fix bugs and add features without your team ramping up",
+        "Solve critical issues with people who know the code best",
+        "Save time on unfamiliar codebases"
+      ],
+      color: "text-brand-primary",
       iconColor: "text-brand-primary",
+      accentColor: "text-brand-primary",
       iconBgFrom: "from-brand-primary/20",
       iconBgTo: "to-brand-primary/5",
       iconBgHoverFrom: "group-hover:from-brand-primary/30",
@@ -31,9 +54,15 @@ export function WinWinWinPartnership({
     {
       icon: Heart,
       title: "For Your Brand",
-      description: "Build developer credibility and gain recognition for supporting the open source ecosystem. Demonstrate your commitment to sustainable software development.",
-      color: "text-brand-highlight", // Golden, reputation/credibility
+      intro: "Build authentic developer credibility",
+      benefits: [
+        "Transparent non-profit model with visible impact",
+        "Contributions directly fund open source maintainers",
+        "Demonstrate genuine ecosystem commitment"
+      ],
+      color: "text-brand-highlight",
       iconColor: "text-brand-highlight",
+      accentColor: "text-brand-highlight",
       iconBgFrom: "from-brand-highlight/20",
       iconBgTo: "to-brand-highlight/5",
       iconBgHoverFrom: "group-hover:from-brand-highlight/30",
@@ -42,9 +71,15 @@ export function WinWinWinPartnership({
     {
       icon: Briefcase,
       title: "For Your Supply Chain",
-      description: "Secure your foundation by protecting the sustainability of critical open source projects. Ensure long-term reliability and reduce dependency risks.",
-      color: "text-brand-success", // Green, sustainability/security
+      intro: "Secure your software foundation",
+      benefits: [
+        "Support an independent open-source ecosystem",
+        "No vendor lock-in or license change risks",
+        "Ensure long-term sustainability of critical dependencies"
+      ],
+      color: "text-brand-success",
       iconColor: "text-brand-success",
+      accentColor: "text-brand-success",
       iconBgFrom: "from-brand-success/20",
       iconBgTo: "to-brand-success/5",
       iconBgHoverFrom: "group-hover:from-brand-success/30",
@@ -61,7 +96,7 @@ export function WinWinWinPartnership({
             Win-Win-Win Partnership
           </h1>
           <p className="text-lg md:text-xl text-brand-neutral-700 max-w-3xl mx-auto leading-relaxed">
-            Our platform creates value for every stakeholder in the open source ecosystem
+            Pay for expert maintainer access—every dollar strengthens your brand and secures your supply chain
           </p>
         </div>
 
@@ -88,10 +123,21 @@ export function WinWinWinPartnership({
                     {card.title}
                   </h3>
                   
-                  {/* Description */}
-                  <p className="text-brand-neutral-600 leading-relaxed max-w-sm mx-auto">
-                    {card.description}
+                  {/* Intro */}
+                  <p className="text-brand-neutral-700 mb-6">
+                    {card.intro}
                   </p>
+
+                  {/* Benefits List */}
+                  <div className="space-y-3 max-w-sm mx-auto">
+                    {card.benefits.map((benefit, benefitIndex) => (
+                      <BulletPoint 
+                        key={benefitIndex}
+                        text={benefit}
+                        accentColor={card.accentColor}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
             );

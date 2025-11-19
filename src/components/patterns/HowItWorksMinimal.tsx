@@ -8,7 +8,14 @@ import {
   Award,
   ArrowRight,
   Clock,
-  Zap
+  Zap,
+  UserCheck,
+  Target,
+  ShieldCheck,
+  Repeat,
+  Globe,
+  AlertCircle,
+  LucideIcon
 } from 'lucide-react';
 
 interface HowItWorksMinimalProps {
@@ -48,6 +55,120 @@ const PROCESS_STEPS = [
     accentColor: 'success' as const
   }
 ];
+
+// Access Models Data
+const ACCESS_MODELS = [
+  {
+    icon: Clock,
+    title: 'Project-Specific Support Plan',
+    description: 'Book monthly hours with specific maintainers for designated projects. Guaranteed availability with SLA response times.',
+    accentColor: 'accent' as const,
+    features: [
+      { icon: UserCheck, text: 'Dedicated hours with chosen maintainers' },
+      { icon: Target, text: 'Tied to specific projects' },
+      { icon: ShieldCheck, text: 'SLA guarantees available' }
+    ],
+    bestFor: 'Mission-critical projects'
+  },
+  {
+    icon: Zap,
+    title: 'On-Demand Access',
+    description: 'Purchase Service Credits that rollover monthly. Use across any project and any maintainer on our platform—maximum flexibility without guaranteed response times.',
+    accentColor: 'highlight' as const,
+    features: [
+      { icon: Repeat, text: 'Credits rollover month-to-month' },
+      { icon: Globe, text: 'Works with any project or maintainer' },
+      { icon: AlertCircle, text: 'No response time guarantees' }
+    ],
+    bestFor: 'Broad ecosystem support'
+  }
+];
+
+// Feature List Item Component
+interface FeatureListItemProps {
+  icon: LucideIcon;
+  text: string;
+  accentColor: 'accent' | 'highlight';
+}
+
+const FeatureListItem: React.FC<FeatureListItemProps> = ({ icon: Icon, text, accentColor }) => {
+  const colorClasses = accentColor === 'accent' 
+    ? 'bg-brand-accent/10 text-brand-accent'
+    : 'bg-brand-highlight/10 text-brand-highlight';
+
+  return (
+    <div className="flex items-center gap-2.5">
+      <div className={`flex-shrink-0 w-5 h-5 rounded ${colorClasses} flex items-center justify-center`}>
+        <Icon className="w-3 h-3" />
+      </div>
+      <span className="text-xs text-brand-neutral-700">{text}</span>
+    </div>
+  );
+};
+
+// Access Model Card Component
+interface AccessModelCardProps {
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  accentColor: 'accent' | 'highlight';
+  features: Array<{ icon: LucideIcon; text: string }>;
+  bestFor: string;
+}
+
+const AccessModelCard: React.FC<AccessModelCardProps> = ({
+  icon: Icon,
+  title,
+  description,
+  accentColor,
+  features,
+  bestFor
+}) => {
+  const accentColorClasses = accentColor === 'accent'
+    ? {
+        border: 'hover:border-brand-accent/40',
+        iconBg: 'bg-brand-accent/10',
+        iconColor: 'text-brand-accent',
+        badgeBg: 'bg-brand-accent/10',
+        badgeText: 'text-brand-accent'
+      }
+    : {
+        border: 'hover:border-brand-highlight/40',
+        iconBg: 'bg-brand-highlight/10',
+        iconColor: 'text-brand-highlight',
+        badgeBg: 'bg-brand-highlight/10',
+        badgeText: 'text-brand-highlight'
+      };
+
+  return (
+    <div className={`bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-lg p-6 ${accentColorClasses.border} transition-colors flex flex-col`}>
+      <div className="flex items-start gap-4 mb-4">
+        <div className={`flex-shrink-0 w-12 h-12 rounded-lg ${accentColorClasses.iconBg} flex items-center justify-center`}>
+          <Icon className={`w-6 h-6 ${accentColorClasses.iconColor}`} />
+        </div>
+        <div className="flex-1">
+          <h4 className="text-brand-neutral-900 mb-2">{title}</h4>
+          <p className="text-brand-neutral-700 text-sm mb-4">{description}</p>
+          <div className="space-y-2.5">
+            {features.map((feature, index) => (
+              <FeatureListItem
+                key={index}
+                icon={feature.icon}
+                text={feature.text}
+                accentColor={accentColor}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="flex items-center gap-2 text-brand-neutral-600 text-sm mt-auto pt-3 border-t border-brand-neutral-300/20">
+        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md ${accentColorClasses.badgeBg} ${accentColorClasses.badgeText}`}>
+          Best for: {bestFor}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 export const HowItWorksMinimal: React.FC<HowItWorksMinimalProps> = ({ 
   className = '',
@@ -104,45 +225,17 @@ export const HowItWorksMinimal: React.FC<HowItWorksMinimalProps> = ({
           </div>
 
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            {/* Reserved Time Model */}
-            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-lg p-6 hover:border-brand-accent/40 transition-colors flex flex-col">
-              <div className="flex items-start gap-4 mb-4 flex-grow">
-                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-brand-accent/10 flex items-center justify-center">
-                  <Clock className="w-6 h-6 text-brand-accent" />
-                </div>
-                <div>
-                  <h4 className="text-brand-neutral-900 mb-2">Reserved Time</h4>
-                  <p className="text-brand-neutral-700 text-sm">
-                    Dedicated hours with specific maintainers for ongoing work on critical projects
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-brand-neutral-600 text-sm mt-auto">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-accent/10 text-brand-accent-light">
-                  Best for: Critical ongoing projects
-                </span>
-              </div>
-            </div>
-
-            {/* On-Demand Access Model */}
-            <div className="bg-brand-card-blue/50 backdrop-blur-sm border border-brand-neutral-300/30 rounded-lg p-6 hover:border-brand-highlight/40 transition-colors flex flex-col">
-              <div className="flex items-start gap-4 mb-4 flex-grow">
-                <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-brand-highlight/10 flex items-center justify-center">
-                  <Zap className="w-6 h-6 text-brand-highlight" />
-                </div>
-                <div>
-                  <h4 className="text-brand-neutral-900 mb-2">On-Demand Access</h4>
-                  <p className="text-brand-neutral-700 text-sm">
-                    Pre-purchase Service Credits that roll over — use them anytime with any maintainer who built the tools you rely on
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-brand-neutral-600 text-sm mt-auto">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-brand-highlight/10 text-brand-highlight-light">
-                  Best for: Broad ecosystem support
-                </span>
-              </div>
-            </div>
+            {ACCESS_MODELS.map((model, index) => (
+              <AccessModelCard
+                key={index}
+                icon={model.icon}
+                title={model.title}
+                description={model.description}
+                accentColor={model.accentColor}
+                features={model.features}
+                bestFor={model.bestFor}
+              />
+            ))}
           </div>
         </div>
 
