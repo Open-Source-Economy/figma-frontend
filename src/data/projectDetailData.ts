@@ -70,6 +70,11 @@ export interface SupporterTier {
   supporters: Array<{
     name: string;
     domain: string; // Company domain for logo fetching (e.g., 'microsoft.com')
+    description?: string; // Optional description of what they're doing
+    badge?: string; // Optional badge/label (e.g., "Founding Supporter", "Platinum Partner")
+    tagline?: string; // Optional custom tagline/highlight
+    ctaText?: string; // Optional CTA link text (e.g., "View our OSS initiatives")
+    ctaUrl?: string; // Optional CTA URL
   }>;
   minAmount: number;
   benefits: string[];
@@ -439,11 +444,11 @@ root.render(<App />);`,
         accentColor: '#cd7f32',
         minAmount: 10,
         supporters: [
-          { name: 'Vercel', domain: 'vercel.com' },
-          { name: 'Netlify', domain: 'netlify.com' },
-          { name: 'Cloudflare', domain: 'cloudflare.com' },
-          { name: 'DigitalOcean', domain: 'digitalocean.com' },
-          { name: 'Render', domain: 'render.com' }
+          { name: 'Vercel', domain: 'vercel.com', description: 'Supporting modern web development' },
+          { name: 'Netlify', domain: 'netlify.com', description: 'Empowering web teams' },
+          { name: 'Cloudflare', domain: 'cloudflare.com', description: 'Building a better internet' },
+          { name: 'DigitalOcean', domain: 'digitalocean.com', description: 'Cloud infrastructure for developers' },
+          { name: 'Render', domain: 'render.com', description: 'Unified cloud platform' }
         ],
         benefits: [
           'Sponsor badge on profile',
@@ -458,9 +463,24 @@ root.render(<App />);`,
         accentColor: '#c0c0c0',
         minAmount: 50,
         supporters: [
-          { name: 'Stripe', domain: 'stripe.com' },
-          { name: 'Twilio', domain: 'twilio.com' },
-          { name: 'Auth0', domain: 'auth0.com' }
+          { 
+            name: 'Stripe', 
+            domain: 'stripe.com', 
+            description: 'Building economic infrastructure for the internet',
+            badge: 'Silver Partner'
+          },
+          { 
+            name: 'Twilio', 
+            domain: 'twilio.com', 
+            description: 'Powering customer engagement platforms',
+            badge: 'Technology Partner'
+          },
+          { 
+            name: 'Auth0', 
+            domain: 'auth0.com', 
+            description: 'Securing modern applications',
+            badge: 'Security Partner'
+          }
         ],
         benefits: [
           'All Bronze benefits',
@@ -476,8 +496,22 @@ root.render(<App />);`,
         accentColor: '#ffd700',
         minAmount: 250,
         supporters: [
-          { name: 'Shopify', domain: 'shopify.com' },
-          { name: 'Atlassian', domain: 'atlassian.com' }
+          { 
+            name: 'Shopify', 
+            domain: 'shopify.com', 
+            description: 'Empowering millions of entrepreneurs with commerce tools and infrastructure that drive modern retail experiences',
+            badge: 'Gold Sponsor',
+            tagline: 'Powering commerce at scale with React',
+            ctaText: 'See our open source work',
+            ctaUrl: 'https://shopify.engineering'
+          },
+          { 
+            name: 'Atlassian', 
+            domain: 'atlassian.com', 
+            description: 'Building collaboration software for high-performing teams across the globe',
+            badge: 'Engineering Partner',
+            tagline: 'Building the future of teamwork'
+          }
         ],
         benefits: [
           'All Silver benefits',
@@ -494,7 +528,15 @@ root.render(<App />);`,
         accentColor: '#e5e4e2',
         minAmount: 1000,
         supporters: [
-          { name: 'Meta', domain: 'meta.com' }
+          { 
+            name: 'Meta', 
+            domain: 'meta.com', 
+            description: 'Building technologies that help people connect, find communities, and grow businesses. Committed to advancing open source innovation and supporting the developer ecosystem that powers social technologies at global scale.',
+            badge: 'Founding Supporter',
+            tagline: 'Original creators and maintainers of React',
+            ctaText: 'View our open source initiatives',
+            ctaUrl: 'https://opensource.fb.com'
+          }
         ],
         benefits: [
           'All Gold benefits',

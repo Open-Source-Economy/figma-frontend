@@ -17,6 +17,7 @@ import { BlogTeaser } from './components/patterns/BlogTeaser';
 import { TransformCTASection } from './components/patterns/TransformCTASection';
 import { HowItWorksAlternating } from './components/patterns/HowItWorksAlternating';
 import { SupportersSection } from './components/patterns/SupportersSection';
+import { FeaturedVendors } from './components/patterns/FeaturedVendors';
 import { AdminPage } from './components/pages/AdminPage';
 import { AdminVerificationPage } from './components/pages/AdminVerificationPage';
 import { AdminOnboardingPage } from './components/pages/AdminOnboardingPage';
@@ -281,12 +282,21 @@ export default function App() {
         className="bg-gradient-to-br from-brand-neutral-100 via-brand-secondary-dark to-brand-card-blue"
       />
 
+      {/* Featured Vendors - Open Source Partners */}
+      <FeaturedVendors 
+        className="bg-gradient-to-b from-brand-card-blue via-brand-secondary to-brand-neutral-200"
+        onVendorClick={(vendorName) => {
+          console.log('Viewing vendor:', vendorName);
+          // In production, would navigate to vendor detail page
+        }}
+      />
+
       {/* Testimonials Section - Success Stories */}
       <TestimonialsSection 
         onReadMoreStories={() => {
           console.log('Viewing all testimonials');
         }}
-        className="bg-gradient-to-b from-brand-card-blue via-brand-secondary to-brand-neutral-200"
+        className="bg-gradient-to-b from-brand-neutral-200 via-brand-secondary to-brand-card-blue-dark"
       />
 
       {/* Supporters Section - Trust & Mission with Green Accents */}

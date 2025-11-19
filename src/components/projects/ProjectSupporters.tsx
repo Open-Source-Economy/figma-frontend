@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
-import { Heart, Star, Award, Crown, Users } from 'lucide-react';
+import { Heart, Star, Award, Crown, Users, ExternalLink } from 'lucide-react';
 import { IndividualSupporterAvatar } from './IndividualSupporterAvatar';
 
 export interface SupporterTier {
@@ -11,6 +11,11 @@ export interface SupporterTier {
   supporters: Array<{
     name: string;
     domain: string; // Company domain for logo fetching (e.g., 'microsoft.com')
+    description?: string; // Optional description of what they're doing
+    badge?: string; // Optional badge/label (e.g., "Founding Supporter", "Platinum Partner")
+    tagline?: string; // Optional custom tagline/highlight
+    ctaText?: string; // Optional CTA link text (e.g., "View our OSS initiatives")
+    ctaUrl?: string; // Optional CTA URL
   }>;
   minAmount: number;
   benefits: string[];
@@ -60,38 +65,58 @@ export function ProjectSupporters({
     switch (tierName) {
       case 'Platinum':
         return {
-          cardPadding: 'px-12 py-8',
+          cardPadding: 'px-12 py-10',
+          cardWidth: 'w-[420px]',
           textSize: 'text-3xl',
           iconSize: 'h-10 w-10',
-          iconPadding: 'p-4'
+          iconPadding: 'p-4',
+          descriptionSize: 'text-base',
+          descriptionLines: 4,
+          descriptionSpacing: 'mt-4'
         };
       case 'Gold':
         return {
-          cardPadding: 'px-10 py-6',
+          cardPadding: 'px-10 py-8',
+          cardWidth: 'w-[360px]',
           textSize: 'text-2xl',
           iconSize: 'h-8 w-8',
-          iconPadding: 'p-3.5'
+          iconPadding: 'p-3.5',
+          descriptionSize: 'text-sm',
+          descriptionLines: 3,
+          descriptionSpacing: 'mt-3'
         };
       case 'Silver':
         return {
-          cardPadding: 'px-8 py-5',
+          cardPadding: 'px-8 py-6',
+          cardWidth: 'w-80',
           textSize: 'text-xl',
           iconSize: 'h-7 w-7',
-          iconPadding: 'p-3'
+          iconPadding: 'p-3',
+          descriptionSize: 'text-sm',
+          descriptionLines: 2,
+          descriptionSpacing: 'mt-3'
         };
       case 'Bronze':
         return {
-          cardPadding: 'px-6 py-4',
+          cardPadding: 'px-6 py-5',
+          cardWidth: 'w-72',
           textSize: 'text-lg',
           iconSize: 'h-6 w-6',
-          iconPadding: 'p-2.5'
+          iconPadding: 'p-2.5',
+          descriptionSize: 'text-xs',
+          descriptionLines: 2,
+          descriptionSpacing: 'mt-2'
         };
       default:
         return {
           cardPadding: 'px-6 py-4',
+          cardWidth: 'w-64',
           textSize: 'text-base',
           iconSize: 'h-5 w-5',
-          iconPadding: 'p-2'
+          iconPadding: 'p-2',
+          descriptionSize: 'text-xs',
+          descriptionLines: 1,
+          descriptionSpacing: 'mt-2'
         };
     }
   };
@@ -102,6 +127,11 @@ export function ProjectSupporters({
       tier.supporters.map(supporter => ({
         name: supporter.name,
         domain: supporter.domain,
+        description: supporter.description,
+        badge: supporter.badge,
+        tagline: supporter.tagline,
+        ctaText: supporter.ctaText,
+        ctaUrl: supporter.ctaUrl,
         tier: tier.name,
         iconType: tier.icon,
         accentColor: tier.accentColor,
@@ -132,72 +162,206 @@ export function ProjectSupporters({
             return (
               <div
                 key={idx}
-                className={`bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark border-2 border-brand-neutral-300 rounded-2xl ${supporter.cardPadding} hover:border-brand-accent transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-brand-accent/20 relative group w-64`}
+                className={`bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark border border-brand-neutral-300 rounded-2xl ${supporter.cardPadding} hover:scale-[1.02] hover:shadow-2xl relative group ${supporter.cardWidth} transition-all duration-500 ease-out overflow-hidden cursor-pointer`}
                 style={{
-                  boxShadow: '0 10px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset'
+                  boxShadow: `0 10px 40px -15px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.05) inset, 0 0 30px -10px ${supporter.accentColor}15`,
+                  borderTopColor: supporter.accentColor,
+                  borderTopWidth: '4px'
                 }}
+                onClick={() => window.open(`https://${supporter.domain}`, '_blank', 'noopener,noreferrer')}
               >
-                {/* Tier Badge with Glow */}
+                {/* Subtle tier-colored background overlay */}
                 <div 
-                  className={`absolute -top-6 -right-6 ${supporter.iconPadding} rounded-xl shadow-2xl group-hover:scale-110 transition-transform duration-300 z-10`}
-                  style={{ 
-                    backgroundColor: supporter.accentColor,
-                    boxShadow: `0 8px 32px -8px ${supporter.accentColor}80, 0 0 24px -8px ${supporter.accentColor}40`
+                  className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                  style={{
+                    background: `linear-gradient(135deg, ${supporter.accentColor} 0%, transparent 50%)`
                   }}
+                />
+                
+                {/* Subtle left border accent with tier color */}
+                <div 
+                  className="absolute left-0 top-0 bottom-0 w-1 opacity-40 group-hover:opacity-70 transition-opacity duration-300"
+                  style={{
+                    background: `linear-gradient(180deg, ${supporter.accentColor} 0%, transparent 100%)`
+                  }}
+                />
+                
+                {/* Small tier icon in bottom right - only visible on hover */}
+                <div 
+                  className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-20 transition-all duration-300 z-0"
                 >
                   <IconComponent 
-                    className={`${supporter.iconSize} text-white drop-shadow-lg`}
+                    className="h-8 w-8"
+                    style={{ color: supporter.accentColor }}
                   />
                 </div>
                 
-                {/* Company Logo */}
-                <div className="mb-4">
-                  <img
-                    src={`https://logo.clearbit.com/${supporter.domain}`}
-                    alt={`${supporter.name} logo`}
-                    className="h-12 w-auto object-contain mx-auto group-hover:scale-105 transition-transform duration-300"
-                    onError={(e) => {
-                      // Fallback to company initials if logo fails to load
-                      const target = e.target as HTMLImageElement;
-                      target.style.display = 'none';
-                      const fallback = target.nextElementSibling as HTMLElement;
-                      if (fallback) fallback.style.display = 'flex';
-                    }}
-                  />
-                  {/* Fallback - Company initials */}
-                  <div 
-                    className="h-12 w-12 rounded-lg bg-gradient-to-br from-brand-accent/20 to-brand-highlight/20 border border-brand-neutral-300 flex items-center justify-center mx-auto"
-                    style={{ display: 'none' }}
-                  >
-                    <span className="text-brand-neutral-900 font-semibold">
-                      {supporter.name.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase()}
-                    </span>
+                {/* Content container with improved spacing */}
+                <div className="flex flex-col items-center gap-5 relative z-10">
+                  {/* Badge - Tier-specific styling (Platinum, Gold, Silver only) */}
+                  {supporter.badge && (
+                    <div className="w-full flex justify-center -mt-2 mb-1">
+                      {supporter.tier === 'Platinum' && (
+                        <div 
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-full backdrop-blur-sm shadow-xl transition-all duration-300 group-hover:shadow-2xl"
+                          style={{
+                            background: `linear-gradient(135deg, ${supporter.accentColor}40, ${supporter.accentColor}20)`,
+                            border: `1.5px solid ${supporter.accentColor}60`,
+                            boxShadow: `0 0 25px -5px ${supporter.accentColor}50, 0 10px 20px -10px ${supporter.accentColor}30`
+                          }}
+                        >
+                          <Crown className="h-4 w-4" style={{ color: supporter.accentColor, filter: 'drop-shadow(0 0 4px currentColor)' }} />
+                          <span className="text-brand-neutral-800 tracking-wide uppercase text-[10px] letterspacing-widest" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.1)' }}>{supporter.badge}</span>
+                        </div>
+                      )}
+                      {supporter.tier === 'Gold' && (
+                        <div 
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-sm border shadow-md transition-all duration-300"
+                          style={{
+                            background: `linear-gradient(135deg, ${supporter.accentColor}25, ${supporter.accentColor}15)`,
+                            borderColor: `${supporter.accentColor}50`
+                          }}
+                        >
+                          <Award className="h-3.5 w-3.5" style={{ color: supporter.accentColor }} />
+                          <span className="text-brand-neutral-700 tracking-wide text-[10px] uppercase">{supporter.badge}</span>
+                        </div>
+                      )}
+                      {supporter.tier === 'Silver' && (
+                        <div 
+                          className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] border backdrop-blur-sm"
+                          style={{
+                            background: `${supporter.accentColor}12`,
+                            borderColor: `${supporter.accentColor}35`
+                          }}
+                        >
+                          <span className="text-brand-neutral-600 uppercase tracking-wide">{supporter.badge}</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
+                  {/* Company Logo & Name - Inline */}
+                  <div className="flex items-center justify-center gap-4 w-full">
+                    {/* Company Logo */}
+                    <div className="flex-shrink-0">
+                      <img
+                        src={`https://logo.clearbit.com/${supporter.domain}`}
+                        alt={`${supporter.name} logo`}
+                        className="h-12 w-12 object-contain group-hover:scale-105 transition-transform duration-300 rounded-lg"
+                        onError={(e) => {
+                          // Fallback to company initials if logo fails to load
+                          const target = e.target as HTMLImageElement;
+                          target.style.display = 'none';
+                          const fallback = target.nextElementSibling as HTMLElement;
+                          if (fallback) fallback.style.display = 'flex';
+                        }}
+                      />
+                      {/* Fallback - Company initials */}
+                      <div 
+                        className="h-12 w-12 rounded-lg bg-gradient-to-br from-brand-accent/20 to-brand-highlight/20 border border-brand-neutral-300 flex items-center justify-center"
+                        style={{ display: 'none' }}
+                      >
+                        <span className="text-brand-neutral-900 font-semibold">
+                          {supporter.name.split(' ').map(word => word[0]).join('').slice(0, 2).toUpperCase()}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Supporter Name */}
+                    <div className="relative">
+                      <p className={`text-brand-neutral-900 ${supporter.textSize} relative group-hover:text-brand-neutral-950 transition-colors`}
+                         style={{ 
+                           lineHeight: '1.3'
+                         }}
+                      >
+                        {supporter.name}
+                      </p>
+                      <div 
+                        className="absolute bottom-0 left-0 right-0 h-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        style={{ 
+                          transform: 'translateY(8px)',
+                          background: `linear-gradient(90deg, ${supporter.accentColor}, transparent)`
+                        }}
+                      />
+                    </div>
                   </div>
+
+                  {/* Tagline - Platinum and Gold only */}
+                  {supporter.tagline && (supporter.tier === 'Platinum' || supporter.tier === 'Gold') && (
+                    <div className="w-full flex justify-center">
+                      {supporter.tier === 'Platinum' ? (
+                        <p 
+                          className="text-sm italic text-center px-4 py-2 rounded-lg"
+                          style={{
+                            background: `linear-gradient(90deg, transparent, ${supporter.accentColor}10, transparent)`,
+                            color: supporter.accentColor
+                          }}
+                        >
+                          {supporter.tagline}
+                        </p>
+                      ) : (
+                        <p className="text-xs italic text-brand-neutral-600 text-center px-2">
+                          {supporter.tagline}
+                        </p>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Description - Tier-based styling */}
+                  {supporter.description && (
+                    <p 
+                      className={`text-brand-neutral-600 ${supporter.descriptionSize} text-center leading-relaxed w-full`}
+                      style={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: supporter.descriptionLines,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {supporter.description}
+                    </p>
+                  )}
+                  
+                  {/* CTA Link - Platinum and Gold only */}
+                  {supporter.ctaText && supporter.ctaUrl && (supporter.tier === 'Platinum' || supporter.tier === 'Gold') && (
+                    <div 
+                      className="w-full flex justify-center mt-1"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(supporter.ctaUrl, '_blank', 'noopener,noreferrer');
+                      }}
+                    >
+                      {supporter.tier === 'Platinum' ? (
+                        <div 
+                          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 hover:scale-105 cursor-pointer group/cta"
+                          style={{
+                            background: `linear-gradient(135deg, ${supporter.accentColor}20, ${supporter.accentColor}10)`,
+                            border: `1px solid ${supporter.accentColor}40`
+                          }}
+                        >
+                          <span className="text-xs" style={{ color: supporter.accentColor }}>
+                            {supporter.ctaText}
+                          </span>
+                          <ExternalLink 
+                            className="h-3.5 w-3.5 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform" 
+                            style={{ color: supporter.accentColor }} 
+                          />
+                        </div>
+                      ) : (
+                        <div className="inline-flex items-center gap-1.5 text-xs text-brand-neutral-600 hover:text-brand-neutral-800 transition-colors cursor-pointer group/cta">
+                          <span>{supporter.ctaText}</span>
+                          <ExternalLink className="h-3 w-3 group-hover/cta:translate-x-0.5 group-hover/cta:-translate-y-0.5 transition-transform" />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
                 
-                {/* Supporter Name with Gradient Underline on Hover */}
-                <div className="relative">
-                  <p className={`text-brand-neutral-900 ${supporter.textSize} text-center relative z-10 group-hover:text-brand-neutral-950 transition-colors overflow-hidden text-ellipsis px-2`}
-                     style={{ 
-                       display: '-webkit-box',
-                       WebkitLineClamp: 2,
-                       WebkitBoxOrient: 'vertical',
-                       lineHeight: '1.2'
-                     }}
-                  >
-                    {supporter.name}
-                  </p>
-                  <div 
-                    className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-brand-accent via-brand-highlight to-brand-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ transform: 'translateY(8px)' }}
-                  />
-                </div>
-                
-                {/* Subtle corner accent */}
+                {/* Enhanced subtle corner accent with tier color */}
                 <div 
-                  className="absolute top-0 left-0 w-12 h-12 opacity-20 rounded-tl-2xl"
+                  className="absolute top-0 right-0 w-16 h-16 opacity-15 rounded-tr-2xl pointer-events-none"
                   style={{
-                    background: `linear-gradient(135deg, ${supporter.accentColor}40 0%, transparent 100%)`
+                    background: `linear-gradient(225deg, ${supporter.accentColor}60 0%, transparent 70%)`
                   }}
                 />
               </div>
