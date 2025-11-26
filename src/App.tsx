@@ -18,6 +18,7 @@ import { TransformCTASection } from './components/patterns/TransformCTASection';
 import { HowItWorksAlternating } from './components/patterns/HowItWorksAlternating';
 import { SupportersSection } from './components/patterns/SupportersSection';
 import { FeaturedVendors } from './components/patterns/FeaturedVendors';
+import { PlatformSponsors } from './components/patterns/PlatformSponsors';
 import { AdminPage } from './components/pages/AdminPage';
 import { AdminVerificationPage } from './components/pages/AdminVerificationPage';
 import { AdminOnboardingPage } from './components/pages/AdminOnboardingPage';
@@ -298,6 +299,15 @@ export default function App() {
         }}
         className="bg-gradient-to-b from-brand-neutral-200 via-brand-secondary to-brand-card-blue-dark"
       />
+
+      {/* Platform Sponsors - Leading Organizations with Visual Hierarchy */}
+      <div className="relative overflow-hidden bg-gradient-to-b from-brand-card-blue-dark via-brand-secondary to-brand-neutral-200">
+        <div className="absolute top-1/3 left-0 w-96 h-96 bg-brand-success/12 rounded-full blur-3xl opacity-40" />
+        <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-brand-accent/10 rounded-full blur-3xl opacity-30" />
+        <PlatformSponsors 
+          onBecomeSponsorClick={() => setCurrentPage('sponsorship')}
+        />
+      </div>
 
       {/* Supporters Section - Trust & Mission with Green Accents */}
       <div className="relative overflow-hidden bg-gradient-to-br from-brand-neutral-200 via-brand-secondary to-brand-secondary-dark">

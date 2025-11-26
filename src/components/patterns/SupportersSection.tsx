@@ -1,7 +1,9 @@
 import React from 'react';
 import { SectionHeader } from '../ui/section-header';
 import { Badge } from '../ui/badge';
-import { Heart, Building2, Users, Sparkles } from 'lucide-react';
+import { Heart, Users } from 'lucide-react';
+import { SupporterCard } from '../supporters/SupporterCard';
+import { getTierConfig, getAccentColor } from '../supporters/tierConfig';
 
 interface Supporter {
   name: string;
@@ -26,51 +28,6 @@ export function SupportersSection({ className = '' }: SupportersSectionProps) {
     { name: 'google', displayName: 'GOOGLE', tier: 'community', since: '2024', contribution: 'OSS Advocacy' },
     { name: 'aws', displayName: 'AWS', tier: 'community', since: '2024', contribution: 'Cloud Credits' },
   ];
-
-  const getTierConfig = (tier: Supporter['tier']) => {
-    switch (tier) {
-      case 'founding':
-        return {
-          label: 'Founding Supporter',
-          icon: Heart,
-          color: 'text-brand-success',
-          borderColor: 'border-brand-success/30',
-          bgColor: 'bg-brand-success/5',
-          badgeVariant: 'default' as const,
-          badgeClass: 'bg-brand-success/20 text-brand-success border-brand-success/40'
-        };
-      case 'enterprise':
-        return {
-          label: 'Enterprise Partner',
-          icon: Building2,
-          color: 'text-brand-highlight',
-          borderColor: 'border-brand-highlight/30',
-          bgColor: 'bg-brand-highlight/5',
-          badgeVariant: 'secondary' as const,
-          badgeClass: 'bg-brand-highlight/20 text-brand-highlight border-brand-highlight/40'
-        };
-      case 'partner':
-        return {
-          label: 'Strategic Partner',
-          icon: Sparkles,
-          color: 'text-brand-accent',
-          borderColor: 'border-brand-accent/30',
-          bgColor: 'bg-brand-accent/5',
-          badgeVariant: 'outline' as const,
-          badgeClass: 'bg-brand-accent/20 text-brand-accent border-brand-accent/40'
-        };
-      case 'community':
-        return {
-          label: 'Community Supporter',
-          icon: Users,
-          color: 'text-brand-primary',
-          borderColor: 'border-brand-primary/30',
-          bgColor: 'bg-brand-primary/5',
-          badgeVariant: 'outline' as const,
-          badgeClass: 'bg-brand-primary/20 text-brand-primary border-brand-primary/40'
-        };
-    }
-  };
 
   // Group supporters by tier for better organization
   const foundingSupporters = supporters.filter(s => s.tier === 'founding');
@@ -109,47 +66,20 @@ export function SupportersSection({ className = '' }: SupportersSectionProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
               {foundingSupporters.map((supporter, index) => {
                 const config = getTierConfig(supporter.tier);
-                const Icon = config.icon;
                 
                 return (
-                  <div 
+                  <SupporterCard
                     key={index}
-                    className={`group relative bg-brand-card-blue-dark/80 rounded-2xl p-8 border-2 ${config.borderColor} hover:border-brand-success hover:shadow-2xl hover:shadow-brand-success/20 transition-all duration-500 overflow-hidden`}
-                  >
-                    {/* Background gradient */}
-                    <div className={`absolute inset-0 ${config.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                    
-                    {/* Content */}
-                    <div className="relative z-10">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className={`p-3 rounded-xl ${config.bgColor} border ${config.borderColor}`}>
-                          <Icon className={`w-6 h-6 ${config.color}`} />
-                        </div>
-                        {supporter.since && (
-                          <span className="text-xs text-brand-neutral-500 bg-brand-neutral-200/50 px-3 py-1 rounded-full">
-                            Since {supporter.since}
-                          </span>
-                        )}
-                      </div>
-                      
-                      <h3 className="text-3xl tracking-widest text-brand-neutral-800 group-hover:text-brand-neutral-950 transition-colors duration-300 mb-3">
-                        {supporter.displayName}
-                      </h3>
-                      
-                      {supporter.contribution && (
-                        <p className="text-sm text-brand-neutral-600 mb-4">
-                          {supporter.contribution}
-                        </p>
-                      )}
-                      
-                      <Badge variant="outline" className={config.badgeClass}>
-                        {config.label}
-                      </Badge>
-                    </div>
-
-                    {/* Decorative corner accent */}
-                    <div className={`absolute top-0 right-0 w-32 h-32 ${config.color} opacity-5 rounded-full blur-3xl group-hover:opacity-10 transition-opacity duration-500`} />
-                  </div>
+                    name={supporter.name}
+                    displayName={supporter.displayName}
+                    contribution={supporter.contribution}
+                    since={supporter.since}
+                    tier={supporter.tier}
+                    icon={config.icon}
+                    accentColor={getAccentColor(supporter.tier)} 
+                    size="xlarge"
+                    variant="featured"
+                  />
                 );
               })}
             </div>

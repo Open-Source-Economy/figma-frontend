@@ -84,7 +84,11 @@ export function FeaturedVendors({ className = '', onVendorClick }: FeaturedVendo
         </div>
         
         {/* Vendor Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className={`${
+          vendors.length === 1 
+            ? 'flex justify-center max-w-md mx-auto' 
+            : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto'
+        }`}>
           {vendors.map((vendor, idx) => (
             <VendorCard
               key={idx}

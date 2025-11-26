@@ -1,370 +1,392 @@
 import React from 'react';
-import { DeveloperOnboardingData } from '../../../types/DeveloperOnboarding';
-import { CheckCircle2, Mail, User, Code, Zap, Heart, Clock, DollarSign, Briefcase } from 'lucide-react';
 import { Button } from '../../ui/button';
-import { StepHeader } from '../StepHeader';
+import { Badge } from '../../ui/badge';
+import { Card } from '../../ui/card';
+import { 
+  DeveloperOnboardingData, 
+  Project, 
+  Availability, 
+  DeveloperService 
+} from '../../../types/DeveloperOnboarding';
+import { 
+  User, 
+  Folder, 
+  UserCircle, 
+  Clock, 
+  Briefcase, 
+  Edit2, 
+  CheckCircle2,
+  ExternalLink
+} from 'lucide-react';
+import { 
+  ReviewCard, 
+  ReviewCardHeader, 
+  ReviewField, 
+  ReviewSection 
+} from '../ReviewComponents';
 
 interface StepReviewProps {
   data: Partial<DeveloperOnboardingData>;
-  onEdit: (step: number) => void;
+  onEdit: (stepNumber: number) => void;
 }
 
-/**
- * StepReview - Step 6 of developer onboarding
- * Final review before submission
- */
-export const StepReview: React.FC<StepReviewProps> = ({ data, onEdit }) => {
-  const isActive = data.participationModel === 'active';
-  const enabledServices = data.services?.filter(s => s.enabled) || [];
+export function StepReview({ data, onEdit }: StepReviewProps) {
+  const formatCurrency = (amount: number, currency: string) => {
+    const symbols: Record<string, string> = {
+      USD: '$',
+      EUR: '€',
+      CHF: 'CHF'
+    };
+    return `${symbols[currency] || currency} ${amount}`;
+  };
 
-  // Success icon for header
-  const successIcon = (
-    <div className="w-16 h-16 bg-gradient-to-br from-brand-success to-brand-success-light rounded-full flex items-center justify-center">
-      <CheckCircle2 className="w-8 h-8 text-white" />
-    </div>
-  );
+  const formatResponseTime = (hours?: number) => {
+    if (!hours) return 'Not specified';
+    if (hours === 24) return '24 hours';
+    if (hours === 48) return '2 days';
+    if (hours === 72) return '3 days';
+    if (hours === 168) return '1 week';
+    return `${hours} hours`;
+  };
+
+  const getRoleLabel = (role: string) => {
+    const labels: Record<string, string> = {
+      maintainer: 'Maintainer',
+      core_contributor: 'Core Contributor',
+      contributor: 'Contributor',
+      other: 'Other'
+    };
+    return labels[role] || role;
+  };
+
+  const getAccessLabel = (access: string) => {
+    const labels: Record<string, string> = {
+      full_write: 'Full Write Access',
+      write_with_review: 'Write with Review',
+      read_only: 'Read Only'
+    };
+    return labels[access] || access;
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <StepHeader
-        stepNumber="06"
-        title="Review Your Profile"
-        subtitle='Please review your information before submitting. You can edit any section by clicking the "Edit" button.'
-        align="center"
-        icon={successIcon}
-      />
-
-      {/* Review Sections */}
-      <div className="space-y-4">
-        {/* Contact Information */}
-        <div className="bg-brand-secondary-dark rounded-xl border border-brand-neutral-300/10 p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-brand-accent/10 rounded-lg flex items-center justify-center">
-                <User className="w-5 h-5 text-brand-accent" />
-              </div>
-              <div>
-                <h3 className="text-brand-neutral-200">Contact Information</h3>
-                <p className="text-sm text-brand-neutral-400">Step 1</p>
-              </div>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onEdit(1)}
-              className="text-brand-accent hover:text-brand-accent-dark"
-            >
-              Edit
-            </Button>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <div className="text-sm text-brand-neutral-400 mb-1">Full Name</div>
-              <div className="text-brand-neutral-200">{data.contact?.fullName || '—'}</div>
-            </div>
-            <div>
-              <div className="text-sm text-brand-neutral-400 mb-1">Email Address</div>
-              <div className="text-brand-neutral-200 flex items-center gap-2">
-                <Mail className="w-4 h-4 text-brand-neutral-500" />
-                {data.contact?.email || '—'}
-              </div>
-            </div>
-          </div>
+      <div className="text-center mb-6">
+        <div className="inline-flex items-center gap-2 bg-brand-success/20 border border-brand-success/30 px-3 py-1.5 rounded-full mb-3">
+          <CheckCircle2 className="h-3.5 w-3.5 text-brand-success" />
+          <span className="text-brand-success text-xs uppercase tracking-wider">Review Your Information</span>
         </div>
-
-        {/* Projects */}
-        <div className="bg-brand-secondary-dark rounded-xl border border-brand-neutral-300/10 p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-brand-highlight/10 rounded-lg flex items-center justify-center">
-                <Code className="w-5 h-5 text-brand-highlight" />
-              </div>
-              <div>
-                <h3 className="text-brand-neutral-200">Open Source Projects</h3>
-                <p className="text-sm text-brand-neutral-400">Step 2 • {data.projects?.length || 0} projects</p>
-              </div>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onEdit(2)}
-              className="text-brand-accent hover:text-brand-accent-dark"
-            >
-              Edit
-            </Button>
-          </div>
-
-          {data.projects && data.projects.length > 0 ? (
-            <div className="space-y-3">
-              {data.projects.map((project) => (
-                <div
-                  key={project.id}
-                  className="flex items-start justify-between p-3 bg-brand-card-blue rounded-lg"
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-brand-neutral-200 break-all">{project.url}</span>
-                      {project.verified && (
-                        <CheckCircle2 className="w-4 h-4 text-brand-success flex-shrink-0" />
-                      )}
-                    </div>
-                    <div className="text-sm text-brand-neutral-400">
-                      {project.projectType && (
-                        <>
-                          <span className="capitalize">{project.projectType.replace('_', ' ')}</span>
-                          {' • '}
-                        </>
-                      )}
-                      <span className="capitalize">{project.role.replace('_', ' ')}</span>
-                      {' • '}
-                      <span className="capitalize">{project.mainBranchAccess.replace('_', ' ')}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p className="text-sm text-brand-neutral-400">No projects added</p>
-          )}
-        </div>
-
-        {/* Participation Model */}
-        <div className="bg-brand-secondary-dark rounded-xl border border-brand-neutral-300/10 p-6">
-          <div className="flex items-start justify-between mb-4">
-            <div className="flex items-center gap-3">
-              <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                isActive ? 'bg-brand-accent/10' : 'bg-brand-highlight/10'
-              }`}>
-                {isActive ? (
-                  <Zap className="w-5 h-5 text-brand-accent" />
-                ) : (
-                  <Heart className="w-5 h-5 text-brand-highlight" />
-                )}
-              </div>
-              <div>
-                <h3 className="text-brand-neutral-200">Participation Model</h3>
-                <p className="text-sm text-brand-neutral-400">Step 3</p>
-              </div>
-            </div>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => onEdit(3)}
-              className="text-brand-accent hover:text-brand-accent-dark"
-            >
-              Edit
-            </Button>
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className={`px-4 py-2 rounded-lg ${
-              isActive
-                ? 'bg-brand-accent/10 text-brand-accent'
-                : 'bg-brand-highlight/10 text-brand-highlight-dark'
-            }`}>
-              {data.participationModel === 'active' ? 'Active Participation' : 'Passive Participation'}
-            </div>
-          </div>
-        </div>
-
-        {/* Availability (Active only) */}
-        {isActive && data.availability && (
-          <div className="bg-brand-secondary-dark rounded-xl border border-brand-neutral-300/10 p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-brand-success/10 rounded-lg flex items-center justify-center">
-                  <Clock className="w-5 h-5 text-brand-success" />
-                </div>
-                <div>
-                  <h3 className="text-brand-neutral-200">Availability & Rates</h3>
-                  <p className="text-sm text-brand-neutral-400">Step 4</p>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onEdit(4)}
-                className="text-brand-accent hover:text-brand-accent-dark"
-              >
-                Edit
-              </Button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <div className="text-sm text-brand-neutral-400 mb-1">Weekly Hours</div>
-                <div className="text-brand-neutral-200 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-brand-neutral-500" />
-                  {data.availability.weeklyHours} hours
-                </div>
-              </div>
-              <div>
-                <div className="text-sm text-brand-neutral-400 mb-1">Base Rate</div>
-                <div className="text-brand-neutral-200 flex items-center gap-2">
-                  <DollarSign className="w-4 h-4 text-brand-neutral-500" />
-                  {data.availability.currency} {data.availability.baseHourlyRate}/hour
-                </div>
-              </div>
-              <div>
-                <div className="text-sm text-brand-neutral-400 mb-1">Est. Monthly</div>
-                <div className="text-brand-accent">
-                  {data.availability.currency}{' '}
-                  {(data.availability.weeklyHours * data.availability.baseHourlyRate * 4.33).toLocaleString()}
-                </div>
-              </div>
-            </div>
-
-            {/* Basic Availability Comment */}
-            {data.availability.basicAvailabilityComment && (
-              <div className="mt-4 pt-4 border-t border-brand-neutral-300/10">
-                <div className="text-sm text-brand-neutral-400 mb-2">Comment</div>
-                <div className="text-sm text-brand-neutral-300 italic bg-brand-card-blue/50 rounded-lg p-3">
-                  "{data.availability.basicAvailabilityComment}"
-                </div>
-              </div>
-            )}
-
-            {data.availability.minimumEngagement && (
-              <div className="mt-4 pt-4 border-t border-brand-neutral-300/10">
-                <div className="text-sm text-brand-neutral-400 mb-2">Minimum Engagement</div>
-                <div className="flex items-center gap-4 text-sm text-brand-neutral-300">
-                  {data.availability.minimumEngagement.hoursPerProject && (
-                    <span>{data.availability.minimumEngagement.hoursPerProject} hours per project</span>
-                  )}
-                  {data.availability.minimumEngagement.minimumDuration && (
-                    <span>{data.availability.minimumEngagement.minimumDuration} weeks minimum</span>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Additional Availability Information */}
-            {(data.availability.typicalWeeklyHours || data.availability.hourlyRate || data.availability.openToBiggerOpportunities !== undefined) && (
-              <div className="mt-4 pt-4 border-t border-brand-neutral-300/10">
-                <div className="text-sm text-brand-neutral-400 mb-3">Additional Information</div>
-                <div className="space-y-3">
-                  {data.availability.typicalWeeklyHours && (
-                    <div>
-                      <div className="text-sm text-brand-neutral-300 mb-1">
-                        <strong>Typical weekly hours:</strong> {data.availability.typicalWeeklyHours} hours/week
-                      </div>
-                      {data.availability.typicalWeeklyHoursComment && (
-                        <div className="text-sm text-brand-neutral-400 pl-4 italic">
-                          "{data.availability.typicalWeeklyHoursComment}"
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {data.availability.hourlyRate && (
-                    <div>
-                      <div className="text-sm text-brand-neutral-300 mb-1">
-                        <strong>Hourly rate:</strong> {data.availability.currency} {data.availability.hourlyRate}/hour
-                      </div>
-                      {data.availability.hourlyRateComment && (
-                        <div className="text-sm text-brand-neutral-400 pl-4 italic">
-                          "{data.availability.hourlyRateComment}"
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {data.availability.openToBiggerOpportunities !== undefined && (
-                    <div>
-                      <div className="text-sm text-brand-neutral-300 mb-1">
-                        <strong>Open to bigger opportunities:</strong>{' '}
-                        <span className={data.availability.openToBiggerOpportunities ? 'text-brand-success' : 'text-brand-neutral-400'}>
-                          {data.availability.openToBiggerOpportunities ? 'Yes' : 'No'}
-                        </span>
-                      </div>
-                      {data.availability.biggerOpportunitiesComment && (
-                        <div className="text-sm text-brand-neutral-400 pl-4 italic">
-                          "{data.availability.biggerOpportunitiesComment}"
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Services (Active only) */}
-        {isActive && data.services && enabledServices.length > 0 && (
-          <div className="bg-brand-secondary-dark rounded-xl border border-brand-neutral-300/10 p-6">
-            <div className="flex items-start justify-between mb-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-brand-warning/10 rounded-lg flex items-center justify-center">
-                  <Briefcase className="w-5 h-5 text-brand-warning" />
-                </div>
-                <div>
-                  <h3 className="text-brand-neutral-200">Services Offered</h3>
-                  <p className="text-sm text-brand-neutral-400">Step 5 • {enabledServices.length} enabled</p>
-                </div>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => onEdit(5)}
-                className="text-brand-accent hover:text-brand-accent-dark"
-              >
-                Edit
-              </Button>
-            </div>
-
-            <div className="space-y-2">
-              {enabledServices.map((service) => {
-                const effectiveRate = service.hourlyRate || data.availability?.baseHourlyRate || 0;
-                const projectCount = service.projectIds.length;
-                
-                return (
-                  <div
-                    key={service.id}
-                    className="flex items-center justify-between p-3 bg-brand-card-blue rounded-lg"
-                  >
-                    <div className="flex-1">
-                      <span className="text-brand-neutral-200">{service.serviceName}</span>
-                      <div className="flex items-center gap-2 mt-1 text-xs text-brand-neutral-400">
-                        <span className="capitalize">{service.serviceType.replace('_', ' ')}</span>
-                        <span>•</span>
-                        <span>{projectCount} project{projectCount !== 1 ? 's' : ''}</span>
-                        {service.responseTimeHours && (
-                          <>
-                            <span>•</span>
-                            <span>{service.responseTimeHours}h response</span>
-                          </>
-                        )}
-                      </div>
-                    </div>
-                    <span className="text-brand-accent">
-                      {data.availability?.currency}{' '}
-                      {effectiveRate}/hr
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        )}
+        <h2 className="text-brand-neutral-900 mb-2">
+          Review & Confirm
+        </h2>
+        <p className="text-brand-neutral-600 text-sm max-w-2xl mx-auto">
+          Please review all the information you've provided. You can edit any section by clicking the "Edit" button.
+        </p>
       </div>
 
-      {/* Submission Info */}
-      <div className="max-w-4xl mx-auto bg-brand-success/5 border border-brand-success/20 rounded-xl p-6">
-        <h4 className="text-brand-neutral-200 mb-3 flex items-center gap-2">
-          <CheckCircle2 className="w-5 h-5 text-brand-success" />
-          Ready to Submit?
-        </h4>
-        <p className="text-sm text-brand-neutral-300 mb-4">
-          By submitting this form, you agree to our Terms of Service and Privacy Policy. We'll review your application and get back to you within 2-3 business days.
+      {/* Step 1: Identity */}
+      <ReviewCard>
+        <ReviewCardHeader
+          icon={User}
+          iconColor="text-brand-accent"
+          title="Identity & Contact"
+          stepNumber={1}
+          onEdit={() => onEdit(1)}
+          editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
+        />
+        <div className="space-y-2.5">
+          <ReviewField label="Full Name" value={data.contact?.fullName || 'Not provided'} />
+          <ReviewField label="Email" value={data.contact?.email || 'Not provided'} />
+          <ReviewField 
+            label="Terms" 
+            value={
+              data.contact?.termsAccepted ? (
+                <Badge variant="outline" className="bg-brand-success/20 border-brand-success/30 text-brand-success text-xs h-5 px-2">
+                  Accepted
+                </Badge>
+              ) : (
+                <Badge variant="outline" className="bg-brand-error/20 border-brand-error/30 text-brand-error text-xs h-5 px-2">
+                  Not Accepted
+                </Badge>
+              )
+            }
+          />
+        </div>
+      </ReviewCard>
+
+      {/* Step 2: Projects */}
+      <ReviewCard>
+        <ReviewCardHeader
+          icon={Folder}
+          iconColor="text-brand-highlight"
+          title="Open Source Projects"
+          stepNumber={2}
+          metadata={`${data.projects?.length || 0} projects`}
+          onEdit={() => onEdit(2)}
+          editButtonColor="text-brand-highlight hover:text-brand-highlight-dark hover:bg-brand-highlight/10"
+        />
+        <div className="space-y-2.5">
+          {data.projects && data.projects.length > 0 ? (
+            data.projects.map((project, idx) => (
+              <div key={project.id} className="border-l-2 border-brand-highlight/30 pl-3 py-1.5 space-y-1.5">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-brand-neutral-800 text-sm">Project {idx + 1}</span>
+                      {project.verified && (
+                        <Badge variant="outline" className="bg-brand-success/20 border-brand-success/30 text-brand-success text-xs h-4 px-1.5">
+                          ✓
+                        </Badge>
+                      )}
+                    </div>
+                    <a 
+                      href={project.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-brand-accent hover:underline flex items-center gap-1 text-xs group"
+                    >
+                      <span className="truncate">{project.url}</span>
+                      <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </a>
+                  </div>
+                </div>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-brand-neutral-500">Role:</span>
+                    <span className="text-brand-neutral-900">{getRoleLabel(project.role)}</span>
+                  </div>
+                  <div className="flex items-baseline gap-1.5">
+                    <span className="text-brand-neutral-500">Access:</span>
+                    <span className="text-brand-neutral-900">{getAccessLabel(project.mainBranchAccess)}</span>
+                  </div>
+                  {project.ecosystems && project.ecosystems.length > 0 && (
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-brand-neutral-500">Ecosystems:</span>
+                      <div className="flex flex-wrap gap-1">
+                        {project.ecosystems.map((eco, i) => (
+                          <Badge key={i} variant="outline" className="text-xs h-4 px-1.5">
+                            {eco}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-brand-neutral-500 text-sm">No projects added</p>
+          )}
+        </div>
+      </ReviewCard>
+
+      {/* Step 3: Participation Model */}
+      <ReviewCard>
+        <ReviewCardHeader
+          icon={UserCircle}
+          iconColor="text-brand-accent"
+          title="Participation Model"
+          stepNumber={3}
+          onEdit={() => onEdit(3)}
+          editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
+        />
+        <div>
+          {data.participationModel ? (
+            <Badge 
+              variant="outline" 
+              className={`${
+                data.participationModel === 'active' 
+                  ? 'bg-brand-accent/20 border-brand-accent/30 text-brand-accent' 
+                  : 'bg-brand-highlight/20 border-brand-highlight/30 text-brand-highlight'
+              } text-sm px-3 py-1.5`}
+            >
+              {data.participationModel === 'active' ? 'Active Participation' : 'Passive Participation'}
+            </Badge>
+          ) : (
+            <p className="text-brand-neutral-500 text-sm">Not selected</p>
+          )}
+        </div>
+      </ReviewCard>
+
+      {/* Step 4: Availability (Active only) */}
+      {data.participationModel === 'active' && (
+        <ReviewCard>
+          <ReviewCardHeader
+            icon={Clock}
+            iconColor="text-brand-highlight"
+            title="Availability & Rates"
+            stepNumber={4}
+            onEdit={() => onEdit(4)}
+            editButtonColor="text-brand-highlight hover:text-brand-highlight-dark hover:bg-brand-highlight/10"
+          />
+          <div className="space-y-3">
+            {data.availability ? (
+              <>
+                <ReviewSection>
+                  <ReviewField 
+                    label="Weekly Hours" 
+                    value={`${data.availability.weeklyHours} hrs/week`} 
+                    minWidth="min-w-[120px]"
+                  />
+                  {data.availability.basicAvailabilityComment && (
+                    <ReviewField 
+                      label="Availability Notes" 
+                      value={data.availability.basicAvailabilityComment} 
+                      minWidth="min-w-[120px]"
+                    />
+                  )}
+                </ReviewSection>
+
+                <ReviewSection withDivider>
+                  <ReviewField 
+                    label="Base Hourly Rate" 
+                    value={formatCurrency(data.availability.baseHourlyRate, data.availability.currency)} 
+                    minWidth="min-w-[120px]"
+                  />
+                  {data.availability.hourlyRateComment && (
+                    <ReviewField 
+                      label="Rate Notes" 
+                      value={data.availability.hourlyRateComment} 
+                      minWidth="min-w-[120px]"
+                    />
+                  )}
+                </ReviewSection>
+
+                {data.availability.openToBiggerOpportunities !== undefined && (
+                  <ReviewSection withDivider>
+                    <ReviewField 
+                      label="Bigger Opportunities" 
+                      value={
+                        data.availability.openToBiggerOpportunities === true ? 'Yes' :
+                        data.availability.openToBiggerOpportunities === false ? 'No' : 'Maybe'
+                      }
+                      minWidth="min-w-[120px]"
+                    />
+                    {data.availability.biggerOpportunitiesComment && (
+                      <ReviewField 
+                        label="Opportunity Notes" 
+                        value={data.availability.biggerOpportunitiesComment} 
+                        minWidth="min-w-[120px]"
+                      />
+                    )}
+                  </ReviewSection>
+                )}
+              </>
+            ) : (
+              <p className="text-brand-neutral-500 text-sm">Not provided</p>
+            )}
+          </div>
+        </ReviewCard>
+      )}
+
+      {/* Step 5: Services (Active only) */}
+      {data.participationModel === 'active' && (
+        <ReviewCard>
+          <ReviewCardHeader
+            icon={Briefcase}
+            iconColor="text-brand-accent"
+            title="Services"
+            stepNumber={5}
+            metadata={`${data.services?.filter(s => s.enabled).length || 0} enabled`}
+            onEdit={() => onEdit(5)}
+            editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
+          />
+          <div className="space-y-3">
+            {data.services && data.services.length > 0 ? (
+              (() => {
+                const enabledServices = data.services.filter(service => service.enabled);
+                const servicesByType = enabledServices.reduce((acc, service) => {
+                  const type = service.serviceType;
+                  if (!acc[type]) acc[type] = [];
+                  acc[type].push(service);
+                  return acc;
+                }, {} as Record<string, typeof enabledServices>);
+
+                const categoryLabels: Record<string, string> = {
+                  support: 'Support',
+                  development: 'Development',
+                  advisory: 'Advisory',
+                  security_and_compliance: 'Security & Compliance',
+                  custom: 'Custom Services'
+                };
+
+                return Object.entries(servicesByType).map(([type, services], categoryIdx) => (
+                  <div key={type}>
+                    {categoryIdx > 0 && <div className="border-t border-brand-neutral-300/30 -mx-4 my-3"></div>}
+                    <div className="mb-2">
+                      <h4 className="text-brand-neutral-600 text-xs uppercase tracking-wider">{categoryLabels[type] || type}</h4>
+                    </div>
+                    <div className="space-y-2">
+                      {services.map((service) => (
+                        <div key={service.id} className="border-l-2 border-brand-accent/30 pl-3 py-1.5 space-y-1.5">
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-0.5">
+                                <h5 className="text-brand-neutral-900 text-sm">{service.serviceName}</h5>
+                              </div>
+                            </div>
+                            <Badge variant="outline" className="bg-brand-success/20 border-brand-success/30 text-brand-success text-xs h-4 px-1.5">
+                              ✓
+                            </Badge>
+                          </div>
+                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
+                            {service.hourlyRate && (
+                              <div className="flex items-baseline gap-1.5">
+                                <span className="text-brand-neutral-500">Rate:</span>
+                                <span className="text-brand-neutral-900">
+                                  {formatCurrency(service.hourlyRate, data.availability?.currency || 'USD')}
+                                </span>
+                              </div>
+                            )}
+                            {service.responseTimeHours && (
+                              <div className="flex items-baseline gap-1.5">
+                                <span className="text-brand-neutral-500">Response:</span>
+                                <span className="text-brand-neutral-900">{formatResponseTime(service.responseTimeHours)}</span>
+                              </div>
+                            )}
+                            {service.projectIds.length > 0 && (
+                              <div className="flex items-baseline gap-1.5 w-full">
+                                <span className="text-brand-neutral-500">Projects:</span>
+                                <div className="flex flex-wrap gap-1">
+                                  {service.projectIds.map(projectId => {
+                                    const project = data.projects?.find(p => p.id === projectId);
+                                    if (!project) return null;
+                                    const projectName = project.url.split('/').pop() || project.url;
+                                    return (
+                                      <Badge key={projectId} variant="outline" className="text-xs h-4 px-1.5">
+                                        {projectName}
+                                      </Badge>
+                                    );
+                                  })}
+                                </div>
+                              </div>
+                            )}
+                            {service.comment && (
+                              <div className="flex items-baseline gap-1.5 w-full">
+                                <span className="text-brand-neutral-500">Notes:</span>
+                                <span className="text-brand-neutral-900 flex-1">{service.comment}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ));
+              })()
+            ) : (
+              <p className="text-brand-neutral-500 text-sm">No services enabled</p>
+            )}
+          </div>
+        </ReviewCard>
+      )}
+
+      {/* Final Confirmation Note */}
+      <div className="bg-brand-accent/10 border border-brand-accent/30 rounded-lg p-4 text-center">
+        <p className="text-brand-neutral-700 text-sm">
+          By clicking "Submit Application" below, you confirm that all the information provided is accurate and you agree to our Terms and Conditions.
         </p>
-        <ul className="text-sm text-brand-neutral-300 space-y-2 list-disc list-inside">
-          <li>Your profile will be reviewed by our team</li>
-          <li>We'll verify your GitHub contributions and project access</li>
-          <li>{isActive ? 'You can start accepting work requests after approval' : 'Your projects will be listed in our directory'}</li>
-          <li>You can update your profile anytime after submission</li>
-        </ul>
       </div>
     </div>
   );
-};
+}

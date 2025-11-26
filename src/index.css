@@ -1171,6 +1171,10 @@
     margin-inline: calc(var(--spacing) * -2);
   }
 
+  .-mx-4 {
+    margin-inline: calc(var(--spacing) * -4);
+  }
+
   .-mx-\[50vw\] {
     margin-inline: -50vw;
   }
@@ -1181,6 +1185,10 @@
 
   .my-1 {
     margin-block: calc(var(--spacing) * 1);
+  }
+
+  .my-3 {
+    margin-block: calc(var(--spacing) * 3);
   }
 
   .my-4 {
@@ -2098,6 +2106,14 @@
     min-width: 8rem;
   }
 
+  .min-w-\[100px\] {
+    min-width: 100px;
+  }
+
+  .min-w-\[120px\] {
+    min-width: 120px;
+  }
+
   .min-w-\[180px\] {
     min-width: 180px;
   }
@@ -2593,6 +2609,10 @@
 
   .gap-y-0\.5 {
     row-gap: calc(var(--spacing) * .5);
+  }
+
+  .gap-y-1 {
+    row-gap: calc(var(--spacing) * 1);
   }
 
   .gap-y-2 {
@@ -3635,16 +3655,6 @@
   @supports (color: color-mix(in lab, red, red)) {
     .bg-brand-card-blue-dark\/60 {
       background-color: color-mix(in oklab, var(--brand-card-blue-dark) 60%, transparent);
-    }
-  }
-
-  .bg-brand-card-blue-dark\/80 {
-    background-color: var(--brand-card-blue-dark);
-  }
-
-  @supports (color: color-mix(in lab, red, red)) {
-    .bg-brand-card-blue-dark\/80 {
-      background-color: color-mix(in oklab, var(--brand-card-blue-dark) 80%, transparent);
     }
   }
 
@@ -10155,6 +10165,12 @@
   }
 
   @media (hover: hover) {
+    .hover\:text-brand-highlight-dark:hover {
+      color: var(--brand-highlight-dark);
+    }
+  }
+
+  @media (hover: hover) {
     .hover\:text-brand-neutral-600:hover {
       color: var(--brand-neutral-600);
     }
@@ -11943,6 +11959,30 @@
   @media (width >= 48rem) {
     .md\:w-20 {
       width: calc(var(--spacing) * 20);
+    }
+  }
+
+  @media (width >= 48rem) {
+    .md\:w-\[220px\] {
+      width: 220px;
+    }
+  }
+
+  @media (width >= 48rem) {
+    .md\:w-\[280px\] {
+      width: 280px;
+    }
+  }
+
+  @media (width >= 48rem) {
+    .md\:w-\[340px\] {
+      width: 340px;
+    }
+  }
+
+  @media (width >= 48rem) {
+    .md\:w-\[400px\] {
+      width: 400px;
     }
   }
 

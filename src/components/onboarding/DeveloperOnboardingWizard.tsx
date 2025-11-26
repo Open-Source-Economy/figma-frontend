@@ -7,6 +7,7 @@ import { StepProjects } from './steps/StepProjects';
 import { StepParticipationModel } from './steps/StepParticipationModel';
 import { StepAvailability } from './steps/StepAvailability';
 import { StepServices } from './steps/StepServices';
+import { StepReview } from './steps/StepReview';
 import { DeveloperOnboardingData, ContactInfo, Project, ParticipationModel, Availability, Service, ValidationResult } from '../../types/DeveloperOnboarding';
 import { Header } from '../layout/Header';
 import { Footer } from '../layout/Footer';
@@ -49,6 +50,11 @@ const WIZARD_STEPS: WizardStep[] = [
     number: 5,
     title: 'Services & Submit',
     description: 'Configure the services you want to provide and submit'
+  },
+  {
+    number: 6,
+    title: 'Review & Submit',
+    description: 'Review your information and submit your profile'
   }
 ];
 
@@ -59,6 +65,7 @@ const STEP_MAX_WIDTHS: Record<number, string> = {
   3: 'max-w-3xl',   // Participation - selection cards
   4: 'max-w-2xl',   // Availability - form fields
   5: 'max-w-5xl',   // Services - service grid/pricing
+  6: 'max-w-5xl',   // Review - summary
 };
 
 /**
@@ -213,8 +220,8 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
   };
 
   const handleNext = () => {
-    // Handle final submission on step 5
-    if (currentStep === 5) {
+    // Handle final submission on step 6
+    if (currentStep === 6) {
       // Mark final step as completed
       if (!completedSteps.includes(currentStep)) {
         setCompletedSteps([...completedSteps, currentStep]);
@@ -436,6 +443,13 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
             </div>
           );
         }
+      case 6:
+        return (
+          <StepReview
+            data={formData as DeveloperOnboardingData}
+            onEdit={handleEditStep}
+          />
+        );
       default:
         return null;
     }
@@ -466,30 +480,37 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
           {/* Desktop: Sidebar + Content Layout */}
           <div className="flex gap-8 lg:gap-12">
               {/* Step Sidebar - Desktop Only */}
-              <StepSidebar
-                stepNumber={currentStep}
-                title={WIZARD_STEPS[currentStep - 1].title}
-                description={WIZARD_STEPS[currentStep - 1].description}
-              />
+              {(() => {
+                const currentStepData = WIZARD_STEPS[currentStep - 1];
+                return (
+                  <>
+                    <StepSidebar
+                      stepNumber={currentStep}
+                      title={currentStepData.title}
+                      description={currentStepData.description}
+                    />
 
-              {/* Step Content */}
-              <div className={`flex-1 min-h-96 flex flex-col w-full ${STEP_MAX_WIDTHS[currentStep]}`}>
-                {/* Step Content Area */}
-                <div className="flex-1">
-                  {renderCurrentStep()}
-                </div>
+                    {/* Step Content */}
+                    <div className={`flex-1 min-h-96 flex flex-col w-full ${STEP_MAX_WIDTHS[currentStep]}`}>
+                      {/* Step Content Area */}
+                      <div className="flex-1">
+                        {renderCurrentStep()}
+                      </div>
 
-                <WizardNavigation
-                  currentStep={currentStep}
-                  totalSteps={5}
-                  isSaving={isSaving}
-                  lastSaved={lastSaved}
-                  onBack={handleBack}
-                  onCancel={onCancel}
-                  onNext={handleNext}
-                  onNavItemClick={onNavItemClick}
-                />
-              </div>
+                      <WizardNavigation
+                        currentStep={currentStep}
+                        totalSteps={WIZARD_STEPS.length}
+                        isSaving={isSaving}
+                        lastSaved={lastSaved}
+                        onBack={handleBack}
+                        onCancel={onCancel}
+                        onNext={handleNext}
+                        onNavItemClick={onNavItemClick}
+                      />
+                    </div>
+                  </>
+                );
+              })()}
             </div>
           </div>
       </div>
