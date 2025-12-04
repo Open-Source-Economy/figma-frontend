@@ -136,7 +136,7 @@ export const mockServices: DeveloperService[] = [
 export const mockDeveloperOnboardingDataActive: DeveloperOnboardingData = {
   contact: mockContactInfo,
   projects: mockProjects,
-  participationModel: 'active',
+  participationModel: ['service_provider'],
   availability: mockAvailability,
   services: mockServices,
   createdAt: new Date('2024-01-15T10:00:00Z'),
@@ -153,6 +153,7 @@ export const mockDeveloperOnboardingDataPassive: DeveloperOnboardingData = {
   contact: {
     fullName: 'Alex Kumar',
     email: 'alex.kumar@example.com',
+    termsAccepted: true,
   },
   projects: [
     {
@@ -164,7 +165,7 @@ export const mockDeveloperOnboardingDataPassive: DeveloperOnboardingData = {
       verified: true,
     },
   ],
-  participationModel: 'passive',
+  participationModel: ['common_pot'],
   createdAt: new Date('2024-01-20T09:00:00Z'),
   lastModified: new Date('2024-01-20T09:15:00Z'),
   status: 'draft',
@@ -233,7 +234,7 @@ export const mockStep3Testing: Partial<DeveloperOnboardingData> = {
 export const mockStep4Testing: Partial<DeveloperOnboardingData> = {
   contact: mockContactInfo,
   projects: mockProjects,
-  participationModel: 'active',
+  participationModel: ['service_provider'],
   availability: {
     weeklyHours: 10,
     baseHourlyRate: 100,
@@ -252,7 +253,7 @@ export const mockStep4Testing: Partial<DeveloperOnboardingData> = {
 export const mockStep5Testing: Partial<DeveloperOnboardingData> = {
   contact: mockContactInfo,
   projects: mockProjects,
-  participationModel: 'active',
+  participationModel: ['service_provider'],
   availability: mockAvailability,
   services: [
     {

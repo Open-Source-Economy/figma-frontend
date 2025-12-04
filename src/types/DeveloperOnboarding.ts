@@ -3,7 +3,9 @@
  * Complete type definitions for the developer onboarding workflow
  */
 
-export type ParticipationModel = 'active' | 'passive';
+export type ParticipationModelOption = 'service_provider' | 'common_pot' | 'individual_donation' | 'community_supporter';
+export type ParticipationSelectionState = 'yes' | 'maybe' | 'not_interested';
+export type ParticipationModel = Partial<Record<ParticipationModelOption, ParticipationSelectionState>>;
 
 export type ProjectType = 'github_repo' | 'github_org' | 'other_url';
 

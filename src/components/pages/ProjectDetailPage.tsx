@@ -16,6 +16,7 @@ import { TechnicalQuickStart } from '../projects/TechnicalQuickStart';
 import { RoadmapTimeline } from '../projects/RoadmapTimeline';
 import { ProjectFAQ } from '../projects/ProjectFAQ';
 import { ProjectSupporters } from '../projects/ProjectSupporters';
+import { FeaturedVendors } from '../patterns/FeaturedVendors';
 import { Button } from '../ui/button';
 import { ArrowLeft, CheckCircle2, ShieldCheck, Clock, BadgeDollarSign, Calendar, Award } from 'lucide-react';
 import type { ProjectDetail } from '../../data/projectDetailData';
@@ -240,6 +241,16 @@ export function ProjectDetailPage({
             individualSupporters={project.individualSupporters}
             projectName={project.name}
             onBecomeSupporterClick={onDonate || scrollToDonation}
+          />
+        </section>
+
+        {/* Featured Vendors */}
+        <section>
+          <FeaturedVendors 
+            onVendorClick={(vendorName) => {
+              console.log('Viewing vendor:', vendorName);
+              // In production, would navigate to vendor detail page
+            }}
           />
         </section>
 

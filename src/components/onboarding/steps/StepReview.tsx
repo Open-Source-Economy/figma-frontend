@@ -24,6 +24,10 @@ import {
   ReviewField, 
   ReviewSection 
 } from '../ReviewComponents';
+import { ParticipationModelCard } from '../ParticipationModelCard';
+import { ProjectCard } from '../ProjectCard';
+import { ServiceCard } from '../ServiceCard';
+import { EmptyStateMessage } from '../EmptyStateMessage';
 
 interface StepReviewProps {
   data: Partial<DeveloperOnboardingData>;
@@ -31,6 +35,34 @@ interface StepReviewProps {
 }
 
 export function StepReview({ data, onEdit }: StepReviewProps) {
+  // Configuration for participation models
+  const participationModels = [
+    {
+      id: 'service_provider',
+      title: 'Service Provider',
+      description: 'Offer paid services to enterprises while contributing to open source sustainability',
+      colorScheme: 'accent' as const
+    },
+    {
+      id: 'common_pot',
+      title: 'Common Pot Participant',
+      description: 'Share in project revenue distributed among maintainers and dependencies',
+      colorScheme: 'highlight' as const
+    },
+    {
+      id: 'individual_donation',
+      title: 'Individual Donation',
+      description: 'Accept direct donations from individuals who value your open source work',
+      colorScheme: 'primary' as const
+    },
+    {
+      id: 'community_supporter',
+      title: 'Community Supporter',
+      description: 'Contribute volunteer time to support the broader open source ecosystem',
+      colorScheme: 'success' as const
+    }
+  ];
+
   const formatCurrency = (amount: number, currency: string) => {
     const symbols: Record<string, string> = {
       USD: '$',
@@ -94,7 +126,7 @@ export function StepReview({ data, onEdit }: StepReviewProps) {
           onEdit={() => onEdit(1)}
           editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
         />
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           <ReviewField label="Full Name" value={data.contact?.fullName || 'Not provided'} />
           <ReviewField label="Email" value={data.contact?.email || 'Not provided'} />
           <ReviewField 
@@ -125,55 +157,21 @@ export function StepReview({ data, onEdit }: StepReviewProps) {
           onEdit={() => onEdit(2)}
           editButtonColor="text-brand-highlight hover:text-brand-highlight-dark hover:bg-brand-highlight/10"
         />
-        <div className="space-y-2.5">
+        <div className="space-y-2">
           {data.projects && data.projects.length > 0 ? (
-            data.projects.map((project, idx) => (
-              <div key={project.id} className="border-l-2 border-brand-highlight/30 pl-3 py-1.5 space-y-1.5">
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-brand-neutral-800 text-sm">Project {idx + 1}</span>
-                      {project.verified && (
-                        <Badge variant="outline" className="bg-brand-success/20 border-brand-success/30 text-brand-success text-xs h-4 px-1.5">
-                          ✓
-                        </Badge>
-                      )}
-                    </div>
-                    <a 
-                      href={project.url} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-brand-accent hover:underline flex items-center gap-1 text-xs group"
-                    >
-                      <span className="truncate">{project.url}</span>
-                      <ExternalLink className="h-3 w-3 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    </a>
-                  </div>
-                </div>
-                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-brand-neutral-500">Role:</span>
-                    <span className="text-brand-neutral-900">{getRoleLabel(project.role)}</span>
-                  </div>
-                  <div className="flex items-baseline gap-1.5">
-                    <span className="text-brand-neutral-500">Access:</span>
-                    <span className="text-brand-neutral-900">{getAccessLabel(project.mainBranchAccess)}</span>
-                  </div>
-                  {project.ecosystems && project.ecosystems.length > 0 && (
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      <span className="text-brand-neutral-500">Ecosystems:</span>
-                      <div className="flex flex-wrap gap-1">
-                        {project.ecosystems.map((eco, i) => (
-                          <Badge key={i} variant="outline" className="text-xs h-4 px-1.5">
-                            {eco}
-                          </Badge>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))
+            <div>
+              {data.projects.map((project, idx) => (
+                <React.Fragment key={project.id}>
+                  {idx > 0 && <div className="border-t border-brand-neutral-300/30"></div>}
+                  <ProjectCard
+                    project={project}
+                    index={idx}
+                    getRoleLabel={getRoleLabel}
+                    getAccessLabel={getAccessLabel}
+                  />
+                </React.Fragment>
+              ))}
+            </div>
           ) : (
             <p className="text-brand-neutral-500 text-sm">No projects added</p>
           )}
@@ -190,26 +188,32 @@ export function StepReview({ data, onEdit }: StepReviewProps) {
           onEdit={() => onEdit(3)}
           editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
         />
-        <div>
-          {data.participationModel ? (
-            <Badge 
-              variant="outline" 
-              className={`${
-                data.participationModel === 'active' 
-                  ? 'bg-brand-accent/20 border-brand-accent/30 text-brand-accent' 
-                  : 'bg-brand-highlight/20 border-brand-highlight/30 text-brand-highlight'
-              } text-sm px-3 py-1.5`}
-            >
-              {data.participationModel === 'active' ? 'Active Participation' : 'Passive Participation'}
-            </Badge>
+        <div className="space-y-2">
+          {data.participationModel && Object.keys(data.participationModel).length > 0 ? (
+            <div>
+              {participationModels.map((model, idx) => {
+                const selectionState = data.participationModel?.[model.id];
+                return selectionState ? (
+                  <React.Fragment key={model.id}>
+                    {idx > 0 && <div className="border-t border-brand-neutral-300/30"></div>}
+                    <ParticipationModelCard
+                      title={model.title}
+                      description={model.description}
+                      colorScheme={model.colorScheme}
+                      selectionState={selectionState}
+                    />
+                  </React.Fragment>
+                ) : null;
+              })}
+            </div>
           ) : (
             <p className="text-brand-neutral-500 text-sm">Not selected</p>
           )}
         </div>
       </ReviewCard>
 
-      {/* Step 4: Availability (Active only) */}
-      {data.participationModel === 'active' && (
+      {/* Step 4: Availability (Service Provider only) */}
+      {data.participationModel?.['service_provider'] === 'yes' && (
         <ReviewCard>
           <ReviewCardHeader
             icon={Clock}
@@ -219,7 +223,7 @@ export function StepReview({ data, onEdit }: StepReviewProps) {
             onEdit={() => onEdit(4)}
             editButtonColor="text-brand-highlight hover:text-brand-highlight-dark hover:bg-brand-highlight/10"
           />
-          <div className="space-y-3">
+          <div className="space-y-2">
             {data.availability ? (
               <>
                 <ReviewSection>
@@ -279,112 +283,85 @@ export function StepReview({ data, onEdit }: StepReviewProps) {
         </ReviewCard>
       )}
 
-      {/* Step 5: Services (Active only) */}
-      {data.participationModel === 'active' && (
-        <ReviewCard>
-          <ReviewCardHeader
-            icon={Briefcase}
-            iconColor="text-brand-accent"
-            title="Services"
-            stepNumber={5}
-            metadata={`${data.services?.filter(s => s.enabled).length || 0} enabled`}
-            onEdit={() => onEdit(5)}
-            editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
-          />
-          <div className="space-y-3">
-            {data.services && data.services.length > 0 ? (
-              (() => {
-                const enabledServices = data.services.filter(service => service.enabled);
-                const servicesByType = enabledServices.reduce((acc, service) => {
-                  const type = service.serviceType;
-                  if (!acc[type]) acc[type] = [];
-                  acc[type].push(service);
-                  return acc;
-                }, {} as Record<string, typeof enabledServices>);
+      {/* Step 5: Services (Service Provider only) */}
+      <ReviewCard>
+        <ReviewCardHeader
+          icon={Briefcase}
+          iconColor="text-brand-accent"
+          title="Services"
+          stepNumber={5}
+          metadata={data.participationModel?.['service_provider'] === 'yes' ? `${data.services?.filter(s => s.enabled).length || 0} enabled` : undefined}
+          onEdit={() => onEdit(5)}
+          editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
+        />
+        <div className="space-y-2">
+          {data.participationModel?.['service_provider'] !== 'yes' ? (
+            <EmptyStateMessage
+              title="Service Provider option not selected"
+              message="You can come back anytime to select this option and configure your services"
+            />
+          ) : data.services && data.services.length > 0 ? (
+            (() => {
+              const enabledServices = data.services.filter(service => service.enabled);
+              const servicesByType = enabledServices.reduce((acc, service) => {
+                const type = service.serviceType;
+                if (!acc[type]) acc[type] = [];
+                acc[type].push(service);
+                return acc;
+              }, {} as Record<string, typeof enabledServices>);
 
-                const categoryLabels: Record<string, string> = {
-                  support: 'Support',
-                  development: 'Development',
-                  advisory: 'Advisory',
-                  security_and_compliance: 'Security & Compliance',
-                  custom: 'Custom Services'
-                };
+              const categoryLabels: Record<string, string> = {
+                support: 'Support',
+                development: 'Development',
+                advisory: 'Advisory',
+                security_and_compliance: 'Security & Compliance',
+                custom: 'Custom Services'
+              };
 
-                return Object.entries(servicesByType).map(([type, services], categoryIdx) => (
-                  <div key={type}>
-                    {categoryIdx > 0 && <div className="border-t border-brand-neutral-300/30 -mx-4 my-3"></div>}
-                    <div className="mb-2">
-                      <h4 className="text-brand-neutral-600 text-xs uppercase tracking-wider">{categoryLabels[type] || type}</h4>
-                    </div>
-                    <div className="space-y-2">
-                      {services.map((service) => (
-                        <div key={service.id} className="border-l-2 border-brand-accent/30 pl-3 py-1.5 space-y-1.5">
-                          <div className="flex items-start justify-between gap-2">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-0.5">
-                                <h5 className="text-brand-neutral-900 text-sm">{service.serviceName}</h5>
-                              </div>
-                            </div>
-                            <Badge variant="outline" className="bg-brand-success/20 border-brand-success/30 text-brand-success text-xs h-4 px-1.5">
-                              ✓
-                            </Badge>
-                          </div>
-                          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-                            {service.hourlyRate && (
-                              <div className="flex items-baseline gap-1.5">
-                                <span className="text-brand-neutral-500">Rate:</span>
-                                <span className="text-brand-neutral-900">
-                                  {formatCurrency(service.hourlyRate, data.availability?.currency || 'USD')}
-                                </span>
-                              </div>
-                            )}
-                            {service.responseTimeHours && (
-                              <div className="flex items-baseline gap-1.5">
-                                <span className="text-brand-neutral-500">Response:</span>
-                                <span className="text-brand-neutral-900">{formatResponseTime(service.responseTimeHours)}</span>
-                              </div>
-                            )}
-                            {service.projectIds.length > 0 && (
-                              <div className="flex items-baseline gap-1.5 w-full">
-                                <span className="text-brand-neutral-500">Projects:</span>
-                                <div className="flex flex-wrap gap-1">
-                                  {service.projectIds.map(projectId => {
-                                    const project = data.projects?.find(p => p.id === projectId);
-                                    if (!project) return null;
-                                    const projectName = project.url.split('/').pop() || project.url;
-                                    return (
-                                      <Badge key={projectId} variant="outline" className="text-xs h-4 px-1.5">
-                                        {projectName}
-                                      </Badge>
-                                    );
-                                  })}
-                                </div>
-                              </div>
-                            )}
-                            {service.comment && (
-                              <div className="flex items-baseline gap-1.5 w-full">
-                                <span className="text-brand-neutral-500">Notes:</span>
-                                <span className="text-brand-neutral-900 flex-1">{service.comment}</span>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+              return Object.entries(servicesByType).map(([type, services], categoryIdx) => (
+                <div key={type}>
+                  {categoryIdx > 0 && <div className="border-t border-brand-neutral-300/30 -mx-4 my-3"></div>}
+                  <div className="mb-2">
+                    <h4 className="text-brand-neutral-600 text-xs uppercase tracking-wider">{categoryLabels[type] || type}</h4>
                   </div>
-                ));
-              })()
-            ) : (
-              <p className="text-brand-neutral-500 text-sm">No services enabled</p>
-            )}
-          </div>
-        </ReviewCard>
-      )}
+                  <div>
+                    {services.map((service, serviceIdx) => (
+                      <React.Fragment key={service.id}>
+                        {serviceIdx > 0 && <div className="border-t border-brand-neutral-300/30"></div>}
+                        <ServiceCard
+                          service={service}
+                          currency={data.availability?.currency || 'USD'}
+                          formatCurrency={formatCurrency}
+                          formatResponseTime={formatResponseTime}
+                          projects={data.projects}
+                        />
+                      </React.Fragment>
+                    ))}
+                  </div>
+                </div>
+              ));
+            })()
+          ) : (
+            <EmptyStateMessage
+              title="No services enabled yet"
+              message="You can come back anytime to add and configure your services"
+            />
+          )}
+        </div>
+      </ReviewCard>
 
       {/* Final Confirmation Note */}
       <div className="bg-brand-accent/10 border border-brand-accent/30 rounded-lg p-4 text-center">
         <p className="text-brand-neutral-700 text-sm">
-          By clicking "Submit Application" below, you confirm that all the information provided is accurate and you agree to our Terms and Conditions.
+          By clicking "Submit Application" below, you confirm that all the information provided is accurate and you agree to our{' '}
+          <a 
+            href="/terms-and-conditions" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-brand-accent hover:text-brand-accent-dark underline"
+          >
+            Terms and Conditions
+          </a>.
         </p>
       </div>
     </div>

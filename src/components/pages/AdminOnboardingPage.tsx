@@ -60,13 +60,13 @@ export function AdminOnboardingPage({
           verified: false
         }
       ],
-      participationModel: 'active',
+      participationModel: ['service_provider'],
       availability: {
-        weeklyHours: 20,
-        baseHourlyRate: 150,
-        currency: 'USD',
-        basicAvailabilityComment: 'Available for consulting and code reviews',
-        openToBiggerOpportunities: true
+        weeklyHours: 15,
+        baseHourlyRate: 180,
+        currency: 'EUR',
+        basicAvailabilityComment: 'Focused on Vue.js ecosystem work',
+        openToBiggerOpportunities: false
       },
       services: [
         {
@@ -115,7 +115,7 @@ export function AdminOnboardingPage({
           verified: false
         }
       ],
-      participationModel: 'passive',
+      participationModel: ['common_pot'],
       createdAt: new Date('2024-01-18'),
       lastModified: new Date('2024-01-18'),
       status: 'submitted',
@@ -148,7 +148,7 @@ export function AdminOnboardingPage({
           verified: false
         }
       ],
-      participationModel: 'active',
+      participationModel: ['service_provider'],
       availability: {
         weeklyHours: 15,
         baseHourlyRate: 180,
@@ -195,8 +195,12 @@ export function AdminOnboardingPage({
       0
     );
     
-    const activeProviders = submissions.filter(s => s.participationModel === 'active').length;
-    const passiveParticipants = submissions.filter(s => s.participationModel === 'passive').length;
+    const activeProviders = submissions.filter(s => s.participationModel?.['service_provider'] === 'yes').length;
+    const passiveParticipants = submissions.filter(s => 
+      s.participationModel?.['common_pot'] === 'yes' || 
+      s.participationModel?.['individual_donation'] === 'yes' || 
+      s.participationModel?.['community_supporter'] === 'yes'
+    ).length;
 
     return {
       total,
@@ -520,8 +524,8 @@ export function AdminOnboardingPage({
           </TabsContent>
 
           <TabsContent value="active" className="space-y-4 mt-6">
-            {submissions.filter(s => s.participationModel === 'active').length > 0 ? (
-              submissions.filter(s => s.participationModel === 'active').map((submission) => (
+            {submissions.filter(s => s.participationModel?.['service_provider'] === 'yes').length > 0 ? (
+              submissions.filter(s => s.participationModel?.['service_provider'] === 'yes').map((submission) => (
                 <OnboardingSubmissionCard
                   key={submission.contact.email}
                   submission={submission}
@@ -546,8 +550,16 @@ export function AdminOnboardingPage({
           </TabsContent>
 
           <TabsContent value="passive" className="space-y-4 mt-6">
-            {submissions.filter(s => s.participationModel === 'passive').length > 0 ? (
-              submissions.filter(s => s.participationModel === 'passive').map((submission) => (
+            {submissions.filter(s => 
+              s.participationModel?.['common_pot'] === 'yes' ||
+              s.participationModel?.['individual_donation'] === 'yes' ||
+              s.participationModel?.['community_supporter'] === 'yes'
+            ).length > 0 ? (
+              submissions.filter(s => 
+                s.participationModel?.['common_pot'] === 'yes' ||
+                s.participationModel?.['individual_donation'] === 'yes' ||
+                s.participationModel?.['community_supporter'] === 'yes'
+              ).map((submission) => (
                 <OnboardingSubmissionCard
                   key={submission.contact.email}
                   submission={submission}

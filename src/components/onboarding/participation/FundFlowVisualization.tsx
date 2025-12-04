@@ -51,7 +51,7 @@ export const FundFlowVisualization: React.FC = () => {
       </div>
 
       <div className="mt-4 pt-4 border-t border-brand-neutral-300/10">
-        <div className="bg-brand-success/10 rounded-lg p-2 text-center">
+        <div className="bg-brand-success/10 rounded-lg p-2">
           <p className="text-xs text-brand-success">Fund the entire OS ecosystem</p>
         </div>
       </div>

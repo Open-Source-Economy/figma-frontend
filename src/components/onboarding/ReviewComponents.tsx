@@ -35,7 +35,7 @@ export function ReviewCardHeader({
   editButtonColor
 }: ReviewCardHeaderProps) {
   return (
-    <div className="flex items-center justify-between mb-3 pb-3 border-b border-brand-neutral-300/50">
+    <div className="flex items-center justify-between mb-1.5 pb-2 border-b border-brand-neutral-300/50">
       <div className="flex items-center gap-2.5">
         <Icon className={`h-4 w-4 ${iconColor}`} />
         <div className="flex items-baseline gap-2">

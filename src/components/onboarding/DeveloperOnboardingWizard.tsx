@@ -23,6 +23,8 @@ export interface DeveloperOnboardingWizardProps {
   onNavItemClick: (href: string) => void;
   /** Initial draft data (for resuming) */
   initialData?: Partial<DeveloperOnboardingData>;
+  /** Width behavior: 'adaptive' changes width per step (default), 'fixed' uses a consistent max width, or provide custom Tailwind max-width class */
+  contentWidth?: 'adaptive' | 'fixed' | string;
 }
 
 const WIZARD_STEPS: WizardStep[] = [
@@ -76,7 +78,8 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
   onComplete,
   onCancel,
   onNavItemClick,
-  initialData
+  initialData,
+  contentWidth = 'adaptive'
 }) => {
   const [currentStep, setCurrentStep] = React.useState(initialData?.currentStep || 1);
   const [completedSteps, setCompletedSteps] = React.useState<number[]>(initialData?.completedSteps || []);
@@ -187,8 +190,12 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
   const validateStep3 = (): ValidationResult => {
     const newErrors: Record<string, string> = {};
     
-    if (!formData.participationModel) {
-      newErrors.participationModel = 'Please select a participation model';
+    // Check if at least one participation model is selected with "yes"
+    const hasYesSelection = formData.participationModel && 
+      Object.values(formData.participationModel).some(value => value === 'yes');
+    
+    if (!hasYesSelection) {
+      newErrors.participationModel = 'Please select at least one participation model with "Yes" to continue';
     }
     
     return {
@@ -275,7 +282,7 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
       if (!completedSteps.includes(currentStep)) {
         setCompletedSteps([...completedSteps, currentStep]);
       }
-    } else if (currentStep === 4 && formData.participationModel === 'active') {
+    } else if (currentStep === 4 && formData.participationModel?.['service_provider'] === 'yes') {
       const validation = validateStep4();
       if (!validation.isValid) {
         setErrors(validation.errors);
@@ -401,7 +408,7 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
         );
       case 4:
         // Only show availability for active participation
-        if (formData.participationModel === 'active') {
+        if (formData.participationModel?.['service_provider'] === 'yes') {
           return (
             <StepAvailability
               availability={formData.availability || {
@@ -423,7 +430,7 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
         }
       case 5:
         // Only show services for active participation
-        if (formData.participationModel === 'active' && formData.availability) {
+        if (formData.participationModel?.['service_provider'] === 'yes' && formData.availability) {
           return (
             <StepServices
               services={formData.services || []}
@@ -491,7 +498,7 @@ export const DeveloperOnboardingWizard: React.FC<DeveloperOnboardingWizardProps>
                     />
 
                     {/* Step Content */}
-                    <div className={`flex-1 min-h-96 flex flex-col w-full ${STEP_MAX_WIDTHS[currentStep]}`}>
+                    <div className={`flex-1 min-h-96 flex flex-col w-full ${contentWidth === 'adaptive' ? STEP_MAX_WIDTHS[currentStep] : contentWidth}`}>
                       {/* Step Content Area */}
                       <div className="flex-1">
                         {renderCurrentStep()}

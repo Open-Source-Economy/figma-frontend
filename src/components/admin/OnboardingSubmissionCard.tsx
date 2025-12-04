@@ -107,20 +107,21 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
               <div className="flex items-center gap-2 mb-2 flex-wrap">
                 <h3 className="text-lg truncate">{submission.contact.fullName}</h3>
                 {getStatusBadge()}
-                {submission.participationModel && (
-                  <Badge variant="outline" className="bg-brand-accent/10 text-brand-accent border-brand-accent/20 text-xs">
-                    {submission.participationModel === 'active' ? (
-                      <>
+                {submission.participationModel && submission.participationModel.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5">
+                    {submission.participationModel.includes('active') && (
+                      <Badge variant="outline" className="bg-brand-accent/10 text-brand-accent border-brand-accent/20 text-xs">
                         <Briefcase className="w-3 h-3 mr-1" />
                         Active Provider
-                      </>
-                    ) : (
-                      <>
-                        <Zap className="w-3 h-3 mr-1" />
-                        Common Pot
-                      </>
+                      </Badge>
                     )}
-                  </Badge>
+                    {submission.participationModel.includes('passive') && (
+                      <Badge variant="outline" className="bg-brand-highlight/10 text-brand-highlight border-brand-highlight/20 text-xs">
+                        <Users className="w-3 h-3 mr-1" />
+                        Fund Receiver
+                      </Badge>
+                    )}
+                  </div>
                 )}
               </div>
               
@@ -303,7 +304,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
             </div>
 
             {/* Availability Section (Active participants only) */}
-            {submission.participationModel === 'active' && submission.availability && (
+            {submission.participationModel?.['service_provider'] === 'yes' && submission.availability && (
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="p-1.5 bg-brand-success/10 rounded-lg">
@@ -346,7 +347,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
             )}
 
             {/* Services Section (Active participants only) */}
-            {submission.participationModel === 'active' && submission.services && submission.services.length > 0 && (
+            {submission.participationModel?.['service_provider'] === 'yes' && submission.services && submission.services.length > 0 && (
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <div className="p-1.5 bg-brand-highlight/10 rounded-lg">
@@ -395,7 +396,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
             )}
 
             {/* Participation Model Badge */}
-            {submission.participationModel === 'passive' && (
+            {submission.participationModel?.includes('passive') && !submission.participationModel?.includes('active') && (
               <div className="p-4 bg-gradient-to-r from-brand-accent/10 to-brand-highlight/5 rounded-lg border border-brand-accent/20">
                 <div className="flex items-start gap-3">
                   <div className="p-2 bg-brand-accent/20 rounded-lg flex-shrink-0">
