@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
+import { Input } from '../ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { CheckboxField } from '../forms/CheckboxField';
+import { ValidatedInput } from '../forms/ValidatedInput';
 import { 
   Heart, 
   Building2, 
@@ -38,6 +42,29 @@ interface SponsorshipPageProps {
 }
 
 export function SponsorshipPage({ onNavigate }: SponsorshipPageProps) {
+  const [sponsorType, setSponsorType] = useState<'individual' | 'enterprise'>('individual');
+  
+  // Individual donation form state
+  const [donationFrequency, setDonationFrequency] = useState<'monthly' | 'one-time'>('monthly');
+  const [selectedAmount, setSelectedAmount] = useState<number | null>(25);
+  const [customAmount, setCustomAmount] = useState<string>('');
+  const [currency, setCurrency] = useState<string>('usd');
+  const [listPublicly, setListPublicly] = useState<boolean>(false);
+  const [githubProfile, setGithubProfile] = useState<string>('');
+
+  const suggestedAmounts = [10, 25, 50, 100, 250];
+  
+  const currencies = [
+    { value: 'usd', label: 'USD', symbol: '$', flag: '🇺🇸' },
+    { value: 'eur', label: 'EUR', symbol: '€', flag: '🇪🇺' },
+    { value: 'gbp', label: 'GBP', symbol: '£', flag: '🇬🇧' },
+    { value: 'cad', label: 'CAD', symbol: 'C$', flag: '🇨🇦' },
+  ];
+
+  const getCurrencySymbol = () => {
+    return currencies.find(c => c.value === currency)?.symbol || '$';
+  };
+
   const individualTiers: SponsorTier[] = [
     {
       name: 'Supporter',
@@ -216,33 +243,6 @@ export function SponsorshipPage({ onNavigate }: SponsorshipPageProps) {
               and strengthens the entire ecosystem.
             </p>
 
-            {/* Quick Action Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button 
-                size="lg" 
-                className="gap-2"
-                onClick={() => {
-                  const element = document.querySelector('#individual-sponsorship');
-                  if (element) element.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <User className="h-5 w-5" />
-                Individual Sponsorship
-              </Button>
-              <Button 
-                size="lg" 
-                variant="outline"
-                className="gap-2"
-                onClick={() => {
-                  const element = document.querySelector('#enterprise-sponsorship');
-                  if (element) element.scrollIntoView({ behavior: 'smooth' });
-                }}
-              >
-                <Building2 className="h-5 w-5" />
-                Enterprise Partnership
-              </Button>
-            </div>
-
             {/* Trust Indicator */}
             <div className="flex items-center justify-center gap-2 text-brand-neutral-500">
               <Shield className="h-4 w-4 text-brand-success" />
@@ -254,233 +254,364 @@ export function SponsorshipPage({ onNavigate }: SponsorshipPageProps) {
         </div>
       </section>
 
-      {/* Impact Stats Section */}
-      <section className="relative py-16 border-b border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark">
+      {/* Mission Section */}
+      <section className="relative py-20 border-b border-brand-neutral-300">
         <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-brand-neutral-900 mb-4">Our Impact</h2>
-              <p className="text-brand-neutral-600 text-lg">
-                Together, we're making a real difference in the open source community
-              </p>
+          <div className="max-w-4xl mx-auto">
+            {/* Proverb Callout */}
+            <div className="relative mb-12 p-8 bg-gradient-to-br from-brand-accent/10 to-brand-highlight/10 border border-brand-accent/20 rounded-2xl">
+              <div className="absolute top-0 left-8 -translate-y-1/2">
+                <div className="bg-brand-navy px-4 py-1">
+                  <Heart className="h-6 w-6 text-brand-accent inline" />
+                </div>
+              </div>
+              <blockquote className="text-center">
+                <p className="text-2xl text-brand-neutral-800 italic mb-2">
+                  "Give a man a fish and you feed him for a day; teach a man to fish and you feed him for a lifetime."
+                </p>
+              </blockquote>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {impactStats.map((stat, idx) => {
-                const IconComponent = stat.icon;
-                return (
-                  <Card 
-                    key={idx}
-                    className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue hover:border-brand-accent transition-all duration-300 hover:scale-105"
+            {/* Mission Explanation */}
+            <div className="space-y-6 text-brand-neutral-600 text-lg leading-relaxed">
+              <p>
+                <strong className="text-brand-neutral-800">We're not here to beg for donations for open source projects.</strong> Instead, we're building a sustainable system that allows maintainers to get funding for their open source work.
+              </p>
+              
+              <p>
+                While FOSS development thrives as commons, its economic foundation remains largely privatized. The open-source services market—<strong className="text-brand-neutral-800">$27B in 2022, projected to reach $44B by 2027</strong>—is controlled by private enterprises, with disproportionately small amounts flowing back to the commons.
+              </p>
+
+              <p>
+                When funds do flow back, they only reach top-level visible projects, not the foundational dependencies maintained by volunteers. This creates resource mismatches that disadvantage commons-based solutions, especially in user-facing domains where sustained support and polish determine adoption.
+              </p>
+
+              <p>
+                <strong className="text-brand-neutral-800">Our nonprofit initiative introduces a new building block for the internet commons:</strong> sustainable funding infrastructure that ensures maintainers at all levels—from visible projects to critical dependencies—can continue their essential work.
+              </p>
+
+              {onNavigate && (
+                <div className="pt-4">
+                  <button
+                    onClick={() => onNavigate('mission')}
+                    className="inline-flex items-center gap-2 text-brand-accent hover:text-brand-accent-hover transition-colors"
                   >
-                    <CardContent className="p-6 text-center">
-                      <div className="inline-flex items-center justify-center p-3 bg-brand-accent/20 rounded-xl mb-4">
-                        <IconComponent className="h-6 w-6 text-brand-accent" />
-                      </div>
-                      <div className="text-3xl text-brand-neutral-950 mb-2">
-                        {stat.value}
-                      </div>
-                      <div className="text-brand-neutral-900 mb-1">
-                        {stat.label}
-                      </div>
-                      <p className="text-brand-neutral-600 text-sm">
-                        {stat.description}
-                      </p>
-                    </CardContent>
-                  </Card>
-                );
-              })}
+                    <span>Learn more about our mission</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Individual Sponsorship Section */}
-      <section id="individual-sponsorship" className="relative py-20 border-b border-brand-neutral-300">
+      {/* Sponsorship Tiers Section with Toggle */}
+      <section id="sponsorship-tiers" className={`relative py-20 border-b border-brand-neutral-300 transition-colors duration-500 ${
+        sponsorType === 'enterprise' ? 'bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark' : ''
+      }`}>
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            {/* Section Header */}
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-brand-success/20 border border-brand-success/30 px-4 py-2 rounded-full mb-4">
-                <User className="h-4 w-4 text-brand-success" />
-                <span className="text-brand-success text-sm uppercase tracking-wider">
-                  For Individuals
-                </span>
+            {/* Toggle */}
+            <div className="flex justify-center mb-12">
+              <div className="inline-flex items-center p-1.5 bg-brand-neutral-200/50 backdrop-blur-sm rounded-xl border border-brand-neutral-300 shadow-lg">
+                <button
+                  onClick={() => setSponsorType('individual')}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-300 ${
+                    sponsorType === 'individual'
+                      ? 'bg-brand-accent text-white shadow-lg shadow-brand-accent/30'
+                      : 'text-brand-neutral-600 hover:text-brand-neutral-800'
+                  }`}
+                >
+                  <User className="h-5 w-5" />
+                  <span className="font-medium">Individual</span>
+                </button>
+                <button
+                  onClick={() => setSponsorType('enterprise')}
+                  className={`flex items-center gap-2 px-6 py-3 rounded-lg transition-all duration-300 ${
+                    sponsorType === 'enterprise'
+                      ? 'bg-brand-accent text-white shadow-lg shadow-brand-accent/30'
+                      : 'text-brand-neutral-600 hover:text-brand-neutral-800'
+                  }`}
+                >
+                  <Building2 className="h-5 w-5" />
+                  <span className="font-medium">Enterprise</span>
+                </button>
               </div>
-              <h2 className="text-brand-neutral-900 mb-4">Individual Sponsorship Tiers</h2>
-              <p className="text-brand-neutral-600 text-lg max-w-2xl mx-auto">
-                Join our community of individual supporters helping to sustain open source development
-              </p>
             </div>
 
-            {/* Tier Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {individualTiers.map((tier, idx) => {
-                const IconComponent = tier.icon;
-                return (
-                  <Card
-                    key={idx}
-                    className={`relative border-2 ${
-                      tier.recommended 
-                        ? 'border-brand-accent shadow-2xl shadow-brand-accent/20 scale-105' 
-                        : 'border-brand-neutral-300'
-                    } bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark hover:border-brand-accent transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-brand-accent/20`}
-                  >
-                    {tier.recommended && (
-                      <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                        <Badge 
-                          className="bg-brand-accent text-white border-brand-accent px-4 py-1"
-                        >
-                          Most Popular
-                        </Badge>
-                      </div>
-                    )}
-                    
-                    <CardHeader className="text-center pb-4">
-                      <div 
-                        className="inline-flex items-center justify-center p-4 rounded-2xl mx-auto mb-4"
-                        style={{ 
-                          backgroundColor: `${tier.accentColor}20`,
-                          boxShadow: `0 8px 24px -8px ${tier.accentColor}60`
-                        }}
+            {/* Section Header */}
+            <div className="text-center mb-12 transition-all duration-500">
+              {sponsorType === 'individual' ? (
+                <>
+
+                  <h2 className="text-brand-neutral-900 mb-4">Support Open Source</h2>
+                  <p className="text-brand-neutral-600 text-lg max-w-2xl mx-auto">
+                    Every contribution helps sustain the open source ecosystem and the developers who build it
+                  </p>
+                </>
+              ) : (
+                <>
+
+                  <h2 className="text-brand-neutral-900 mb-4">Enterprise Partnership Tiers</h2>
+                  <p className="text-brand-neutral-600 text-lg max-w-2xl mx-auto">
+                    Strategic partnerships for organizations committed to open source sustainability
+                  </p>
+                </>
+              )}
+            </div>
+
+            {/* Donation Form - Individual */}
+            {sponsorType === 'individual' && (
+              <div className="max-w-2xl mx-auto animate-in fade-in duration-500 space-y-8">
+                
+                {/* Frequency Toggle (Outside Card) */}
+                <div className="text-center">
+                  <div className="space-y-3">
+                    <div className="inline-flex items-center gap-8 border-b border-brand-neutral-300">
+                      <button
+                        onClick={() => setDonationFrequency('monthly')}
+                        className={`relative pb-3 px-2 transition-all duration-300 ${
+                          donationFrequency === 'monthly'
+                            ? 'text-brand-accent'
+                            : 'text-brand-neutral-600 hover:text-brand-neutral-800'
+                        }`}
                       >
-                        <IconComponent 
-                          className="h-8 w-8"
-                          style={{ color: tier.accentColor }}
+                        <span className="font-medium">Monthly</span>
+                        <span className="absolute -top-1 -right-6 bg-brand-success text-white text-xs px-2 py-0.5 rounded-full shadow-sm">
+                          Best
+                        </span>
+                        {donationFrequency === 'monthly' && (
+                          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-accent" />
+                        )}
+                      </button>
+                      <button
+                        onClick={() => setDonationFrequency('one-time')}
+                        className={`relative pb-3 px-2 transition-all duration-300 ${
+                          donationFrequency === 'one-time'
+                            ? 'text-brand-accent'
+                            : 'text-brand-neutral-600 hover:text-brand-neutral-800'
+                        }`}
+                      >
+                        <span className="font-medium">One-time</span>
+                        {donationFrequency === 'one-time' && (
+                          <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-brand-accent" />
+                        )}
+                      </button>
+                    </div>
+                    <p className="text-xs text-brand-neutral-500 flex items-center justify-center gap-1.5">
+                      <TrendingUp className="h-3.5 w-3.5 text-brand-success" />
+                      Monthly donations help us plan long-term support for maintainers
+                    </p>
+                  </div>
+                </div>
+
+                <Card className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark">
+                  <CardContent className="p-8 space-y-8">
+                    
+                    {/* Currency (Small & Subtle) */}
+                    <div className="flex justify-end">
+                      <div className="inline-flex items-center gap-2">
+                        <label className="text-xs text-brand-neutral-500">Currency:</label>
+                        <Select value={currency} onValueChange={setCurrency}>
+                          <SelectTrigger className="h-8 w-28 text-xs border-brand-neutral-300/50">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {currencies.map((curr) => (
+                              <SelectItem key={curr.value} value={curr.value}>
+                                {curr.flag} {curr.label}
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    {/* Suggested Amounts */}
+                    <div>
+                      <label className="block text-sm text-brand-neutral-700 mb-3">
+                        Select Amount {donationFrequency === 'monthly' && '(per month)'}
+                      </label>
+                      <div className="grid grid-cols-3 gap-3">
+                        {suggestedAmounts.map((amount) => (
+                          <button
+                            key={amount}
+                            onClick={() => {
+                              setSelectedAmount(amount);
+                              setCustomAmount('');
+                            }}
+                            className={`p-4 rounded-lg border-2 transition-all duration-300 ${
+                              selectedAmount === amount && !customAmount
+                                ? 'border-brand-accent bg-brand-accent/10 text-brand-accent shadow-lg shadow-brand-accent/20'
+                                : 'border-brand-neutral-300 text-brand-neutral-700 hover:border-brand-accent/50 hover:bg-brand-accent/5'
+                            }`}
+                          >
+                            <div className="text-2xl">{getCurrencySymbol()}{amount}</div>
+                          </button>
+                        ))}
+                        <div className={`p-4 rounded-lg border-2 transition-all duration-300 ${
+                            customAmount
+                              ? 'border-brand-accent bg-brand-accent/10 shadow-lg shadow-brand-accent/20'
+                              : 'border-brand-neutral-300 hover:border-brand-accent/50'
+                          }`}
+                        >
+                          <div className="relative">
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 text-brand-neutral-600 text-xl">
+                              {getCurrencySymbol()}
+                            </span>
+                            <Input
+                              type="number"
+                              min="1"
+                              step="1"
+                              value={customAmount}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                if (value === '' || parseFloat(value) > 0) {
+                                  setCustomAmount(value);
+                                  setSelectedAmount(null);
+                                }
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === '-' || e.key === 'e' || e.key === 'E') {
+                                  e.preventDefault();
+                                }
+                              }}
+                              placeholder="Custom"
+                              className="pl-6 text-center border-0 bg-transparent p-0 h-auto text-2xl focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-brand-neutral-400"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    {/* Public Recognition Option */}
+                    <div>
+                      <CheckboxField
+                        id="list-publicly"
+                        checked={listPublicly}
+                        onCheckedChange={setListPublicly}
+                        label="List me publicly for recognition"
+                        description="Your GitHub profile will be featured on our sponsors page"
+                      >
+                        <ValidatedInput
+                          label="GitHub Profile URL"
+                          name="github-profile"
+                          type="url"
+                          value={githubProfile}
+                          onChange={setGithubProfile}
+                          placeholder="https://github.com/yourusername"
+                          leftIcon={Github}
+                          required
                         />
-                      </div>
-                      <CardTitle className="text-brand-neutral-950 mb-2">
-                        {tier.name}
-                      </CardTitle>
-                      <div className="mb-2">
-                        <span className="text-4xl text-brand-neutral-950">${tier.price}</span>
-                        <span className="text-brand-neutral-600">/{tier.frequency}</span>
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent className="space-y-4">
-                      <div className="space-y-3">
-                        {tier.benefits.map((benefit, benefitIdx) => (
-                          <div key={benefitIdx} className="flex items-start gap-3">
-                            <CheckCircle2 
-                              className="h-5 w-5 flex-shrink-0 mt-0.5"
-                              style={{ color: tier.accentColor }}
-                            />
-                            <span className="text-brand-neutral-700 text-sm">
-                              {benefit}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                      
-                      <Button 
-                        className="w-full mt-6"
-                        variant={tier.recommended ? "default" : "outline"}
-                      >
-                        {tier.cta}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      </section>
+                      </CheckboxField>
+                    </div>
 
-      {/* Enterprise Sponsorship Section */}
-      <section id="enterprise-sponsorship" className="relative py-20 border-b border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue to-brand-card-blue-dark">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            {/* Section Header */}
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-brand-highlight/20 border border-brand-highlight/30 px-4 py-2 rounded-full mb-4">
-                <Building2 className="h-4 w-4 text-brand-highlight" />
-                <span className="text-brand-highlight text-sm uppercase tracking-wider">
-                  For Enterprises
-                </span>
+                    {/* Submit Button */}
+                    <Button 
+                      size="lg" 
+                      className="w-full gap-2"
+                      disabled={(!selectedAmount && !customAmount) || (listPublicly && !githubProfile)}
+                    >
+                      <Heart className="h-5 w-5" />
+                      {donationFrequency === 'monthly' 
+                        ? `Support with ${getCurrencySymbol()}${customAmount || selectedAmount || 0}/month`
+                        : `Donate ${getCurrencySymbol()}${customAmount || selectedAmount || 0}`
+                      }
+                    </Button>
+
+                    {/* Trust Indicator */}
+                    <div className="text-center text-sm text-brand-neutral-500 pt-4 border-t border-brand-neutral-300">
+                      <div className="flex items-center justify-center gap-2">
+                        <Shield className="h-4 w-4 text-brand-success" />
+                        <span>Secure payment • 95% goes directly to developers</span>
+                      </div>
+                    </div>
+
+                  </CardContent>
+                </Card>
               </div>
-              <h2 className="text-brand-neutral-900 mb-4">Enterprise Partnership Tiers</h2>
-              <p className="text-brand-neutral-600 text-lg max-w-2xl mx-auto">
-                Strategic partnerships for organizations committed to open source sustainability
-              </p>
-            </div>
+            )}
 
-            {/* Tier Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              {enterpriseTiers.map((tier, idx) => {
-                const IconComponent = tier.icon;
-                return (
-                  <Card
-                    key={idx}
-                    className={`relative border-2 ${
-                      tier.recommended 
-                        ? 'border-brand-accent shadow-2xl shadow-brand-accent/20' 
-                        : 'border-brand-neutral-300'
-                    } bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue hover:border-brand-accent transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-brand-accent/20`}
-                  >
-                    {tier.recommended && (
-                      <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                        <Badge 
-                          className="bg-brand-accent text-white border-brand-accent px-4 py-1"
-                        >
-                          Recommended
-                        </Badge>
-                      </div>
-                    )}
-                    
-                    <CardHeader className="pb-4">
-                      <div className="flex items-start gap-4">
-                        <div 
-                          className="flex items-center justify-center p-4 rounded-2xl"
-                          style={{ 
-                            backgroundColor: `${tier.accentColor}20`,
-                            boxShadow: `0 8px 24px -8px ${tier.accentColor}60`
-                          }}
-                        >
-                          <IconComponent 
-                            className="h-8 w-8"
-                            style={{ color: tier.accentColor }}
-                          />
+            {/* Tier Cards - Enterprise */}
+            {sponsorType === 'enterprise' && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-in fade-in duration-500">
+                {enterpriseTiers.map((tier, idx) => {
+                  const IconComponent = tier.icon;
+                  return (
+                    <Card
+                      key={idx}
+                      className={`relative border-2 ${
+                        tier.recommended 
+                          ? 'border-brand-accent shadow-2xl shadow-brand-accent/20' 
+                          : 'border-brand-neutral-300'
+                      } bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue hover:border-brand-accent transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl hover:shadow-brand-accent/20`}
+                    >
+                      {tier.recommended && (
+                        <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                          <Badge 
+                            className="bg-brand-accent text-white border-brand-accent px-4 py-1"
+                          >
+                            Recommended
+                          </Badge>
                         </div>
-                        <div className="flex-1">
-                          <CardTitle className="text-brand-neutral-950 mb-2">
-                            {tier.name}
-                          </CardTitle>
-                          <div>
-                            <span className="text-3xl text-brand-neutral-950">${tier.price.toLocaleString()}</span>
-                            <span className="text-brand-neutral-600">/{tier.frequency}</span>
-                          </div>
-                        </div>
-                      </div>
-                    </CardHeader>
-                    
-                    <CardContent className="space-y-4">
-                      <div className="space-y-3">
-                        {tier.benefits.map((benefit, benefitIdx) => (
-                          <div key={benefitIdx} className="flex items-start gap-3">
-                            <CheckCircle2 
-                              className="h-5 w-5 flex-shrink-0 mt-0.5"
+                      )}
+                      
+                      <CardHeader className="pb-4">
+                        <div className="flex items-start gap-4">
+                          <div 
+                            className="flex items-center justify-center p-4 rounded-2xl"
+                            style={{ 
+                              backgroundColor: `${tier.accentColor}20`,
+                              boxShadow: `0 8px 24px -8px ${tier.accentColor}60`
+                            }}
+                          >
+                            <IconComponent 
+                              className="h-8 w-8"
                               style={{ color: tier.accentColor }}
                             />
-                            <span className="text-brand-neutral-700 text-sm">
-                              {benefit}
-                            </span>
                           </div>
-                        ))}
-                      </div>
+                          <div className="flex-1">
+                            <CardTitle className="text-brand-neutral-950 mb-2">
+                              {tier.name}
+                            </CardTitle>
+                            <div>
+                              <span className="text-3xl text-brand-neutral-950">${tier.price.toLocaleString()}</span>
+                              <span className="text-brand-neutral-600">/{tier.frequency}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardHeader>
                       
-                      <Button 
-                        className="w-full mt-6"
-                        variant={tier.recommended ? "default" : "outline"}
-                      >
-                        {tier.cta}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-            </div>
+                      <CardContent className="space-y-4">
+                        <div className="space-y-3">
+                          {tier.benefits.map((benefit, benefitIdx) => (
+                            <div key={benefitIdx} className="flex items-start gap-3">
+                              <CheckCircle2 
+                                className="h-5 w-5 flex-shrink-0 mt-0.5"
+                                style={{ color: tier.accentColor }}
+                              />
+                              <span className="text-brand-neutral-700 text-sm">
+                                {benefit}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+                        
+                        <Button 
+                          className="w-full mt-6"
+                          variant={tier.recommended ? "default" : "outline"}
+                        >
+                          {tier.cta}
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -639,12 +770,29 @@ export function SponsorshipPage({ onNavigate }: SponsorshipPageProps) {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                  <Button size="lg" className="gap-2">
+                  <Button 
+                    size="lg" 
+                    className="gap-2"
+                    onClick={() => {
+                      setSponsorType('individual');
+                      const element = document.querySelector('#sponsorship-tiers');
+                      if (element) element.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
                     <User className="h-5 w-5" />
                     Individual Sponsorship
                     <ArrowRight className="h-4 w-4" />
                   </Button>
-                  <Button size="lg" variant="outline" className="gap-2">
+                  <Button 
+                    size="lg" 
+                    variant="outline" 
+                    className="gap-2"
+                    onClick={() => {
+                      setSponsorType('enterprise');
+                      const element = document.querySelector('#sponsorship-tiers');
+                      if (element) element.scrollIntoView({ behavior: 'smooth' });
+                    }}
+                  >
                     <Building2 className="h-5 w-5" />
                     Enterprise Partnership
                     <ArrowRight className="h-4 w-4" />

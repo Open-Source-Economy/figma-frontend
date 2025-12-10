@@ -38,21 +38,57 @@ export function MissionPage({ onNavigateHome, onNavItemClick }: MissionPageProps
         <DecorativeOrb size="large" position="bottom-right" variant="success" intensity="subtle" animated={false} className="bottom-20 -right-20" />
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="max-w-4xl mx-auto text-center">
-            <SectionBadge 
-              icon={Building2} 
-              text="Swiss 501(c)(3) Non-Profit" 
-              variant="success"
-              className="mb-8"
-            />
+          <div className="max-w-6xl mx-auto text-center">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-brand-accent/10 border border-brand-accent/30 mb-8">
+              <div className="w-2 h-2 rounded-full bg-brand-accent" />
+              <span className="text-sm text-brand-neutral-600">Open Source Economy Initiative</span>
+            </div>
             
-            <h1 className="mb-6 bg-gradient-to-r from-foreground via-foreground to-brand-accent bg-clip-text text-transparent">
-              Our Mission: Sustainable Open Source for Everyone
+            {/* Main headline - large and bold */}
+            <h1 className="mb-8 leading-tight">
+              <span className="block text-5xl md:text-6xl lg:text-7xl text-brand-neutral-900">
+                Commons-Owned LTS Infrastructure for{' '}
+              </span>
+              <span className="block text-5xl md:text-6xl lg:text-7xl mt-2">
+                <span className="text-brand-accent">Open Source </span>
+                <span className="bg-gradient-to-r from-brand-highlight via-brand-warning to-brand-accent bg-clip-text text-transparent">
+                  Sustainability
+                </span>
+              </span>
             </h1>
             
-            <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-              We're solving the open source sustainability crisis with a systemic approach that accounts for market reality and dependency tree complexity.
+            {/* Subtitle */}
+            <p className="text-xl md:text-2xl text-brand-neutral-500 leading-relaxed max-w-4xl mx-auto mb-12">
+              Building reusable infrastructure so open-source communities can enter the enterprise services market, with revenue flowing back through dependency trees to the maintainers doing the work.
             </p>
+
+            {/* Stats cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto">
+              <div className="bg-brand-neutral-300/30 backdrop-blur-sm rounded-2xl p-8 border border-brand-neutral-700">
+                <div className="text-4xl md:text-5xl text-brand-accent mb-3">$44B</div>
+                <div className="text-sm text-brand-neutral-500">Open-source services market by 2027</div>
+              </div>
+              <div className="bg-brand-neutral-300/30 backdrop-blur-sm rounded-2xl p-8 border border-brand-neutral-700">
+                <div className="text-4xl md:text-5xl text-brand-warning mb-3">837k+</div>
+                <div className="text-sm text-brand-neutral-500">GitHub stars across partner projects</div>
+              </div>
+              <div className="bg-brand-neutral-300/30 backdrop-blur-sm rounded-2xl p-8 border border-brand-neutral-700">
+                <div className="text-4xl md:text-5xl text-brand-highlight mb-3">215+</div>
+                <div className="text-sm text-brand-neutral-500">Projects in our network</div>
+              </div>
+            </div>
+
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <button className="px-8 py-4 bg-brand-accent hover:bg-brand-accent-dark text-brand-secondary rounded-xl transition-all duration-200 flex items-center gap-2 shadow-lg shadow-brand-accent/20">
+                Learn About Our Approach
+                <Zap className="w-5 h-5" />
+              </button>
+              <button className="px-8 py-4 bg-transparent hover:bg-brand-neutral-200/50 text-brand-neutral-800 border border-brand-neutral-600 rounded-xl transition-all duration-200">
+                View Our Team
+              </button>
+            </div>
           </div>
         </div>
       </section>

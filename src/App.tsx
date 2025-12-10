@@ -47,6 +47,9 @@ import { ProjectCommonPotPage } from './components/pages/ProjectCommonPotPage';
 import { DeveloperOnboardingWizard } from './components/onboarding/DeveloperOnboardingWizard';
 import { OnboardingSuccessPage } from './components/pages/OnboardingSuccessPage';
 import { SponsorshipPage } from './components/pages/SponsorshipPage';
+import { SponsorLandingPage } from './components/pages/SponsorLandingPage';
+import { IndividualSponsorPage } from './components/pages/IndividualSponsorPage';
+import { EnterpriseSponsorPage } from './components/pages/EnterpriseSponsorPage';
 import { MaintainerDashboardPage } from './components/pages/MaintainerDashboardPage';
 import { AddProjectWizard } from './components/maintainers/AddProjectWizard';
 import { LoginPage } from './components/pages/LoginPage';
@@ -91,6 +94,10 @@ export default function App() {
     console.log('%c  → /SERVER_ERROR_ALERT.md', 'color: #94a3b8;');
     console.log('%c  → /LOADING_STATE.md', 'color: #94a3b8;');
     console.log('%c  → /QUICK_START.md', 'color: #94a3b8;');
+    console.log('%c\\nSponsorship Pages:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
+    console.log('%c  → setCurrentPage("sponsor-landing") - Sponsor decision page', 'color: #94a3b8;');
+    console.log('%c  → setCurrentPage("sponsor-individual") - Individual support', 'color: #94a3b8;');
+    console.log('%c  → setCurrentPage("sponsor-enterprise") - Enterprise partnerships', 'color: #94a3b8;');
   }, []);
 
   // Scroll to top on page navigation and hide transition
@@ -192,7 +199,11 @@ export default function App() {
       setCurrentProjectSlug('react'); // Default to React project as example
       setCurrentPage('project-detail');
     } else if (href === 'sponsorship' || href === 'sponsor') {
-      setCurrentPage('sponsorship');
+      setCurrentPage('sponsor-landing');
+    } else if (href === 'sponsor-individual') {
+      setCurrentPage('sponsor-individual');
+    } else if (href === 'sponsor-enterprise') {
+      setCurrentPage('sponsor-enterprise');
     } else if (href === 'maintainer-dashboard') {
       setCurrentPage('maintainer-dashboard');
     } else if (href === 'add-project') {
@@ -305,7 +316,7 @@ export default function App() {
         <div className="absolute top-1/3 left-0 w-96 h-96 bg-brand-success/12 rounded-full blur-3xl opacity-40" />
         <div className="absolute bottom-1/3 right-0 w-80 h-80 bg-brand-accent/10 rounded-full blur-3xl opacity-30" />
         <PlatformSponsors 
-          onBecomeSponsorClick={() => setCurrentPage('sponsorship')}
+          onBecomeSponsorClick={() => setCurrentPage('sponsor-landing')}
         />
       </div>
 
@@ -655,6 +666,36 @@ export default function App() {
       <>
         <Header onNavItemClick={handleNavigation} />
         <SponsorshipPage onNavigate={handleNavigation} />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'sponsor-landing') {
+    return (
+      <>
+        <Header onNavItemClick={handleNavigation} />
+        <SponsorLandingPage onNavigate={handleNavigation} />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'sponsor-individual') {
+    return (
+      <>
+        <Header onNavItemClick={handleNavigation} />
+        <IndividualSponsorPage onNavigate={handleNavigation} />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'sponsor-enterprise') {
+    return (
+      <>
+        <Header onNavItemClick={handleNavigation} />
+        <EnterpriseSponsorPage onNavigate={handleNavigation} />
         <Footer onNavItemClick={handleNavigation} />
       </>
     );

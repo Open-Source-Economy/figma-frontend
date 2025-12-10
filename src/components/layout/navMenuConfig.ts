@@ -36,6 +36,15 @@ export const examplesMenuConfig: NavMenuConfig = {
   ],
 };
 
+export const sponsorMenuConfig: NavMenuConfig = {
+  title: 'Sponsor',
+  items: [
+    { label: 'Overview', href: 'sponsor-landing' },
+    { label: 'Individual Support', href: 'sponsor-individual' },
+    { label: 'Enterprise Partnership', href: 'sponsor-enterprise' },
+  ],
+};
+
 export const adminMenuConfig: NavMenuConfig = {
   title: 'Admin',
   variant: 'admin',
@@ -50,6 +59,7 @@ export const adminMenuConfig: NavMenuConfig = {
 export const dropdownMenus: Record<string, NavMenuConfig> = {
   'Projects': projectsMenuConfig,
   'Maintainers': maintainersMenuConfig,
+  'Sponsor': sponsorMenuConfig,
   'Examples': examplesMenuConfig,
   'Admin': adminMenuConfig,
 };

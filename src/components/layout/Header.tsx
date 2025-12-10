@@ -36,7 +36,7 @@ const defaultNavItems: NavItem[] = [
   { title: 'Services', href: 'services' },
   { title: 'Projects', href: 'projects' },
   { title: 'Maintainers', href: 'maintainer-profile' },
-  { title: 'Sponsor', href: 'sponsorship' },
+  { title: 'Sponsor', href: 'sponsor' },
   { title: 'Blog', href: 'blog' },
   { title: 'FAQ', href: 'faq' },
   { title: 'Contact', href: 'contact' },
@@ -77,19 +77,19 @@ export function Header({
 
       {/* Main Header */}
       <header className={`bg-background border-b border-border sticky top-0 z-50 ${className}`}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        <div className="w-full mx-auto px-3 sm:px-4 lg:px-6 max-w-[100vw]">
+          <div className="flex items-center justify-between h-16 gap-2 lg:gap-4">
             {/* Logo */}
             <button 
               onClick={() => onNavItemClick ? onNavItemClick('home') : window.location.href = '/'}
-              className="hover:opacity-80 transition-opacity duration-200"
+              className="hover:opacity-80 transition-opacity duration-200 shrink-0"
               aria-label="Go to homepage"
             >
               <Logo size="sm" />
             </button>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
+            <nav className="hidden md:flex items-center space-x-3 lg:space-x-4 xl:space-x-6 overflow-x-auto scrollbar-none flex-shrink min-w-0">
               {navItems.map((item) => {
                 // Check if this is a dropdown menu
                 const menuConfig = dropdownMenus[item.title];
@@ -109,7 +109,7 @@ export function Header({
                   <button
                     key={item.title}
                     onClick={() => onNavItemClick ? onNavItemClick(item.href) : window.location.href = item.href}
-                    className="text-muted-foreground hover:text-brand-primary transition-colors duration-200 cursor-pointer"
+                    className="text-muted-foreground hover:text-brand-primary transition-colors duration-200 cursor-pointer whitespace-nowrap shrink-0"
                   >
                     {item.title}
                   </button>
@@ -118,7 +118,7 @@ export function Header({
             </nav>
 
             {/* Auth Section */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center gap-1.5 lg:gap-2 xl:gap-3 shrink-0">
               {isLoading ? (
                 <Skeleton className="h-10 w-10 rounded-full" />
               ) : isAuthenticated && user ? (
@@ -173,10 +173,12 @@ export function Header({
                   <Button 
                     onClick={() => onNavItemClick?.('login')} 
                     variant="ghost"
+                    size="sm"
+                    className="hidden lg:flex"
                   >
                     Log In
                   </Button>
-                  <Button onClick={onCtaClick} variant="default">
+                  <Button onClick={onCtaClick} variant="default" size="sm">
                     {ctaText}
                   </Button>
                   {/* Demo: Quick login button */}
@@ -184,7 +186,7 @@ export function Header({
                     onClick={mockLogin} 
                     variant="outline"
                     size="sm"
-                    className="text-xs"
+                    className="text-xs hidden xl:flex"
                   >
                     Demo Login
                   </Button>

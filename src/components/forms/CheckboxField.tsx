@@ -13,6 +13,7 @@ interface CheckboxFieldProps {
   className?: string;
   size?: 'sm' | 'default' | 'lg' | 'xl';
   icon?: LucideIcon;
+  children?: React.ReactNode;
 }
 
 /**
@@ -28,30 +29,38 @@ export function CheckboxField({
   className,
   size = 'default',
   icon: Icon,
+  children,
 }: CheckboxFieldProps) {
   return (
     <div className={cn(
-      'flex items-start gap-3 p-4 bg-brand-card-blue-light border border-brand-neutral-300 rounded-lg transition-colors hover:bg-brand-card-blue',
+      'flex flex-col gap-2 p-3 bg-brand-card-blue-light border border-brand-neutral-300 rounded-lg transition-colors hover:bg-brand-card-blue',
       className
     )}>
-      <Checkbox
-        id={id}
-        checked={checked}
-        onCheckedChange={onCheckedChange}
-        size={size}
-        className="mt-1"
-      />
-      {Icon && (
-        <Icon className="w-5 h-5 text-brand-accent mt-1 flex-shrink-0" />
-      )}
-      <Label htmlFor={id} className="flex-1 text-brand-neutral-700 cursor-pointer">
-        {label}
-        {description && (
-          <span className="block text-sm text-brand-neutral-500 mt-1 font-normal">
-            {description}
-          </span>
+      <div className="flex items-start gap-2.5">
+        <Checkbox
+          id={id}
+          checked={checked}
+          onCheckedChange={onCheckedChange}
+          size={size}
+          className="mt-0.5"
+        />
+        {Icon && (
+          <Icon className="w-4 h-4 text-brand-accent mt-0.5 flex-shrink-0" />
         )}
-      </Label>
+        <Label htmlFor={id} className="flex-1 text-brand-neutral-700 cursor-pointer">
+          {label}
+          {description && (
+            <span className="block text-sm text-brand-neutral-500 mt-0.5 font-normal text-[12px]">
+              {description}
+            </span>
+          )}
+        </Label>
+      </div>
+      {checked && children && (
+        <div className="pl-7 animate-in fade-in duration-200">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
