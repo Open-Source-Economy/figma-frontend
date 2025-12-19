@@ -3,6 +3,13 @@
  * Template-based data for individual project pages
  */
 
+export type ConsultingStatus = 'available' | 'available-later' | 'community-supporter';
+
+export interface ConsultingDetails {
+  does?: string[]; // What the maintainer does (e.g., "Reviews PRs", "Brainstorming sessions")
+  doesNot?: string[]; // What the maintainer doesn't do (e.g., "Paid consulting", "Implementation work")
+}
+
 export interface Maintainer {
   name: string;
   photo: string;
@@ -14,13 +21,13 @@ export interface Maintainer {
     twitter?: string;
     linkedin?: string;
   };
-  availableForConsulting: boolean;
+  consultingStatus: ConsultingStatus;
+  consultingStatusExplanation?: string; // Optional custom explanation for this maintainer's status
+  consultingDetails?: ConsultingDetails; // Structured details about what they do/don't do
   expertise: string[];
   verified?: boolean;
   mergeRights?: 'Full Access' | 'Limited' | 'Review Only' | 'Read Only';
   highlightFact?: string;
-  communitySupporter?: boolean; // Not offering paid services, supporting the initiative
-  communitySupporterMessage?: string; // Custom message explaining their role
 }
 
 export interface DonationTier {
@@ -198,13 +205,16 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           twitter: 'dan_abramov',
           linkedin: 'dan-abramov'
         },
-        availableForConsulting: false,
+        consultingStatus: 'community-supporter',
+        consultingStatusExplanation: 'Championing this initiative to help fellow maintainers build sustainable open source careers. Not offering paid services but supporting the community in this venture.',
+        consultingDetails: {
+          does: ['Reviews PRs and provides feedback', 'Brainstorming sessions on architecture', 'Community mentorship', 'Evangelizing the initiative'],
+          doesNot: ['Paid consulting engagements', 'Direct implementation work', 'Custom feature development', 'Long-term contracts']
+        },
         expertise: ['React Architecture', 'Performance Optimization', 'State Management', 'Developer Tools'],
         verified: true,
         mergeRights: 'Full Access',
-        highlightFact: 'Creator of Redux and React Hot Loader',
-        communitySupporter: true,
-        communitySupporterMessage: 'Dan is championing this initiative to help fellow maintainers build sustainable open source careers. He is not offering paid services but is here to support the community in this venture.'
+        highlightFact: 'Creator of Redux and React Hot Loader'
       },
       {
         name: 'Sophie Alpert',
@@ -217,7 +227,7 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           twitter: 'sophiebits',
           linkedin: 'sophiealpert'
         },
-        availableForConsulting: false,
+        consultingStatus: 'available-later',
         expertise: ['React Internals', 'Build Tools', 'Developer Experience', 'Open Source Management'],
         verified: true,
         mergeRights: 'Full Access',
@@ -233,7 +243,7 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           github: 'sebmarkbage',
           twitter: 'sebmarkbage'
         },
-        availableForConsulting: true,
+        consultingStatus: 'available',
         expertise: ['Server Components', 'Concurrent Rendering', 'React Architecture', 'Performance'],
         verified: true,
         mergeRights: 'Full Access',
@@ -661,7 +671,7 @@ root.render(<App />);`,
           twitter: 'youyuxi',
           linkedin: 'evanyou'
         },
-        availableForConsulting: true,
+        consultingStatus: 'available',
         expertise: ['Vue Architecture', 'Build Tools', 'Compiler Design', 'Framework Development'],
         verified: true,
         mergeRights: 'Full Access',
@@ -677,7 +687,7 @@ root.render(<App />);`,
           github: 'antfu',
           twitter: 'antfu7'
         },
-        availableForConsulting: true,
+        consultingStatus: 'available',
         expertise: ['Vite', 'Developer Tools', 'TypeScript', 'Build Optimization'],
         verified: true,
         mergeRights: 'Full Access',
