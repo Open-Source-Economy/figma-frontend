@@ -374,6 +374,13 @@ export function IndividualSponsorPage({ onNavigate }: IndividualSponsorPageProps
                   size="lg" 
                   className="w-full gap-2"
                   disabled={(!selectedAmount && !customAmount) || (listPublicly && !githubProfile)}
+                  onClick={() => {
+                    // In production, would process payment first
+                    // For now, navigate to thank you page
+                    if (onNavigate) {
+                      onNavigate('thank-you');
+                    }
+                  }}
                 >
                   <Heart className="h-5 w-5" />
                   {donationFrequency === 'monthly' 

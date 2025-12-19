@@ -37,6 +37,8 @@ const defaultNavItems: NavItem[] = [
   { title: 'Projects', href: 'projects' },
   { title: 'Maintainers', href: 'maintainer-profile' },
   { title: 'Sponsor', href: 'sponsor' },
+  { title: 'Support Us', href: 'support-us' },
+  { title: 'Thank You', href: 'thank-you' },
   { title: 'Blog', href: 'blog' },
   { title: 'FAQ', href: 'faq' },
   { title: 'Contact', href: 'contact' },

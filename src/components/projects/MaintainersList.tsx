@@ -1,7 +1,7 @@
 import React from 'react';
 import { Badge } from '../ui/badge';
 import { Button } from '../ui/button';
-import { Github, Twitter, Linkedin, Star, BadgeCheck, GitMerge, Sparkles } from 'lucide-react';
+import { Github, Twitter, Linkedin, Star, BadgeCheck, GitMerge, Sparkles, HandHeart } from 'lucide-react';
 import type { Maintainer } from '../../data/projectDetailData';
 
 interface MaintainersListProps {
@@ -24,15 +24,25 @@ export function MaintainersList({ maintainers, projectName }: MaintainersListPro
           <div className="absolute inset-0 opacity-[0.015] pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, currentColor 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
           
           {/* Availability Badge - Top Right */}
-          <div className="absolute top-5 right-5 z-10">
+          <div className="absolute top-5 right-5 z-10 flex gap-2">
+            {/* Community Supporter Badge */}
+            {maintainer.communitySupporter && (
+              <Badge className="bg-gradient-to-r from-amber-500/10 to-orange-500/10 text-amber-600 border-amber-500/30 text-xs shadow-sm">
+                <HandHeart className="mr-1 h-3 w-3" />
+                Community Supporter
+              </Badge>
+            )}
+            
+            {/* Availability Badge */}
             {maintainer.availableForConsulting ? (
               <Badge className="bg-brand-success/10 text-brand-success border-brand-success/20 text-xs shadow-sm">
                 <Star className="mr-1 h-3 w-3" />
                 Available
               </Badge>
             ) : (
-              <Badge variant="secondary" className="bg-brand-neutral-200/50 text-brand-neutral-500 border-brand-neutral-400/30 text-xs">
-                Unavailable
+              <Badge className="bg-brand-error/10 text-brand-error border-brand-error/20 text-xs shadow-sm">
+                <Star className="mr-1 h-3 w-3" />
+                Not Available
               </Badge>
             )}
           </div>
@@ -84,18 +94,32 @@ export function MaintainersList({ maintainers, projectName }: MaintainersListPro
                 <p className="text-brand-neutral-700 mb-3">{maintainer.bio}</p>
               )}
 
-              {/* Highlight Fact */}
-              {maintainer.highlightFact && (
-                <div className="relative p-4 bg-brand-neutral-100/40 border border-brand-neutral-300/50 rounded-lg mb-3">
+              {/* Community Supporter Message */}
+              {maintainer.communitySupporter && maintainer.communitySupporterMessage ? (
+                <div className="relative p-4 bg-gradient-to-r from-amber-50/60 to-orange-50/40 border border-amber-500/20 rounded-lg mb-3">
                   <div className="flex items-start gap-3">
-                    <div className="flex items-center justify-center w-6 h-6 rounded-md bg-brand-accent/10 flex-shrink-0 mt-0.5">
-                      <Sparkles className="h-3.5 w-3.5 text-brand-accent" />
+                    <div className="flex items-center justify-center w-6 h-6 rounded-md bg-gradient-to-br from-amber-500/20 to-orange-500/20 flex-shrink-0 mt-0.5">
+                      <HandHeart className="h-3.5 w-3.5 text-amber-600" />
                     </div>
                     <div className="flex-1">
-                      <p className="text-brand-neutral-700 leading-relaxed">{maintainer.highlightFact}</p>
+                      <p className="text-amber-900 leading-relaxed">{maintainer.communitySupporterMessage}</p>
                     </div>
                   </div>
                 </div>
+              ) : (
+                /* Highlight Fact - only show if not a community supporter */
+                maintainer.highlightFact && (
+                  <div className="relative p-4 bg-brand-neutral-100/40 border border-brand-neutral-300/50 rounded-lg mb-3">
+                    <div className="flex items-start gap-3">
+                      <div className="flex items-center justify-center w-6 h-6 rounded-md bg-brand-accent/10 flex-shrink-0 mt-0.5">
+                        <Sparkles className="h-3.5 w-3.5 text-brand-accent" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-brand-neutral-700 leading-relaxed">{maintainer.highlightFact}</p>
+                      </div>
+                    </div>
+                  </div>
+                )
               )}
 
               {/* Expertise Tags */}

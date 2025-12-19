@@ -5,6 +5,7 @@ import { Input } from '../ui/input';
 import { Alert, AlertDescription } from '../ui/alert';
 import { ServerErrorAlert } from '../ui/server-error-alert';
 import { LoadingButton } from '../ui/loading-state';
+import { StateTestingWrapper } from '../ui/StateTestingWrapper';
 import { Github, Twitter, Mail, Heart, Youtube, Linkedin, AtSign, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface FooterLink {
@@ -188,104 +189,121 @@ export function Footer({
                 Get the latest updates on open source projects and community news.
               </p>
 
-              {/* Demo Toggle - Development Only */}
-              {process.env.NODE_ENV === 'development' && (
-                <div className="mb-4 p-3 bg-brand-card-blue-light border border-brand-warning rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-brand-warning">Demo Mode</span>
-                    <label className="flex items-center gap-2 cursor-pointer">
-                      <span className="text-xs text-brand-neutral-600">Simulate Error</span>
-                      <input
-                        type="checkbox"
-                        checked={showErrorDemo}
-                        onChange={(e) => setShowErrorDemo(e.target.checked)}
-                        className="w-4 h-4"
-                      />
-                    </label>
+              <StateTestingWrapper
+                enableStateTesting={process.env.NODE_ENV === 'development'}
+                successContent={{
+                  title: "Successfully Subscribed! ✓",
+                  message: "Thanks for subscribing! Check your email to confirm your subscription.",
+                }}
+                errorContent={{
+                  title: "Subscription Failed",
+                  message: "Unable to process your subscription. Please try again later or contact support@opensourceeconomy.org",
+                  retryLabel: "Try Again",
+                }}
+                loadingContent={{
+                  message: "Processing your subscription...",
+                }}
+                badgePosition="top-left"
+              >
+                {/* Demo Toggle - Development Only */}
+                {process.env.NODE_ENV === 'development' && (
+                  <div className="mb-4 p-3 bg-brand-card-blue-light border border-brand-warning rounded-lg">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-brand-warning">Demo Mode</span>
+                      <label className="flex items-center gap-2 cursor-pointer">
+                        <span className="text-xs text-brand-neutral-600">Simulate Error</span>
+                        <input
+                          type="checkbox"
+                          checked={showErrorDemo}
+                          onChange={(e) => setShowErrorDemo(e.target.checked)}
+                          className="w-4 h-4"
+                        />
+                      </label>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {/* Loading State */}
-              {isSubmitting && (
-                <Alert className="mb-4 border-brand-accent bg-brand-accent/10">
-                  <Loader2 className="h-4 w-4 text-brand-accent animate-spin" />
-                  <AlertDescription className="text-brand-accent">
-                    Processing your subscription...
-                  </AlertDescription>
-                </Alert>
-              )}
+                {/* Loading State */}
+                {isSubmitting && (
+                  <Alert className="mb-4 border-brand-accent bg-brand-accent/10">
+                    <Loader2 className="h-4 w-4 text-brand-accent animate-spin" />
+                    <AlertDescription className="text-brand-accent">
+                      Processing your subscription...
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-              {/* Success State */}
-              {submissionStatus === 'success' && (
-                <Alert className="mb-4 border-brand-success bg-brand-success/10">
-                  <CheckCircle2 className="h-4 w-4 text-brand-success" />
-                  <AlertDescription className="text-brand-success">
-                    Thanks for subscribing! Check your email to confirm your subscription.
-                  </AlertDescription>
-                </Alert>
-              )}
+                {/* Success State */}
+                {submissionStatus === 'success' && (
+                  <Alert className="mb-4 border-brand-success bg-brand-success/10">
+                    <CheckCircle2 className="h-4 w-4 text-brand-success" />
+                    <AlertDescription className="text-brand-success">
+                      Thanks for subscribing! Check your email to confirm your subscription.
+                    </AlertDescription>
+                  </Alert>
+                )}
 
-              {/* Error State */}
-              {submissionStatus === 'error' && (
-                <div className="mb-4">
-                  <ServerErrorAlert 
-                    variant="compact"
-                    message={errorMessage}
-                    showDismiss
-                    onDismiss={() => {
-                      setSubmissionStatus('idle');
-                      setErrorMessage('');
-                    }}
-                  />
-                </div>
-              )}
-
-              {/* Subscription Form */}
-              {submissionStatus !== 'success' && (
-                <form onSubmit={handleSubscribe} className="flex gap-2 items-center">
-                  <Input
-                    type="email"
-                    placeholder="Enter your email"
-                    variant="outline"
-                    className="flex-1 h-10"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      if (submissionStatus === 'error') {
+                {/* Error State */}
+                {submissionStatus === 'error' && (
+                  <div className="mb-4">
+                    <ServerErrorAlert 
+                      variant="compact"
+                      message={errorMessage}
+                      showDismiss
+                      onDismiss={() => {
                         setSubmissionStatus('idle');
                         setErrorMessage('');
-                      }
-                    }}
-                    disabled={isSubmitting}
-                  />
-                  <Button 
-                    type="submit" 
-                    variant="default" 
-                    size="default" 
-                    className="h-10"
-                    disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                      <LoadingButton message="Subscribing..." size="sm" />
-                    ) : (
-                      'Subscribe'
-                    )}
-                  </Button>
-                </form>
-              )}
+                      }}
+                    />
+                  </div>
+                )}
 
-              {/* Success - Show action to subscribe again */}
-              {submissionStatus === 'success' && (
-                <Button 
-                  variant="outline" 
-                  size="default" 
-                  className="h-10 w-full"
-                  onClick={handleResetSuccess}
-                >
-                  Subscribe Another Email
-                </Button>
-              )}
+                {/* Subscription Form */}
+                {submissionStatus !== 'success' && (
+                  <form onSubmit={handleSubscribe} className="flex gap-2 items-center">
+                    <Input
+                      type="email"
+                      placeholder="Enter your email"
+                      variant="outline"
+                      className="flex-1 h-10"
+                      value={email}
+                      onChange={(e) => {
+                        setEmail(e.target.value);
+                        if (submissionStatus === 'error') {
+                          setSubmissionStatus('idle');
+                          setErrorMessage('');
+                        }
+                      }}
+                      disabled={isSubmitting}
+                    />
+                    <Button 
+                      type="submit" 
+                      variant="default" 
+                      size="default" 
+                      className="h-10"
+                      disabled={isSubmitting}
+                    >
+                      {isSubmitting ? (
+                        <LoadingButton message="Subscribing..." size="sm" />
+                      ) : (
+                        'Subscribe'
+                      )}
+                    </Button>
+                  </form>
+                )}
+
+                {/* Success - Show action to subscribe again */}
+                {submissionStatus === 'success' && (
+                  <Button 
+                    variant="outline" 
+                    size="default" 
+                    className="h-10 w-full"
+                    onClick={handleResetSuccess}
+                  >
+                    Subscribe Another Email
+                  </Button>
+                )}
+              </StateTestingWrapper>
             </div>
           </div>
         )}

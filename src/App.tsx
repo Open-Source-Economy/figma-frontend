@@ -50,9 +50,11 @@ import { SponsorshipPage } from './components/pages/SponsorshipPage';
 import { SponsorLandingPage } from './components/pages/SponsorLandingPage';
 import { IndividualSponsorPage } from './components/pages/IndividualSponsorPage';
 import { EnterpriseSponsorPage } from './components/pages/EnterpriseSponsorPage';
+import { ThankYouPage } from './components/pages/ThankYouPage';
 import { MaintainerDashboardPage } from './components/pages/MaintainerDashboardPage';
 import { AddProjectWizard } from './components/maintainers/AddProjectWizard';
 import { LoginPage } from './components/pages/LoginPage';
+import { SupportUsPage } from './components/pages/SupportUsPage';
 import { getProjectBySlug } from './data/projectDetailData';
 import { sampleMaintainerProfile } from './data/maintainerProfileData';
 import { getMockDataByScenario } from './data/developerOnboardingData';
@@ -204,6 +206,10 @@ export default function App() {
       setCurrentPage('sponsor-individual');
     } else if (href === 'sponsor-enterprise') {
       setCurrentPage('sponsor-enterprise');
+    } else if (href === 'thank-you') {
+      setCurrentPage('thank-you');
+    } else if (href === 'support-us' || href === 'support') {
+      setCurrentPage('support-us');
     } else if (href === 'maintainer-dashboard') {
       setCurrentPage('maintainer-dashboard');
     } else if (href === 'add-project') {
@@ -696,6 +702,25 @@ export default function App() {
       <>
         <Header onNavItemClick={handleNavigation} />
         <EnterpriseSponsorPage onNavigate={handleNavigation} />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'thank-you') {
+    return (
+      <>
+        <Header onNavItemClick={handleNavigation} />
+        <ThankYouPage onNavigate={handleNavigation} />
+        <Footer onNavItemClick={handleNavigation} />
+      </>
+    );
+  }
+
+  if (currentPage === 'support-us') {
+    return (
+      <>
+        <SupportUsPage onNavigate={handleNavigation} />
         <Footer onNavItemClick={handleNavigation} />
       </>
     );

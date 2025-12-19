@@ -19,6 +19,8 @@ export interface Maintainer {
   verified?: boolean;
   mergeRights?: 'Full Access' | 'Limited' | 'Review Only' | 'Read Only';
   highlightFact?: string;
+  communitySupporter?: boolean; // Not offering paid services, supporting the initiative
+  communitySupporterMessage?: string; // Custom message explaining their role
 }
 
 export interface DonationTier {
@@ -196,11 +198,13 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           twitter: 'dan_abramov',
           linkedin: 'dan-abramov'
         },
-        availableForConsulting: true,
+        availableForConsulting: false,
         expertise: ['React Architecture', 'Performance Optimization', 'State Management', 'Developer Tools'],
         verified: true,
         mergeRights: 'Full Access',
-        highlightFact: 'Creator of Redux and React Hot Loader'
+        highlightFact: 'Creator of Redux and React Hot Loader',
+        communitySupporter: true,
+        communitySupporterMessage: 'Dan is championing this initiative to help fellow maintainers build sustainable open source careers. He is not offering paid services but is here to support the community in this venture.'
       },
       {
         name: 'Sophie Alpert',
@@ -213,7 +217,7 @@ export const projectDetailData: Record<string, ProjectDetail> = {
           twitter: 'sophiebits',
           linkedin: 'sophiealpert'
         },
-        availableForConsulting: true,
+        availableForConsulting: false,
         expertise: ['React Internals', 'Build Tools', 'Developer Experience', 'Open Source Management'],
         verified: true,
         mergeRights: 'Full Access',

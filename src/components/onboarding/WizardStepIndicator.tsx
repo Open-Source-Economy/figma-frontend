@@ -10,8 +10,8 @@ export interface WizardStep {
 export interface WizardStepIndicatorProps {
   steps: WizardStep[];
   currentStep: number;
-  completedSteps: number[];
-  highestStepReached: number;
+  completedSteps?: number[];
+  highestStepReached?: number;
   onStepClick?: (stepNumber: number) => void;
 }
 
@@ -22,8 +22,8 @@ export interface WizardStepIndicatorProps {
 export const WizardStepIndicator: React.FC<WizardStepIndicatorProps> = ({
   steps,
   currentStep,
-  completedSteps,
-  highestStepReached,
+  completedSteps = [],
+  highestStepReached = currentStep,
   onStepClick
 }) => {
   return (
