@@ -35,12 +35,12 @@ export function NavDropdown({
         {title}
         <ChevronDown className="w-4 h-4" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56">
+      <DropdownMenuContent align="start" sideOffset={8} className="w-56">
         {items.map((item) => (
           <DropdownMenuItem
             key={item.href}
             onClick={() => onItemClick?.(item.href)}
-            className="cursor-pointer hover:text-brand-primary"
+            className="cursor-pointer"
           >
             {item.label}
           </DropdownMenuItem>

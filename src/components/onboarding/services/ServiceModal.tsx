@@ -233,7 +233,7 @@ export const ServiceModal: React.FC<ServiceModalProps> = ({
                                     : 'border-brand-neutral-400'
                                 }`}>
                                   {isSelected && (
-                                    <div className="w-2 h-2 rounded-sm bg-white" />
+                                    <div className="w-2 h-2 rounded-sm bg-brand-neutral-950" />
                                   )}
                                 </div>
                                 <div className="flex-1 min-w-0">

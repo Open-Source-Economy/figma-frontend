@@ -21,7 +21,7 @@ export const maintainersMenuConfig: NavMenuConfig = {
   items: [
     { label: 'Browse Directory', href: 'maintainers-directory' },
     { label: 'View Profile Example', href: 'maintainer-profile' },
-    { label: 'Register as Maintainer', href: 'maintainer-registration' },
+    { label: 'Maintainer Onboarding Home', href: 'maintainer-registration' },
   ],
 };
 
@@ -33,6 +33,18 @@ export const examplesMenuConfig: NavMenuConfig = {
     { label: 'Typography Levels', href: 'heading-levels' },
     { label: 'Developer Onboarding', href: 'developer-onboarding' },
     { label: 'Onboarding Success', href: 'onboarding-success' },
+  ],
+};
+
+export const aboutMenuConfig: NavMenuConfig = {
+  title: 'About',
+  items: [
+    { label: 'How It Works', href: 'how-it-works' },
+    { label: 'Mission', href: 'mission' },
+    { label: 'Support Us', href: 'support-us' },
+    { label: 'Thank You', href: 'thank-you' },
+    { label: 'Blog', href: 'blog' },
+    { label: 'FAQ', href: 'faq' },
   ],
 };
 
@@ -60,6 +72,7 @@ export const dropdownMenus: Record<string, NavMenuConfig> = {
   'Projects': projectsMenuConfig,
   'Maintainers': maintainersMenuConfig,
   'Sponsor': sponsorMenuConfig,
+  'About': aboutMenuConfig,
   'Examples': examplesMenuConfig,
   'Admin': adminMenuConfig,
 };

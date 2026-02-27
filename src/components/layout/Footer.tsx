@@ -6,6 +6,7 @@ import { Alert, AlertDescription } from '../ui/alert';
 import { ServerErrorAlert } from '../ui/server-error-alert';
 import { LoadingButton } from '../ui/loading-state';
 import { StateTestingWrapper } from '../ui/StateTestingWrapper';
+import { CurrencySelector } from '../ui/currency-selector';
 import { Github, Twitter, Mail, Heart, Youtube, Linkedin, AtSign, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
 
 interface FooterLink {
@@ -92,6 +93,22 @@ export function Footer({
   const [submissionStatus, setSubmissionStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = React.useState('');
   const [showErrorDemo, setShowErrorDemo] = React.useState(false);
+  
+  // Currency state with localStorage persistence
+  const [selectedCurrency, setSelectedCurrency] = React.useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('preferredCurrency') || 'USD';
+    }
+    return 'USD';
+  });
+
+  // Persist currency selection to localStorage
+  const handleCurrencyChange = (currency: string) => {
+    setSelectedCurrency(currency);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('preferredCurrency', currency);
+    }
+  };
 
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -308,6 +325,23 @@ export function Footer({
           </div>
         )}
 
+        {/* Regional Settings */}
+        <div className="border-t border-border mt-8 pt-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-end gap-4">
+            <div className="flex items-center gap-4">
+              <div className="flex flex-col">
+                <label className="text-xs text-muted-foreground mb-1">Currency</label>
+                <CurrencySelector 
+                  value={selectedCurrency} 
+                  onValueChange={handleCurrencyChange}
+                  variant="compact"
+                  className="w-[160px]"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Bottom Bar */}
         <div className="border-t border-border mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-0">
           <p className="text-muted-foreground text-sm flex items-center">
@@ -316,7 +350,7 @@ export function Footer({
               href="https://www.uid.admin.ch/Detail.aspx?uid_id=CHE-440.058.692"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-brand-primary transition-colors cursor-pointer"
+              className="hover:text-brand-primary transition-colors cursor-pointer mx-1"
             >
               CHE-440.058.692
             </a>{' '}

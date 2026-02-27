@@ -61,11 +61,13 @@ import {
 interface MaintainerRegistrationPageProps {
   onNavigateHome: () => void;
   onNavItemClick: (href: string) => void;
+  onStartOnboarding?: () => void;
 }
 
 export function MaintainerRegistrationPage({
   onNavigateHome,
-  onNavItemClick
+  onNavItemClick,
+  onStartOnboarding
 }: MaintainerRegistrationPageProps) {
   return (
     <div className="min-h-screen bg-brand-secondary">
@@ -94,7 +96,11 @@ export function MaintainerRegistrationPage({
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-brand-accent hover:bg-brand-accent-dark text-white shadow-xl">
+              <Button 
+                size="lg" 
+                className="bg-brand-accent hover:bg-brand-accent-dark text-white shadow-xl"
+                onClick={onStartOnboarding}
+              >
                 <Github className="h-5 w-5 mr-2" />
                 Sign in with GitHub
               </Button>
@@ -102,6 +108,178 @@ export function MaintainerRegistrationPage({
                 <MessageCircle className="h-5 w-5 mr-2" />
                 Book a Call
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Participation Models Section */}
+      <section className="py-16 bg-gradient-to-b from-brand-neutral-100 via-brand-secondary to-brand-neutral-200">
+        <div className="container mx-auto px-6 max-w-6xl">
+          {/* Section Header */}
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-accent/10 rounded-full mb-4">
+              <Users className="w-4 h-4 text-brand-accent" />
+              <span className="text-sm text-brand-accent">Flexible Participation</span>
+            </div>
+            <h2 className="text-brand-neutral-900 mb-3">
+              Choose Your Participation Model
+            </h2>
+            <p className="text-brand-neutral-600 max-w-2xl mx-auto mb-5">
+              Select your level of interest for each option during registration — from earning through enterprise contracts to supporting the community.
+            </p>
+            
+            {/* Flexibility Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-success/10 border border-brand-success/20 rounded-full">
+                <Briefcase className="w-3.5 h-3.5 text-brand-success" />
+                <span className="text-sm text-brand-neutral-800">Full-time</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-accent/10 border border-brand-accent/20 rounded-full">
+                <Clock className="w-3.5 h-3.5 text-brand-accent" />
+                <span className="text-sm text-brand-neutral-800">Part-time</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand-highlight/10 border border-brand-highlight/20 rounded-full">
+                <Zap className="w-3.5 h-3.5 text-brand-highlight" />
+                <span className="text-sm text-brand-neutral-800">Every now & then</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Participation Models Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-5xl mx-auto">
+            {/* Service Provider - Featured */}
+            <div className="relative rounded-xl border-2 p-5 transition-all duration-300 bg-gradient-to-br from-brand-accent/5 to-brand-accent/10 border-brand-accent/30 hover:border-brand-accent/50 hover:shadow-lg">
+              <div className="absolute top-3 right-3">
+                <div className="px-2 py-1 bg-brand-accent/20 rounded-full">
+                  <span className="text-xs text-brand-accent">Most Popular</span>
+                </div>
+              </div>
+              
+              <div className="flex items-start gap-4 mb-3">
+                <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center bg-brand-accent text-white">
+                  <Zap className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-brand-accent mb-1">
+                    Service Provider
+                  </h3>
+                  <p className="text-sm text-brand-neutral-600 leading-snug">
+                    Earn from enterprise contracts while funding the ecosystem
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-2 pl-16">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-accent" />
+                  <span className="text-sm text-brand-neutral-700">Enterprise contracts</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-accent" />
+                  <span className="text-sm text-brand-neutral-700">Auto-fund dependencies</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-accent" />
+                  <span className="text-sm text-brand-neutral-700">Governance rights</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Common Pot Participant */}
+            <div className="rounded-xl border-2 p-5 transition-all duration-300 bg-gradient-to-br from-brand-primary/5 to-brand-primary/10 border-brand-primary/20 hover:border-brand-primary/40 hover:shadow-lg">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center bg-brand-primary text-white">
+                  <DollarSign className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-brand-primary mb-1">
+                    Common Pot Participant
+                  </h3>
+                  <p className="text-sm text-brand-neutral-600 leading-snug">
+                    Receive funding to support your community work
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-2 pl-16">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-primary" />
+                  <span className="text-sm text-brand-neutral-700">Funded by contracts</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-primary" />
+                  <span className="text-sm text-brand-neutral-700">Focus on OSS work</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-primary" />
+                  <span className="text-sm text-brand-neutral-700">Support critical projects</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Individual Donation */}
+            <div className="rounded-xl border-2 p-5 transition-all duration-300 bg-gradient-to-br from-brand-highlight/5 to-brand-highlight/10 border-brand-highlight/20 hover:border-brand-highlight/40 hover:shadow-lg">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center bg-brand-highlight text-white">
+                  <Heart className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-brand-highlight mb-1">
+                    Individual Donation
+                  </h3>
+                  <p className="text-sm text-brand-neutral-600 leading-snug">
+                    Accept donations directly from supporters
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-2 pl-16">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-highlight" />
+                  <span className="text-sm text-brand-neutral-700">Direct financial support</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-highlight" />
+                  <span className="text-sm text-brand-neutral-700">Build supporter community</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-highlight" />
+                  <span className="text-sm text-brand-neutral-700">Transparent tracking</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Community Supporter */}
+            <div className="rounded-xl border-2 p-5 transition-all duration-300 bg-gradient-to-br from-brand-success/5 to-brand-success/10 border-brand-success/20 hover:border-brand-success/40 hover:shadow-lg">
+              <div className="flex items-start gap-4 mb-3">
+                <div className="flex-shrink-0 w-12 h-12 rounded-lg flex items-center justify-center bg-brand-success text-white">
+                  <Users className="w-6 h-6" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-brand-success mb-1">
+                    Community Supporter
+                  </h3>
+                  <p className="text-sm text-brand-neutral-600 leading-snug">
+                    Non-financial contributions and credibility
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-2 pl-16">
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-success" />
+                  <span className="text-sm text-brand-neutral-700">PR reviews & feedback</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-success" />
+                  <span className="text-sm text-brand-neutral-700">Mentoring support</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-1 h-1 rounded-full bg-brand-success" />
+                  <span className="text-sm text-brand-neutral-700">Lend credibility</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -9,6 +9,7 @@ import {
 } from "lucide-react@0.487.0";
 
 import { cn } from "./utils";
+import { DROPDOWN_ITEM_STYLES } from "./dropdown-item-styles";
 
 function Select({
   ...props
@@ -131,7 +132,8 @@ function SelectItem({
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        "relative flex w-full cursor-default items-center gap-2 rounded-md py-2 pr-8 pl-3 text-sm outline-hidden select-none transition-all duration-200 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 hover:bg-gradient-to-r hover:from-brand-primary/10 hover:to-brand-accent/10 focus:bg-gradient-to-r focus:from-brand-primary/15 focus:to-brand-accent/15 focus:text-brand-primary data-[highlighted]:bg-gradient-to-r data-[highlighted]:from-brand-primary/15 data-[highlighted]:to-brand-accent/15 data-[highlighted]:text-brand-primary [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
+        DROPDOWN_ITEM_STYLES.selectItem,
+        "[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2",
         className,
       )}
       {...props}

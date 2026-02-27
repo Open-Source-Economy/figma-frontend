@@ -161,7 +161,7 @@ export const ProjectSelector: React.FC<ProjectSelectorProps> = ({
                 : 'border-brand-neutral-400'
             }`}>
               {safeSelectedIds.length > 0 && (
-                <div className="w-2 h-2 rounded-sm bg-white" />
+                <div className="w-2 h-2 rounded-sm bg-brand-neutral-950" />
               )}
             </div>
             <span className="text-sm text-brand-neutral-800">
@@ -201,7 +201,7 @@ export const ProjectSelector: React.FC<ProjectSelectorProps> = ({
                     <div className={`w-4 h-4 rounded border-2 flex items-center justify-center flex-shrink-0 transition-all ${
                       isSelected ? 'bg-brand-accent border-brand-accent' : 'border-brand-neutral-400'
                     }`}>
-                      {isSelected && <div className="w-2 h-2 rounded-sm bg-white" />}
+                      {isSelected && <div className="w-2 h-2 rounded-sm bg-brand-neutral-950" />}
                     </div>
                     {isGithub ? (
                       <Github className="w-3.5 h-3.5 text-brand-neutral-600 flex-shrink-0" />

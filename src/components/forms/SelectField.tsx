@@ -57,7 +57,7 @@ export function SelectField({
       )}
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger className={cn(
-          "w-full",
+          "w-full cursor-pointer",
           error && "border-brand-error"
         )}>
           <SelectValue placeholder={placeholder} />

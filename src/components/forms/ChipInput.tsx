@@ -3,6 +3,7 @@ import { Input } from '../ui/input';
 import { Plus, Search } from 'lucide-react';
 import { cn } from '../ui/utils';
 import { Chip } from '../ui/chip';
+import { DROPDOWN_ITEM_STYLES } from '../ui/dropdown-item-styles';
 
 export interface ChipInputProps {
   /** Current selected values */
@@ -66,6 +67,9 @@ export const ChipInput: React.FC<ChipInputProps> = ({
   const [showDropdown, setShowDropdown] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
+  // Ensure values is always an array
+  const safeValues = values || [];
+
   // Close dropdown when clicking outside
   React.useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -83,20 +87,20 @@ export const ChipInput: React.FC<ChipInputProps> = ({
   // Filter suggestions based on search term and already selected values
   const filteredSuggestions = suggestions.filter(suggestion => 
     suggestion.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    !values.includes(suggestion)
+    !safeValues.includes(suggestion)
   );
 
   const handleAdd = (value: string) => {
     const trimmedValue = value.trim();
     
     // Check max items limit
-    if (maxItems && values.length >= maxItems) {
+    if (maxItems && safeValues.length >= maxItems) {
       return;
     }
     
     // Add if not empty and not already selected
-    if (trimmedValue && !values.includes(trimmedValue)) {
-      onChange([...values, trimmedValue]);
+    if (trimmedValue && !safeValues.includes(trimmedValue)) {
+      onChange([...safeValues, trimmedValue]);
     }
     
     // Reset search
@@ -105,7 +109,7 @@ export const ChipInput: React.FC<ChipInputProps> = ({
   };
 
   const handleRemove = (value: string) => {
-    onChange(values.filter(v => v !== value));
+    onChange(safeValues.filter(v => v !== value));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -116,14 +120,14 @@ export const ChipInput: React.FC<ChipInputProps> = ({
   };
 
   const isCustomValue = searchTerm && !suggestions.includes(searchTerm);
-  const isMaxReached = maxItems && values.length >= maxItems;
+  const isMaxReached = maxItems && safeValues.length >= maxItems;
 
   return (
     <div className={cn("space-y-3", className)}>
       {/* Selected Values as Chips */}
-      {values.length > 0 && (
+      {safeValues.length > 0 && (
         <div className="flex flex-wrap gap-2">
-          {values.map((value) => (
+          {safeValues.map((value) => (
             <Chip
               key={value}
               size="lg"
@@ -161,14 +165,15 @@ export const ChipInput: React.FC<ChipInputProps> = ({
                 <button
                   type="button"
                   onClick={() => handleAdd(searchTerm)}
-                  className="w-full px-4 py-3 text-left hover:bg-brand-secondary-dark transition-colors border-b border-brand-neutral-300/20"
+                  className={cn(
+                    DROPDOWN_ITEM_STYLES.dropdownItem,
+                    "border-b border-brand-neutral-300/20 px-4 py-3"
+                  )}
                 >
-                  <div className="flex items-center gap-2">
-                    <Plus className="w-4 h-4 text-brand-accent flex-shrink-0" />
-                    <span className="text-brand-neutral-800">
-                      Add "<span className="text-brand-accent">{searchTerm}</span>"
-                    </span>
-                  </div>
+                  <Plus className="w-4 h-4 text-brand-accent flex-shrink-0" />
+                  <span className="text-brand-neutral-800">
+                    Add "<span className="text-brand-accent">{searchTerm}</span>"
+                  </span>
                 </button>
               )}
 
@@ -180,15 +185,17 @@ export const ChipInput: React.FC<ChipInputProps> = ({
                       key={suggestion}
                       type="button"
                       onClick={() => handleAdd(suggestion)}
-                      className="w-full px-3 py-2.5 text-left rounded-lg hover:bg-brand-secondary-dark transition-colors group cursor-pointer"
+                      className={cn(
+                        DROPDOWN_ITEM_STYLES.selectItem,
+                        "[&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+                        "cursor-pointer"
+                      )}
                     >
-                      <p className="text-sm text-brand-neutral-800 group-hover:text-brand-accent transition-colors">
-                        {suggestion}
-                      </p>
+                      {suggestion}
                     </button>
                   ))}
                 </div>
-              ) : searchTerm && values.includes(searchTerm) ? (
+              ) : searchTerm && safeValues.includes(searchTerm) ? (
                 <div className="p-4 text-center text-sm text-brand-neutral-600">
                   Already added
                 </div>
@@ -199,9 +206,9 @@ export const ChipInput: React.FC<ChipInputProps> = ({
       </div>
 
       {/* Item Count */}
-      {showCount && values.length > 0 && (
+      {showCount && safeValues.length > 0 && (
         <p className="text-xs text-brand-neutral-600">
-          {values.length} {countLabel}{values.length !== 1 ? 's' : ''} selected
+          {safeValues.length} {countLabel}{safeValues.length !== 1 ? 's' : ''} selected
         </p>
       )}
     </div>

@@ -1,13 +1,15 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 import { Input } from '../ui/input';
 import { FormField } from '../forms/FormField';
-import { SelectField } from '../forms/SelectField';
-import { ChipInput } from '../forms/ChipInput';
+import { ReviewCard, ReviewCardHeader, ReviewField, ReviewSection } from '../onboarding/ReviewComponents';
+import { ProjectCard } from '../onboarding/ProjectCard';
+import { ServiceCard } from '../onboarding/ServiceCard';
+import { CollapsibleServiceCategory } from '../onboarding/CollapsibleServiceCategory';
+import { EmptyStateMessage } from '../onboarding/EmptyStateMessage';
 import { toast } from 'sonner@2.0.3';
 import { 
   User, 
@@ -19,11 +21,13 @@ import {
   FolderPlus,
   Edit,
   Trash2,
-  Settings,
-  Save,
-  X
+  Briefcase,
+  BarChart3,
+  Folder,
+  ShieldCheck,
+  Lightbulb
 } from 'lucide-react';
-import type { DeveloperOnboardingData, Service, Project } from '../../types/DeveloperOnboarding';
+import type { DeveloperOnboardingData, DeveloperService, Project as OnboardingProject, ProjectRole, MainBranchAccess, ServiceType } from '../../types/DeveloperOnboarding';
 
 interface MaintainerDashboardPageProps {
   onNavigateHome?: () => void;
@@ -148,6 +152,118 @@ export function MaintainerDashboardPage({
   // Get top 3 services
   const topServices = maintainerData.services.slice(0, 3);
 
+  // Helper functions for ProjectCard
+  const getRoleLabel = (role: string): string => {
+    const labels: Record<string, string> = {
+      maintainer: 'Maintainer',
+      core_contributor: 'Core Contributor',
+      contributor: 'Contributor',
+      other: 'Other'
+    };
+    return labels[role] || role;
+  };
+
+  const getAccessLabel = (access: string): string => {
+    const labels: Record<string, string> = {
+      full_write: 'Full Write',
+      write_with_review: 'Write with Review',
+      read_only: 'Read Only'
+    };
+    return labels[access] || access;
+  };
+
+  // Helper functions for ServiceCard
+  const formatCurrency = (amount: number, currency: string): string => {
+    return `$${amount}/hr`;
+  };
+
+  const formatResponseTime = (hours?: number): string => {
+    if (!hours) return 'Not specified';
+    if (hours === 24) return '24 hours';
+    if (hours === 48) return '2 days';
+    if (hours === 72) return '3 days';
+    if (hours === 168) return '1 week';
+    return `${hours} hours`;
+  };
+
+  // Convert maintainerData to proper types for reusable components
+  const convertedProjects: OnboardingProject[] = maintainerData.projects.map(p => ({
+    ...p,
+    role: (p.role || 'maintainer') as ProjectRole,
+    mainBranchAccess: (p.mainBranchAccess || 'full_write') as MainBranchAccess,
+    projectType: p.projectType || 'github_repo'
+  }));
+
+  const convertedServices: DeveloperService[] = maintainerData.services.map(s => {
+    // Map category string to ServiceType
+    let serviceType: ServiceType = 'support';
+    if (s.category === 'Development') serviceType = 'development';
+    else if (s.category === 'Advisory' || s.category === 'Consulting') serviceType = 'advisory';
+    else if (s.category === 'Security') serviceType = 'security_and_compliance';
+    else if (s.category === 'Support') serviceType = 'support';
+    
+    return {
+      id: s.id,
+      serviceId: s.id,
+      serviceName: s.name,
+      serviceType: serviceType,
+      hourlyRate: s.rate,
+      responseTimeHours: s.responseTime === '24 hours' ? 24 : 
+                         s.responseTime === '48 hours' ? 48 :
+                         s.responseTime === '2 days' ? 48 :
+                         s.responseTime === '3 days' ? 72 :
+                         s.responseTime === '1 week' ? 168 : 24,
+      projectIds: s.projectIds || [],
+      enabled: true,
+      comment: undefined,
+      hasResponseTime: true
+    };
+  });
+
+  // Category configuration
+  const serviceCategoryConfig = {
+    development: {
+      label: 'Development',
+      icon: Code,
+      iconColor: 'text-brand-accent'
+    },
+    advisory: {
+      label: 'Advisory',
+      icon: Lightbulb,
+      iconColor: 'text-brand-highlight'
+    },
+    support: {
+      label: 'Support',
+      icon: Briefcase,
+      iconColor: 'text-brand-success'
+    },
+    security_and_compliance: {
+      label: 'Security & Compliance',
+      icon: ShieldCheck,
+      iconColor: 'text-brand-warning'
+    },
+    custom: {
+      label: 'Custom Services',
+      icon: Code,
+      iconColor: 'text-brand-neutral-600'
+    }
+  };
+
+  // Group services by category
+  const groupServicesByCategory = (services: DeveloperService[]) => {
+    const grouped = services.reduce((acc, service) => {
+      const category = service.serviceType || 'custom';
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push(service);
+      return acc;
+    }, {} as Record<ServiceType, DeveloperService[]>);
+    return grouped;
+  };
+
+  const groupedServices = groupServicesByCategory(convertedServices);
+
   return (
     <div className="min-h-screen bg-brand-navy">
       {/* Header */}
@@ -199,401 +315,491 @@ export function MaintainerDashboardPage({
 
           {/* Overview Tab */}
           <TabsContent value="overview" className="space-y-6">
-            <div className="grid gap-6 md:grid-cols-2">
-              {/* Quick Stats */}
-              <Card className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue">
-                <CardHeader>
-                  <CardTitle className="text-brand-neutral-950">Quick Stats</CardTitle>
-                  <CardDescription>Your maintainer activity at a glance</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex justify-between items-center">
-                    <span className="text-brand-neutral-700">Active Projects</span>
-                    <span className="text-2xl text-brand-neutral-950">{maintainerData.projects.length}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-brand-neutral-700">Services Offered</span>
-                    <span className="text-2xl text-brand-neutral-950">{maintainerData.services.length}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-brand-neutral-700">Weekly Availability</span>
-                    <span className="text-2xl text-brand-neutral-950">{maintainerData.availability.weeklyHours}h</span>
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Identity Information from Step 1 */}
+            <ReviewCard>
+              <ReviewCardHeader
+                icon={User}
+                iconColor="text-brand-highlight"
+                title="Contact & Identity"
+                onEdit={() => setActiveTab('contact')}
+                editButtonColor="text-brand-highlight hover:text-brand-highlight-dark hover:bg-brand-highlight/10"
+              />
+              <div className="space-y-3">
+                <ReviewField
+                  label="Full Name"
+                  value={maintainerData.identity.fullName}
+                  minWidth="min-w-[140px]"
+                />
+                <ReviewField
+                  label="Email"
+                  value={maintainerData.identity.email}
+                  minWidth="min-w-[140px]"
+                />
+                {maintainerData.identity.github && (
+                  <ReviewField
+                    label="GitHub"
+                    value={`@${maintainerData.identity.github}`}
+                    minWidth="min-w-[140px]"
+                  />
+                )}
+                {maintainerData.identity.website && (
+                  <ReviewField
+                    label="Website"
+                    value={
+                      <a 
+                        href={maintainerData.identity.website} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-brand-accent hover:underline"
+                      >
+                        {maintainerData.identity.website}
+                      </a>
+                    }
+                    minWidth="min-w-[140px]"
+                  />
+                )}
+                {maintainerData.identity.twitter && (
+                  <ReviewField
+                    label="Twitter"
+                    value={maintainerData.identity.twitter}
+                    minWidth="min-w-[140px]"
+                  />
+                )}
+              </div>
+            </ReviewCard>
 
-              {/* Primary Projects */}
-              <Card className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue">
-                <CardHeader>
-                  <CardTitle className="text-brand-neutral-950">Primary Projects</CardTitle>
-                  <CardDescription>Your main open source contributions</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {maintainerData.projects.slice(0, 3).map(project => (
-                    <div key={project.id} className="flex items-center gap-3">
-                      <div className="p-2 bg-brand-accent/20 rounded-lg">
-                        <Code className="h-4 w-4 text-brand-accent" />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-brand-neutral-950">{project.name}</p>
-                        <p className="text-brand-neutral-600 text-sm">
-                          {getProjectServices(project.id).length} services
-                        </p>
-                      </div>
-                    </div>
+            {/* Participation Model & Availability from Step 3 */}
+            <ReviewCard>
+              <ReviewCardHeader
+                icon={Briefcase}
+                iconColor="text-brand-success"
+                title="Participation & Availability"
+                editButtonColor="text-brand-success hover:text-brand-success-dark hover:bg-brand-success/10"
+              />
+              <div className="space-y-3">
+                <ReviewField
+                  label="Participation Model"
+                  value={
+                    <Badge variant="secondary" className="bg-brand-success/20 text-brand-success border-brand-success/30">
+                      {maintainerData.participationModel === 'service-provider' ? 'Service Provider' : 
+                       maintainerData.participationModel === 'donation-receiver' ? 'Donation Receiver' :
+                       maintainerData.participationModel === 'community-supporter' ? 'Community Supporter' :
+                       maintainerData.participationModel}
+                    </Badge>
+                  }
+                  minWidth="min-w-[140px]"
+                />
+                <ReviewField
+                  label="Weekly Availability"
+                  value={`${maintainerData.availability.weeklyHours} hours per week`}
+                  minWidth="min-w-[140px]"
+                />
+                <ReviewField
+                  label="Bigger Opportunities"
+                  value={
+                    maintainerData.availability.biggerOpportunities === 'open' ? 'Open to bigger opportunities' :
+                    maintainerData.availability.biggerOpportunities === 'maybe' ? 'Maybe interested' :
+                    'Not currently interested'
+                  }
+                  minWidth="min-w-[140px]"
+                />
+                {maintainerData.availability.comments && (
+                  <ReviewField
+                    label="Additional Notes"
+                    value={maintainerData.availability.comments}
+                    minWidth="min-w-[140px]"
+                  />
+                )}
+              </div>
+            </ReviewCard>
+
+            {/* Projects Summary */}
+            {convertedProjects.length > 0 && (
+              <ReviewCard>
+                <ReviewCardHeader
+                  icon={Folder}
+                  iconColor="text-brand-accent"
+                  title="Projects"
+                  metadata={`${convertedProjects.length} total`}
+                  onEdit={() => setActiveTab('projects')}
+                  editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
+                />
+                <div className="space-y-1">
+                  {convertedProjects.slice(0, 3).map((project, index) => (
+                    <ProjectCard
+                      key={project.id}
+                      project={project}
+                      index={index}
+                      getRoleLabel={getRoleLabel}
+                      getAccessLabel={getAccessLabel}
+                    />
                   ))}
-                  {maintainerData.projects.length === 0 && (
-                    <p className="text-brand-neutral-600 text-sm text-center py-4">
-                      No projects yet. Add your first project to get started.
-                    </p>
+                  {convertedProjects.length > 3 && (
+                    <div className="text-center pt-3">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => setActiveTab('projects')}
+                        className="text-xs"
+                      >
+                        View all {convertedProjects.length} projects
+                      </Button>
+                    </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </ReviewCard>
+            )}
 
-              {/* Top Services */}
-              <Card className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue md:col-span-2">
-                <CardHeader>
-                  <CardTitle className="text-brand-neutral-950">Top Services</CardTitle>
-                  <CardDescription>Most popular services you offer</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="grid gap-4 md:grid-cols-3">
-                    {topServices.map(service => (
-                      <div key={service.id} className="p-4 border-2 border-brand-neutral-300 rounded-lg bg-gradient-to-br from-white to-brand-neutral-100">
-                        <div className="flex justify-between items-start mb-2">
-                          <h4 className="text-brand-neutral-950">{service.name}</h4>
-                          <Badge variant="secondary" className="bg-brand-accent/20 text-brand-accent border-brand-accent/30 text-xs">
-                            ${service.rate}/hr
-                          </Badge>
-                        </div>
-                        <p className="text-brand-neutral-600 text-sm mb-2">{service.category}</p>
-                        <p className="text-brand-neutral-500 text-xs">
-                          Response: {service.responseTime}
-                        </p>
-                      </div>
-                    ))}
-                    {topServices.length === 0 && (
-                      <p className="text-brand-neutral-600 text-sm text-center py-4 col-span-3">
-                        No services yet. Add services to your catalog.
-                      </p>
-                    )}
+            {/* Services Summary */}
+            {convertedServices.length > 0 && (
+              <ReviewCard>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-2">
+                    <Code className="h-5 w-5 text-brand-highlight" />
+                    <h3 className="text-brand-neutral-900">Services Delivered</h3>
+                    <Badge variant="outline" className="text-xs">
+                      {convertedServices.length} total
+                    </Badge>
                   </div>
-                </CardContent>
-              </Card>
-            </div>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setActiveTab('services')}
+                    className="text-brand-highlight hover:text-brand-highlight-dark hover:bg-brand-highlight/10 h-8 gap-1.5"
+                  >
+                    <Edit className="h-3.5 w-3.5" />
+                    Manage
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  {/* Render each service category */}
+                  {(Object.keys(groupedServices) as ServiceType[]).map((category) => {
+                    const config = serviceCategoryConfig[category];
+                    const categoryServices = groupedServices[category];
+                    
+                    return (
+                      <CollapsibleServiceCategory
+                        key={category}
+                        category={category}
+                        categoryLabel={config.label}
+                        services={categoryServices}
+                        projects={convertedProjects}
+                        currency="USD"
+                        formatCurrency={formatCurrency}
+                        formatResponseTime={formatResponseTime}
+                        icon={config.icon}
+                        iconColor={config.iconColor}
+                        defaultExpanded={false}
+                        showActions={false}
+                      />
+                    );
+                  })}
+                </div>
+              </ReviewCard>
+            )}
+
+            {/* Empty States */}
+            {convertedProjects.length === 0 && (
+              <EmptyStateMessage
+                title="No Projects Yet"
+                message="Add your first open source project to get started with Open Source Economy."
+              />
+            )}
           </TabsContent>
 
           {/* Contact Info Tab */}
           <TabsContent value="contact" className="space-y-6">
-            <Card className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle className="text-brand-neutral-950">Contact Information</CardTitle>
-                  <CardDescription>Manage how people can reach you</CardDescription>
-                </div>
-                {isEditing === 'contact' ? (
-                  <div className="flex gap-2">
-                    <Button onClick={handleSaveContact} size="sm" className="gap-2">
-                      <Save className="h-4 w-4" />
-                      Save
+            <ReviewCard>
+              <ReviewCardHeader
+                icon={User}
+                iconColor="text-brand-highlight"
+                title="Contact Information"
+                onEdit={() => setIsEditing(isEditing === 'contact' ? null : 'contact')}
+                editButtonColor="text-brand-highlight hover:text-brand-highlight-dark hover:bg-brand-highlight/10"
+              />
+              {isEditing === 'contact' ? (
+                <div className="space-y-4">
+                  <FormField
+                    label="Full Name"
+                    id="fullName"
+                    required
+                  >
+                    <Input
+                      id="fullName"
+                      placeholder="Your full name"
+                      value={maintainerData.identity.fullName}
+                      onChange={(e) => setMaintainerData(prev => ({
+                        ...prev,
+                        identity: { ...prev.identity, fullName: e.target.value }
+                      }))}
+                      leftIcon={User}
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="Email"
+                    id="email"
+                    required
+                  >
+                    <Input
+                      id="email"
+                      type="email"
+                      placeholder="your.email@example.com"
+                      value={maintainerData.identity.email}
+                      onChange={(e) => setMaintainerData(prev => ({
+                        ...prev,
+                        identity: { ...prev.identity, email: e.target.value }
+                      }))}
+                      leftIcon={Mail}
+                    />
+                  </FormField>
+
+                  <FormField
+                    label="Website"
+                    id="website"
+                  >
+                    <Input
+                      id="website"
+                      placeholder="https://yourwebsite.com"
+                      value={maintainerData.identity.website}
+                      onChange={(e) => setMaintainerData(prev => ({
+                        ...prev,
+                        identity: { ...prev.identity, website: e.target.value }
+                      }))}
+                      leftIcon={Globe}
+                    />
+                  </FormField>
+
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <FormField
+                      label="GitHub Username"
+                      id="github"
+                    >
+                      <Input
+                        id="github"
+                        placeholder="yourusername"
+                        value={maintainerData.identity.github}
+                        onChange={(e) => setMaintainerData(prev => ({
+                          ...prev,
+                          identity: { ...prev.identity, github: e.target.value }
+                        }))}
+                        leftIcon={Github}
+                      />
+                    </FormField>
+
+                    <FormField
+                      label="Twitter Handle"
+                      id="twitter"
+                    >
+                      <Input
+                        id="twitter"
+                        placeholder="@yourusername"
+                        value={maintainerData.identity.twitter}
+                        onChange={(e) => setMaintainerData(prev => ({
+                          ...prev,
+                          identity: { ...prev.identity, twitter: e.target.value }
+                        }))}
+                        leftIcon={Twitter}
+                      />
+                    </FormField>
+                  </div>
+
+                  <div className="flex gap-2 pt-2">
+                    <Button onClick={handleSaveContact} size="sm">
+                      Save Changes
                     </Button>
-                    <Button onClick={() => setIsEditing(null)} size="sm" variant="outline" className="gap-2">
-                      <X className="h-4 w-4" />
+                    <Button onClick={() => setIsEditing(null)} size="sm" variant="outline">
                       Cancel
                     </Button>
                   </div>
-                ) : (
-                  <Button onClick={() => setIsEditing('contact')} size="sm" variant="outline" className="gap-2">
-                    <Edit className="h-4 w-4" />
-                    Edit
-                  </Button>
-                )}
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <FormField
-                  label="Full Name"
-                  id="fullName"
-                  required
-                >
-                  <Input
-                    id="fullName"
-                    placeholder="Your full name"
-                    value={maintainerData.identity.fullName}
-                    onChange={(e) => setMaintainerData(prev => ({
-                      ...prev,
-                      identity: { ...prev.identity, fullName: e.target.value }
-                    }))}
-                    disabled={isEditing !== 'contact'}
-                    leftIcon={User}
-                  />
-                </FormField>
-
-                <FormField
-                  label="Email"
-                  id="email"
-                  required
-                >
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="your.email@example.com"
-                    value={maintainerData.identity.email}
-                    onChange={(e) => setMaintainerData(prev => ({
-                      ...prev,
-                      identity: { ...prev.identity, email: e.target.value }
-                    }))}
-                    disabled={isEditing !== 'contact'}
-                    leftIcon={Mail}
-                  />
-                </FormField>
-
-                <FormField
-                  label="Website"
-                  id="website"
-                >
-                  <Input
-                    id="website"
-                    placeholder="https://yourwebsite.com"
-                    value={maintainerData.identity.website}
-                    onChange={(e) => setMaintainerData(prev => ({
-                      ...prev,
-                      identity: { ...prev.identity, website: e.target.value }
-                    }))}
-                    disabled={isEditing !== 'contact'}
-                    leftIcon={Globe}
-                  />
-                </FormField>
-
-                <div className="grid gap-4 md:grid-cols-2">
-                  <FormField
-                    label="GitHub Username"
-                    id="github"
-                  >
-                    <Input
-                      id="github"
-                      placeholder="yourusername"
-                      value={maintainerData.identity.github}
-                      onChange={(e) => setMaintainerData(prev => ({
-                        ...prev,
-                        identity: { ...prev.identity, github: e.target.value }
-                      }))}
-                      disabled={isEditing !== 'contact'}
-                      leftIcon={Github}
-                    />
-                  </FormField>
-
-                  <FormField
-                    label="Twitter Handle"
-                    id="twitter"
-                  >
-                    <Input
-                      id="twitter"
-                      placeholder="@yourusername"
-                      value={maintainerData.identity.twitter}
-                      onChange={(e) => setMaintainerData(prev => ({
-                        ...prev,
-                        identity: { ...prev.identity, twitter: e.target.value }
-                      }))}
-                      disabled={isEditing !== 'contact'}
-                      leftIcon={Twitter}
-                    />
-                  </FormField>
                 </div>
-              </CardContent>
-            </Card>
+              ) : (
+                <div className="space-y-3">
+                  <ReviewField
+                    label="Full Name"
+                    value={maintainerData.identity.fullName}
+                    minWidth="min-w-[120px]"
+                  />
+                  <ReviewField
+                    label="Email"
+                    value={maintainerData.identity.email}
+                    minWidth="min-w-[120px]"
+                  />
+                  {maintainerData.identity.website && (
+                    <ReviewField
+                      label="Website"
+                      value={
+                        <a 
+                          href={maintainerData.identity.website} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-brand-accent hover:underline"
+                        >
+                          {maintainerData.identity.website}
+                        </a>
+                      }
+                      minWidth="min-w-[120px]"
+                    />
+                  )}
+                  {maintainerData.identity.github && (
+                    <ReviewField
+                      label="GitHub"
+                      value={`@${maintainerData.identity.github}`}
+                      minWidth="min-w-[120px]"
+                    />
+                  )}
+                  {maintainerData.identity.twitter && (
+                    <ReviewField
+                      label="Twitter"
+                      value={maintainerData.identity.twitter}
+                      minWidth="min-w-[120px]"
+                    />
+                  )}
+                </div>
+              )}
+            </ReviewCard>
           </TabsContent>
 
           {/* Services Tab */}
           <TabsContent value="services" className="space-y-6">
-            <Card className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle className="text-brand-neutral-950">Service Catalog</CardTitle>
-                  <CardDescription>Your global list of services available across all projects</CardDescription>
+            {convertedServices.length > 0 ? (
+              <>
+                {/* Render each service category */}
+                {(Object.keys(groupedServices) as ServiceType[]).map((category) => {
+                  const config = serviceCategoryConfig[category];
+                  const categoryServices = groupedServices[category];
+                  
+                  return (
+                    <CollapsibleServiceCategory
+                      key={category}
+                      category={category}
+                      categoryLabel={config.label}
+                      services={categoryServices}
+                      projects={convertedProjects}
+                      currency="USD"
+                      formatCurrency={formatCurrency}
+                      formatResponseTime={formatResponseTime}
+                      icon={config.icon}
+                      iconColor={config.iconColor}
+                      defaultExpanded={false}
+                      onRemoveService={handleRemoveService}
+                      showActions={true}
+                    />
+                  );
+                })}
+                
+                {/* Add New Service Button */}
+                <div className="pt-2">
+                  <Button onClick={() => {/* TODO: Add service modal */}} variant="outline" className="w-full gap-2">
+                    <FolderPlus className="h-4 w-4" />
+                    Add New Service
+                  </Button>
                 </div>
-                <Button onClick={() => {/* TODO: Add service modal */}} className="gap-2">
-                  <FolderPlus className="h-4 w-4" />
-                  Add Service
-                </Button>
-              </CardHeader>
-              <CardContent>
-                {maintainerData.services.length > 0 ? (
-                  <div className="space-y-3">
-                    {maintainerData.services.map(service => (
-                      <div 
-                        key={service.id}
-                        className="flex items-center gap-4 p-4 border-2 border-brand-neutral-300 rounded-lg bg-white hover:border-brand-accent transition-colors"
-                      >
-                        <div className="flex-1">
-                          <div className="flex items-center gap-3 mb-2">
-                            <h4 className="text-brand-neutral-950">{service.name}</h4>
-                            <Badge variant="secondary" className="bg-brand-accent/20 text-brand-accent border-brand-accent/30">
-                              ${service.rate}/hr
-                            </Badge>
-                            <Badge variant="secondary">
-                              {service.category}
-                            </Badge>
-                          </div>
-                          <div className="flex items-center gap-4 text-sm text-brand-neutral-600">
-                            <span>Response: {service.responseTime}</span>
-                            <span>•</span>
-                            <span>Used in {service.projectIds?.length || 0} project(s)</span>
-                          </div>
-                        </div>
-                        <div className="flex gap-2">
-                          <Button size="sm" variant="outline" className="gap-2">
-                            <Edit className="h-3 w-3" />
-                            Edit
-                          </Button>
-                          <Button 
-                            size="sm" 
-                            variant="outline" 
-                            className="gap-2 text-red-600 hover:text-red-700"
-                            onClick={() => handleRemoveService(service.id)}
-                          >
-                            <Trash2 className="h-3 w-3" />
-                            Remove
-                          </Button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <p className="text-brand-neutral-600 mb-4">No services in your catalog yet.</p>
-                    <Button onClick={() => {/* TODO: Add service modal */}} className="gap-2">
-                      <FolderPlus className="h-4 w-4" />
-                      Add Your First Service
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+              </>
+            ) : (
+              <div className="space-y-4">
+                <EmptyStateMessage
+                  title="No Services Yet"
+                  message="Add services to your catalog to offer them across your projects."
+                />
+                <div className="text-center">
+                  <Button onClick={() => {/* TODO: Add service modal */}} className="gap-2">
+                    <FolderPlus className="h-4 w-4" />
+                    Add Your First Service
+                  </Button>
+                </div>
+              </div>
+            )}
           </TabsContent>
 
           {/* Projects Tab */}
           <TabsContent value="projects" className="space-y-6">
-            <Card className="border-2 border-brand-neutral-300 bg-gradient-to-br from-brand-card-blue-light to-brand-card-blue">
-              <CardHeader className="flex flex-row items-center justify-between">
-                <div>
-                  <CardTitle className="text-brand-neutral-950">My Projects</CardTitle>
-                  <CardDescription>Manage your open source projects and their services</CardDescription>
-                </div>
-                <Button onClick={onAddProject} className="gap-2">
-                  <FolderPlus className="h-4 w-4" />
-                  Add Project
-                </Button>
-              </CardHeader>
-              <CardContent>
-                {maintainerData.projects.length > 0 ? (
-                  <div className="space-y-4">
-                    {maintainerData.projects.map(project => {
-                      const projectServices = getProjectServices(project.id);
-                      return (
-                        <div 
-                          key={project.id}
-                          className="p-6 border-2 border-brand-neutral-300 rounded-lg bg-white"
-                        >
-                          <div className="flex items-start justify-between mb-4">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-3 mb-2">
-                                <div className="p-2 bg-brand-accent/20 rounded-lg">
-                                  <Code className="h-5 w-5 text-brand-accent" />
-                                </div>
-                                <div>
-                                  <h3 className="text-brand-neutral-950">{project.name}</h3>
-                                  <a 
-                                    href={project.url} 
-                                    target="_blank" 
-                                    rel="noopener noreferrer"
-                                    className="text-brand-accent text-sm hover:underline"
-                                  >
-                                    {project.url}
-                                  </a>
-                                </div>
-                              </div>
-                              {project.description && (
-                                <p className="text-brand-neutral-600 text-sm mb-3 ml-14">
-                                  {project.description}
-                                </p>
-                              )}
-                              <div className="flex flex-wrap gap-2 ml-14">
-                                {project.ecosystems?.map(eco => (
-                                  <Badge key={eco} variant="secondary" className="text-xs">
-                                    {eco}
-                                  </Badge>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                          
-                          {/* Project Services */}
-                          <div className="ml-14 mt-4 pt-4 border-t border-brand-neutral-300">
-                            <div className="flex items-center justify-between mb-3">
-                              <h4 className="text-brand-neutral-950 text-sm">
-                                Services ({projectServices.length})
-                              </h4>
-                              <Button 
-                                size="sm" 
-                                variant="outline" 
-                                className="gap-2"
-                                onClick={() => onManageProjectServices?.(project.id)}
-                              >
-                                <Settings className="h-3 w-3" />
-                                Manage Services
-                              </Button>
-                            </div>
-                            {projectServices.length > 0 ? (
-                              <div className="flex flex-wrap gap-2">
-                                {projectServices.map(service => (
-                                  <Badge 
-                                    key={service.id}
-                                    variant="secondary"
-                                    className="bg-brand-success/20 text-brand-success border-brand-success/30"
-                                  >
-                                    {service.name} - ${service.rate}/hr
-                                  </Badge>
-                                ))}
-                              </div>
-                            ) : (
-                              <p className="text-brand-neutral-600 text-sm">
-                                No services configured for this project yet.
-                              </p>
-                            )}
-                          </div>
+            {convertedProjects.length > 0 ? (
+              convertedProjects.map((project, index) => {
+                const projectServices = getProjectServices(project.id);
+                const projectConvertedServices = convertedServices.filter(s => s.projectIds.includes(project.id));
+                
+                return (
+                  <ReviewCard key={project.id}>
+                    <ReviewCardHeader
+                      icon={Folder}
+                      iconColor="text-brand-accent"
+                      title={project.name || `Project ${index + 1}`}
+                      metadata={`${projectServices.length} services`}
+                      editButtonColor="text-brand-accent hover:text-brand-accent-dark hover:bg-brand-accent/10"
+                    />
+                    
+                    {/* Project Details */}
+                    <div className="space-y-1 mb-4">
+                      <ProjectCard
+                        project={project}
+                        index={index}
+                        getRoleLabel={getRoleLabel}
+                        getAccessLabel={getAccessLabel}
+                      />
+                    </div>
 
-                          {/* Project Actions */}
-                          <div className="flex gap-2 mt-4 ml-14">
-                            <Button size="sm" variant="outline" className="gap-2">
-                              <Edit className="h-3 w-3" />
-                              Edit Project
-                            </Button>
-                            <Button 
-                              size="sm" 
-                              variant="outline" 
-                              className="gap-2 text-red-600 hover:text-red-700"
-                              onClick={() => handleRemoveProject(project.id)}
-                            >
-                              <Trash2 className="h-3 w-3" />
-                              Remove
-                            </Button>
-                          </div>
+                    {/* Project Services */}
+                    {projectConvertedServices.length > 0 && (
+                      <div className="pt-4 border-t border-brand-neutral-300/30">
+                        <h4 className="text-brand-neutral-700 text-sm mb-2">Services for this project:</h4>
+                        <div className="space-y-1">
+                          {projectConvertedServices.map((service) => (
+                            <ServiceCard
+                              key={service.id}
+                              service={service}
+                              projects={convertedProjects}
+                              currency="USD"
+                              formatCurrency={formatCurrency}
+                              formatResponseTime={formatResponseTime}
+                            />
+                          ))}
                         </div>
-                      );
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center py-12">
-                    <Code className="h-12 w-12 text-brand-neutral-400 mx-auto mb-4" />
-                    <p className="text-brand-neutral-600 mb-4">No projects yet.</p>
-                    <Button onClick={onAddProject} className="gap-2">
-                      <FolderPlus className="h-4 w-4" />
-                      Add Your First Project
-                    </Button>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+                      </div>
+                    )}
+
+                    {/* Action Buttons */}
+                    <div className="flex gap-2 pt-4 border-t border-brand-neutral-300/30 mt-4">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="gap-2"
+                        onClick={() => onManageProjectServices?.(project.id)}
+                      >
+                        <Briefcase className="h-3 w-3" />
+                        Manage Services
+                      </Button>
+                      <Button size="sm" variant="outline" className="gap-2">
+                        <Edit className="h-3 w-3" />
+                        Edit Project
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="gap-2 text-red-600 hover:text-red-700 ml-auto"
+                        onClick={() => handleRemoveProject(project.id)}
+                      >
+                        <Trash2 className="h-3 w-3" />
+                        Remove
+                      </Button>
+                    </div>
+                  </ReviewCard>
+                );
+              })
+            ) : (
+              <div className="space-y-4">
+                <EmptyStateMessage
+                  title="No Projects Yet"
+                  message="Add your first open source project to get started with Open Source Economy."
+                />
+                <div className="text-center">
+                  <Button onClick={onAddProject} className="gap-2">
+                    <FolderPlus className="h-4 w-4" />
+                    Add Your First Project
+                  </Button>
+                </div>
+              </div>
+            )}
           </TabsContent>
         </Tabs>
       </section>

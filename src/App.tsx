@@ -54,7 +54,9 @@ import { ThankYouPage } from './components/pages/ThankYouPage';
 import { MaintainerDashboardPage } from './components/pages/MaintainerDashboardPage';
 import { AddProjectWizard } from './components/maintainers/AddProjectWizard';
 import { LoginPage } from './components/pages/LoginPage';
+import { AuthPage } from './components/pages/AuthPage';
 import { SupportUsPage } from './components/pages/SupportUsPage';
+import { PricingPage } from './components/pages/PricingPage';
 import { getProjectBySlug } from './data/projectDetailData';
 import { sampleMaintainerProfile } from './data/maintainerProfileData';
 import { getMockDataByScenario } from './data/developerOnboardingData';
@@ -62,6 +64,7 @@ import { Shield, Clock, Heart } from 'lucide-react';
 import { ExampleBanner } from './components/ui/example-banner';
 import { PageTransition } from './components/ui/page-transition';
 import { Toaster } from './components/ui/sonner';
+import { DevNav } from './components/dev/DevNav';
 
 export default function App() {
   const [currentPage, setCurrentPage] = React.useState('home');
@@ -84,12 +87,16 @@ export default function App() {
     console.log('%c  ✓ ServerErrorAlert - Error handling component', 'color: #10b981;');
     console.log('%c  ✓ LoadingState - Loading indicators system', 'color: #10b981;');
     console.log('%c  ✓ AdminVerificationPage - Maintainer verification dashboard', 'color: #10b981;');
+    console.log('%c  ✓ AuthPage - Complete authentication flow', 'color: #10b981;');
     console.log('%c\nView Examples:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
-    console.log('%c  → Click "Examples" in the navigation menu', 'color: #94a3b8;');
+    console.log('%c  → Click \"Examples\" in the navigation menu', 'color: #94a3b8;');
     console.log('%c  → Try the Footer newsletter to see them in action', 'color: #94a3b8;');
     console.log('%c\nAdmin Features:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
-    console.log('%c  → Navigate to Admin page, then click "Verification"', 'color: #94a3b8;');
-    console.log('%c  → Or type: setCurrentPage("admin-verification") in console', 'color: #94a3b8;');
+    console.log('%c  → Navigate to Admin page, then click \"Verification\"', 'color: #94a3b8;');
+    console.log('%c  → Or type: setCurrentPage(\"admin-verification\") in console', 'color: #94a3b8;');
+    console.log('%c\nAuthentication:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
+    console.log('%c  → setCurrentPage(\"auth\") - Multi-step auth flow', 'color: #94a3b8;');
+    console.log('%c  → Includes GitHub OAuth and email/password options', 'color: #94a3b8;');
     console.log('%c\nDocumentation:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
     console.log('%c  → /ADMIN_VERIFICATION_SYSTEM.md', 'color: #94a3b8;');
     console.log('%c  → /PROJECT_VERIFICATION_SYSTEM.md', 'color: #94a3b8;');
@@ -97,9 +104,9 @@ export default function App() {
     console.log('%c  → /LOADING_STATE.md', 'color: #94a3b8;');
     console.log('%c  → /QUICK_START.md', 'color: #94a3b8;');
     console.log('%c\\nSponsorship Pages:', 'font-size: 14px; font-weight: bold; color: #ff7f50;');
-    console.log('%c  → setCurrentPage("sponsor-landing") - Sponsor decision page', 'color: #94a3b8;');
-    console.log('%c  → setCurrentPage("sponsor-individual") - Individual support', 'color: #94a3b8;');
-    console.log('%c  → setCurrentPage("sponsor-enterprise") - Enterprise partnerships', 'color: #94a3b8;');
+    console.log('%c  → setCurrentPage(\"sponsor-landing\") - Sponsor decision page', 'color: #94a3b8;');
+    console.log('%c  → setCurrentPage(\"sponsor-individual\") - Individual support', 'color: #94a3b8;');
+    console.log('%c  → setCurrentPage(\"sponsor-enterprise\") - Enterprise partnerships', 'color: #94a3b8;');
   }, []);
 
   // Scroll to top on page navigation and hide transition
@@ -216,6 +223,10 @@ export default function App() {
       setCurrentPage('add-project');
     } else if (href === 'login') {
       setCurrentPage('login');
+    } else if (href === 'auth') {
+      setCurrentPage('auth');
+    } else if (href === 'pricing') {
+      setCurrentPage('pricing');
     } else if (href === 'home' || href === '/') {
       setCurrentPage('home');
     } else if (href.startsWith('#')) {
@@ -551,6 +562,7 @@ export default function App() {
       <MaintainerRegistrationPage
         onNavigateHome={() => setCurrentPage('home')}
         onNavItemClick={handleNavigation}
+        onStartOnboarding={() => setCurrentPage('developer-onboarding')}
       />
     );
   }
@@ -726,6 +738,15 @@ export default function App() {
     );
   }
 
+  if (currentPage === 'pricing') {
+    return (
+      <PricingPage 
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
+      />
+    );
+  }
+
   if (currentPage === 'maintainer-dashboard') {
     return (
       <>
@@ -794,6 +815,15 @@ export default function App() {
       <LoginPage
         onNavigateHome={() => setCurrentPage('home')}
         onLoginSuccess={() => setCurrentPage('maintainer-dashboard')}
+      />
+    );
+  }
+
+  if (currentPage === 'auth') {
+    return (
+      <AuthPage
+        onNavigateHome={() => setCurrentPage('home')}
+        onNavItemClick={handleNavigation}
       />
     );
   }

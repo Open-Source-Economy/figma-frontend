@@ -70,6 +70,17 @@
   --brand-error-light: #f87171;       /* Light Error */
   --brand-error-dark: #dc2626;        /* Dark Error */
   
+  /* Membership Tier Colors - Bronze, Silver, Gold */
+  --brand-tier-bronze: #cd7f32;       /* Bronze */
+  --brand-tier-bronze-light: #e09856; /* Light Bronze */
+  --brand-tier-bronze-dark: #b8722c; /* Dark Bronze */
+  --brand-tier-silver: #c0c0c0;       /* Silver */
+  --brand-tier-silver-light: #d3d3d3; /* Light Silver */
+  --brand-tier-silver-dark: #a8a8a8;  /* Dark Silver */
+  --brand-tier-gold: #ffd700;         /* Gold */
+  --brand-tier-gold-light: #ffe44d;   /* Light Gold */
+  --brand-tier-gold-dark: #daa520;    /* Dark Gold */
+  
   /* Premium Dark Blue Card System - Rich navy tones */
   --brand-card-blue: #1a2942;         /* Rich dark blue for cards */
   --brand-card-blue-light: #213654;   /* Lighter card blue */
@@ -280,6 +291,17 @@
   --color-brand-error: var(--brand-error);
   --color-brand-error-light: var(--brand-error-light);
   --color-brand-error-dark: var(--brand-error-dark);
+  
+  /* Membership Tier Colors */
+  --color-brand-tier-bronze: var(--brand-tier-bronze);
+  --color-brand-tier-bronze-light: var(--brand-tier-bronze-light);
+  --color-brand-tier-bronze-dark: var(--brand-tier-bronze-dark);
+  --color-brand-tier-silver: var(--brand-tier-silver);
+  --color-brand-tier-silver-light: var(--brand-tier-silver-light);
+  --color-brand-tier-silver-dark: var(--brand-tier-silver-dark);
+  --color-brand-tier-gold: var(--brand-tier-gold);
+  --color-brand-tier-gold-light: var(--brand-tier-gold-light);
+  --color-brand-tier-gold-dark: var(--brand-tier-gold-dark);
   
   /* Premium Card Blue Colors */
   --color-brand-card-blue: var(--brand-card-blue);

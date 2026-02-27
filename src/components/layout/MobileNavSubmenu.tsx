@@ -1,4 +1,5 @@
 import React from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
 import type { NavDropdownItem } from './NavDropdown';
 
 interface MobileNavSubmenuProps {
@@ -16,9 +17,11 @@ export function MobileNavSubmenu({
   onClose,
   variant = 'default'
 }: MobileNavSubmenuProps) {
+  const [isExpanded, setIsExpanded] = React.useState(false);
+  
   const titleClassName = variant === 'admin'
-    ? "text-left text-brand-primary px-2 py-1 font-medium"
-    : "text-left text-muted-foreground px-2 py-1 font-medium";
+    ? "text-brand-primary font-medium"
+    : "text-foreground font-medium";
 
   const handleItemClick = (href: string) => {
     onItemClick?.(href);
@@ -26,21 +29,34 @@ export function MobileNavSubmenu({
   };
 
   return (
-    <div className="space-y-2">
-      <div className={titleClassName}>
-        {title}
-      </div>
-      <div className="pl-4 space-y-2">
-        {items.map((item) => (
-          <button
-            key={item.href}
-            onClick={() => handleItemClick(item.href)}
-            className="block text-left text-muted-foreground hover:text-brand-primary transition-colors duration-200 px-2 py-1 text-sm"
-          >
-            {item.label}
-          </button>
-        ))}
-      </div>
+    <div className="border-b border-border/30">
+      {/* Accordion Header */}
+      <button
+        onClick={() => setIsExpanded(!isExpanded)}
+        className="w-full flex items-center justify-between px-4 py-3 hover:bg-surface/50 transition-colors"
+      >
+        <span className={titleClassName}>{title}</span>
+        {isExpanded ? (
+          <ChevronUp className="w-4 h-4 text-muted-foreground" />
+        ) : (
+          <ChevronDown className="w-4 h-4 text-muted-foreground" />
+        )}
+      </button>
+      
+      {/* Accordion Content */}
+      {isExpanded && (
+        <div className="pl-6 pr-4 pt-2 pb-3 space-y-1">
+          {items.map((item) => (
+            <button
+              key={item.href}
+              onClick={() => handleItemClick(item.href)}
+              className="block w-full text-left text-muted-foreground hover:text-brand-primary hover:bg-surface/50 transition-colors duration-200 px-3 py-2.5 rounded-md"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

@@ -1,0 +1,45 @@
+import React from 'react';
+import { Avatar, AvatarFallback } from '../ui/avatar';
+
+interface UserProfileSectionProps {
+  name: string;
+  email: string;
+  initials: string;
+  variant?: 'header' | 'inline';
+}
+
+export function UserProfileSection({ name, email, initials, variant = 'inline' }: UserProfileSectionProps) {
+  if (variant === 'header') {
+    return (
+      <div className="bg-gradient-to-r from-brand-primary to-brand-primary/90 px-3 py-3 mb-[4px] rounded-t-md mt-[-4px] mr-[-4px] ml-[-4px]">
+        <div className="flex items-center gap-3">
+          <Avatar className="h-10 w-10 border-2 border-white/20">
+            <AvatarFallback className="bg-brand-accent text-white">
+              {initials}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <p className="text-sm text-white truncate">{name}</p>
+            <p className="text-xs text-white/70 truncate">{email}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="px-2 py-2 border-b border-brand-neutral-300">
+      <div className="flex items-center gap-3">
+        <Avatar className="h-10 w-10 border-2 border-brand-accent">
+          <AvatarFallback className="bg-brand-accent text-white">
+            {initials}
+          </AvatarFallback>
+        </Avatar>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-brand-neutral-950 truncate">{name}</p>
+          <p className="text-xs text-brand-neutral-600 truncate">{email}</p>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -6,6 +6,7 @@ export interface MaintainerAuth {
   email: string;
   avatar?: string;
   initials: string;
+  serviceTokens: number;
 }
 
 interface UseAuthReturn {
@@ -55,7 +56,8 @@ export function useAuth(): UseAuthReturn {
       id: '1',
       name: 'Sarah Chen',
       email: email,
-      initials: 'SC'
+      initials: 'SC',
+      serviceTokens: 10
     };
     
     setUser(mockUser);
@@ -74,7 +76,8 @@ export function useAuth(): UseAuthReturn {
       name: 'Sarah Chen',
       email: 'sarah@example.com',
       initials: 'SC',
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop'
+      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop',
+      serviceTokens: 10
     };
     
     setUser(mockUser);

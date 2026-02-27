@@ -131,7 +131,7 @@ export function ManageProjectServicesDialog({
                     className={`flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all ${
                       selectedServiceIds.includes(service.id)
                         ? 'border-brand-accent bg-brand-accent/10'
-                        : 'border-brand-neutral-300 bg-white hover:border-brand-accent/50'
+                        : 'border-brand-neutral-300 bg-card hover:border-brand-accent/50'
                     }`}
                     onClick={() => handleToggleService(service.id)}
                   >
@@ -176,7 +176,7 @@ export function ManageProjectServicesDialog({
                     className={`flex items-center gap-3 p-3 border-2 rounded-lg cursor-pointer transition-all ${
                       selectedServiceIds.includes(service.id)
                         ? 'border-brand-accent bg-brand-accent/10'
-                        : 'border-brand-neutral-300 bg-white hover:border-brand-accent/50'
+                        : 'border-brand-neutral-300 bg-card hover:border-brand-accent/50'
                     }`}
                     onClick={() => handleToggleService(service.id)}
                   >
@@ -230,7 +230,7 @@ export function ManageProjectServicesDialog({
                 </FormField>
               </div>
 
-              <div className="flex items-center gap-3 p-2 bg-white border border-brand-accent/30 rounded">
+              <div className="flex items-center gap-3 p-2 bg-card border border-brand-accent/30 rounded">
                 <Checkbox
                   id="addToCatalog"
                   checked={addToCatalog}

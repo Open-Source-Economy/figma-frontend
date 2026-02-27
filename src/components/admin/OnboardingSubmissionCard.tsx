@@ -86,7 +86,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
   const totalProjects = submission.projects.length;
 
   return (
-    <Card className="bg-white/60 backdrop-blur-sm border-white/20 hover:border-brand-primary/30 transition-all duration-300 hover:shadow-lg overflow-hidden">
+    <Card className="bg-brand-card-blue/60 backdrop-blur-sm border-brand-neutral-300/20 hover:border-brand-primary/30 transition-all duration-300 hover:shadow-lg overflow-hidden">
       <CardHeader className="pb-4">
         <div className="flex items-start justify-between gap-4">
           <div className="flex items-start gap-4 flex-1 min-w-0">
@@ -96,7 +96,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
                 <User className="w-7 h-7 text-white" />
               </div>
               {isProfileVerified && (
-                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-brand-success rounded-full border-2 border-white flex items-center justify-center">
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-brand-success rounded-full border-2 border-brand-card-blue flex items-center justify-center">
                   <ShieldCheck className="w-3 h-3 text-white" />
                 </div>
               )}
@@ -205,7 +205,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
       {/* Expanded Details */}
       {isExpanded && (
         <>
-          <Separator className="bg-white/30" />
+          <Separator className="bg-brand-neutral-300/30" />
           <CardContent className="space-y-6 pt-6">
             {/* Projects Section */}
             <div>
@@ -222,7 +222,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
                 {submission.projects.map((project) => (
                   <div
                     key={project.id}
-                    className="group relative p-4 bg-white/40 backdrop-blur-sm rounded-lg border border-white/30 hover:border-brand-primary/30 transition-all"
+                    className="group relative p-4 bg-brand-card-blue/40 backdrop-blur-sm rounded-lg border border-brand-neutral-300/30 hover:border-brand-primary/30 transition-all"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
@@ -243,10 +243,10 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
                           )}
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          <Badge variant="outline" className="text-xs bg-white/50">
+                          <Badge variant="outline" className="text-xs bg-brand-card-blue/50">
                             {project.role.replace(/_/g, ' ')}
                           </Badge>
-                          <Badge variant="outline" className="text-xs bg-white/50">
+                          <Badge variant="outline" className="text-xs bg-brand-card-blue/50">
                             {project.mainBranchAccess.replace(/_/g, ' ')}
                           </Badge>
                           {project.ecosystems && project.ecosystems.length > 0 && (
@@ -312,7 +312,7 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
                   </div>
                   <h4 className="text-sm">Availability & Pricing</h4>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 bg-white/40 backdrop-blur-sm rounded-lg border border-white/30">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 bg-brand-card-blue/40 backdrop-blur-sm rounded-lg border border-brand-neutral-300/30">
                   <div>
                     <p className="text-xs text-muted-foreground mb-1">Weekly Hours</p>
                     <p className="text-sm">{submission.availability.weeklyHours} hrs/week</p>
@@ -362,13 +362,13 @@ export const OnboardingSubmissionCard: React.FC<OnboardingSubmissionCardProps> =
                   {submission.services.filter(s => s.enabled).map((service) => (
                     <div
                       key={service.id}
-                      className="p-4 bg-gradient-to-r from-white/40 to-white/30 backdrop-blur-sm rounded-lg border border-white/30"
+                      className="p-4 bg-gradient-to-r from-brand-card-blue/40 to-brand-card-blue/30 backdrop-blur-sm rounded-lg border border-brand-neutral-300/30"
                     >
                       <div className="flex items-start justify-between mb-2">
                         <div className="flex-1">
                           <p className="text-sm mb-1">{service.serviceName}</p>
                           <div className="flex items-center gap-2 flex-wrap">
-                            <Badge variant="outline" className="text-xs bg-white/50">
+                            <Badge variant="outline" className="text-xs bg-brand-card-blue/50">
                               {service.serviceType.replace(/_/g, ' ')}
                             </Badge>
                             {service.responseTimeHours && (

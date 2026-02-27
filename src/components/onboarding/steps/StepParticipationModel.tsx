@@ -55,7 +55,7 @@ export const StepParticipationModel: React.FC<StepParticipationModelProps> = ({
       <div className="max-w-3xl mx-auto">
         <div className="bg-gradient-to-r from-brand-accent/5 via-brand-highlight/5 to-brand-success/5 border border-brand-accent/10 rounded-2xl p-6">
           <div className="flex items-start gap-4">
-            <div className="flex-shrink-0 w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm">
+            <div className="flex-shrink-0 w-12 h-12 bg-brand-card-blue/50 rounded-xl flex items-center justify-center shadow-sm">
               <span className="text-2xl">✓</span>
             </div>
             <div className="flex-1">
